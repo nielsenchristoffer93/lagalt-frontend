@@ -6,7 +6,7 @@ import './Navbar.css'
 const NavbarComponent = () => {
 
     return (
-        <Navbar bg="navbar navbar-dark bg-secondary" expand="lg" >
+        <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
             <Container>
                 <Navbar.Brand href="#home">Lagalt</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
