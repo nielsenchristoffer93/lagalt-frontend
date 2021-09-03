@@ -10,8 +10,7 @@ import { connect } from 'react-redux';
 import { fetchAllProjects, setSelectedProject } from '../../redux/Project/projectSlice'
 const ProjectView = (props) => {
   const [open, setOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
-
+  
   const {
 		projects,
     fetchAllProjects,
@@ -26,28 +25,19 @@ const ProjectView = (props) => {
   const onOpenModal = i => {
     setSelectedProject(i);
     console.log("i=?"+i)
-    setSelectedPost(i);
     setOpen(true);
     
   }
-
-  /* const onOpenModal = () => {
-    console.log("helle there!")
-  } */
 
   const onCloseModal = () => {
     setOpen(false);
 };
 
- const renderModal = () => {
-  if (selectedPost !== null) {
-    const project = projects[selectedPost];
+ const renderModal = () => {  
     return (
       <ProjectModal/>
     );
   }
-  }
-
 
   return (
     <div  className="projectList">
@@ -72,7 +62,6 @@ const ProjectView = (props) => {
           {renderModal()}
         </Modal>
         
-
     </div>
   )
 }
