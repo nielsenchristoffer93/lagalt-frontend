@@ -4,7 +4,7 @@ import ProjectRecomended from './ProjectRecomended'
 import ProjectFilterComponent from './ProjectFilterComponent'
 import ProjectModal from './ProjectModal'
 import Modal from "react-bootstrap/Modal";
-import './ProjectViewStyle.css'
+import './profileView/ProjectViewStyle.css'
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { fetchAllProjects, setSelectedProject } from '../../redux/Project/projectSlice'
