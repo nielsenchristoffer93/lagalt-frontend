@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ProjectComponent from './ProjectComponent'
 import ProjectRecomended from './ProjectRecomended'
 import ProjectFilterComponent from './ProjectFilterComponent'
-import './ProjectViewStyle.css'
+import './profileView/ProjectViewStyle.css'
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { fetchAllProjects } from '../../redux/Project/projectSlice'
