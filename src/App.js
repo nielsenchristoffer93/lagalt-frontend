@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Welcome from './components/views/ProjectView';
 import Secured from './Secured';
 import ProfileView from "./components/views/ProfileView";
@@ -18,9 +18,17 @@ class App extends Component {
 
                 <li><Link to="/profile">Profile</Link></li>
             </ul>
-            <Route exact path="/" component={Welcome} />
-            <Route path="/secured" component={Secured} />
-              <Route path="/profile" component={ProfileView} />
+            <Switch>
+          <Route path="/" exact>
+          <Welcome />
+          </Route>
+          <Route path="/secured" exact>
+          <Secured />
+          </Route>
+          <Route path="/profile" exact>
+          <ProfileView />
+          </Route>
+          </Switch>
           </div>
         </BrowserRouter>
     );

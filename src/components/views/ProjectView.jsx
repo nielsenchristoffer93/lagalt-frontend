@@ -4,36 +4,20 @@ import ProjectRecomended from './ProjectRecomended'
 import ProjectFilterComponent from './ProjectFilterComponent'
 import './ProjectViewStyle.css'
 import axios from 'axios'
-const ProjectView = () => {
-  const [projects, setProjects] = useState(null)
+import { connect } from 'react-redux';
+import { fetchAllProjects } from '../../redux/Project/projectSlice'
+const ProjectView = (props) => {
 
-/*   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/projects`)
-  .then(res => {
-      console.log(res)
-    const projects = res.data;
-    this.setProjects(projects);
-
-  });
-  }, []); */
-
+  const {
+		projects,
+    fetchAllProjects,
+    
+	} = props
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/projects`).then((response) => {
-      console.log(response)
-      setProjects(response.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  }, []);
+    fetchAllProjects();
 
-  
-
-  //
-
-    //const projects = ["asd", "qwe", "lol", "kalle", "anka"];
-
+  },[])
 
   return (
     <div  className="projectList">
@@ -54,4 +38,18 @@ const ProjectView = () => {
   )
 }
 
-export default ProjectView;
+const mapStateToProps = state => {
+  return {
+    projects: state.projects.projects,
+    loading: state.projects.loading,
+		error: state.projects.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAllProjects: () => dispatch(fetchAllProjects()),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectView);
