@@ -1,6 +1,7 @@
 import "./ProfileView.css"
 import {useState} from "react";
-import PortfolioItem from "./PortfolioItem";
+import PortfolioItem from "./portfolioItem/PortfolioItem";
+import {Form, Button, FormControl, FormLabel, Row, Col} from "react-bootstrap";
 
 const ProfileView = () => {
 
@@ -27,24 +28,30 @@ const ProfileView = () => {
 
     return (
         <div className="profile-container">
-            <div className="name-container">
-                <label>First Name
-                    <input type="text" name="firstname" />
-                </label>
-                <label>Last Name
-                    <input type="text" name="lastname" />
-                </label>
-            </div>
-            <label>Email
-                <input type="email" name="email" />
-            </label>
-            <label>About
-                <input type="text" name="about" />
-            </label>
+
+            <Form className="mb-3">
+                <Row className="mb-3">
+                    <Col>
+                        <FormLabel>First name</FormLabel>
+                        <FormControl type="text" />
+                    </Col>
+                    <Col>
+                        <FormLabel>Last name</FormLabel>
+                        <FormControl type="text" />
+                    </Col>
+                </Row>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl type="text" className="mb-3"/>
+
+                <FormLabel>About</FormLabel>
+                <FormControl type="text" className="p-5"/>
+
+            </Form>
+
             <div className="profile-portfolio">
                 <div className="profile-portfolio-header">
-                    <p>Portfolio</p>
-                    <button>+</button>
+                    <h2>Portfolio</h2>
+                    <Button>Add portfolio entry</Button>
                 </div>
                 <div>
                  {portfolio.map(item => (

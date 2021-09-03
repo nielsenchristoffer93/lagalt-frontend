@@ -3,7 +3,7 @@ import NavbarComponent from './components/navbar/Navbar';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Welcome from './components/views/ProjectView';
 import Secured from './Secured';
-import ProfileView from "./components/views/ProfileView";
+import ProfileView from "./components/views/profileView/ProfileView";
 import './App.css';
 
 class App extends Component {
