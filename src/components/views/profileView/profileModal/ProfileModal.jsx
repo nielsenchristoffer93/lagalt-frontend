@@ -1,17 +1,32 @@
-import {FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
+import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import {showModal} from "../../../../redux/profile/profileSlice";
+import {addPortfolioEntry, showModal} from "../../../../redux/profile/profileSlice";
 import {connect} from "react-redux";
+import {useState} from "react";
 
 
 const ProfileModal = (props) => {
 
-    const {show, showModal} = props
+    const [company, setCompany] = useState("")
+    const [title, setTitle] = useState("")
+    const [date, setDate] = useState()
+    const [description, setDescription] = useState("")
 
+    const {show, showModal, addPortfolioEntry} = props
     const handleClose = () => showModal();
+
+
     const handleSave = () => {
         //Save form to db
-        console.log("Saved!")
+
+        let item = {
+            company: company,
+            title: title,
+            date: date,
+            description: description
+
+        }
+        addPortfolioEntry(item);
         showModal();
     }
 
@@ -21,14 +36,16 @@ const ProfileModal = (props) => {
                 <ModalTitle>Add Portfolio Entry</ModalTitle>
             </ModalHeader>
             <ModalBody>
-                <FormLabel>Company</FormLabel>
-                <FormControl type="text" />
-                <FormLabel>Title</FormLabel>
-                <FormControl type="text" />
-                <FormLabel>Date</FormLabel>
-                <FormControl type="date" />
-                <FormLabel>Description</FormLabel>
-                <FormControl type="text" />
+                <Form onSubmit={handleSave}>
+                    <FormLabel>Company</FormLabel>
+                    <FormControl type="text" value={company} onChange={event => setCompany(event.target.value)}/>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl type="text" onChange={event => setTitle(event.target.value)}/>
+                    <FormLabel>Date</FormLabel>
+                    <FormControl type="date" onChange={event => setDate(event.target.value)}/>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl type="text" onChange={event => setDescription(event.target.value)}/>
+                </Form>
             </ModalBody>
             <ModalFooter>
                 <Button variant="secondary" onClick={handleClose}>
@@ -51,6 +68,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showModal:() => dispatch(showModal()),
+        addPortfolioEntry: (entry) => dispatch(addPortfolioEntry(entry))
 
     }
 };

@@ -54,11 +54,15 @@ const profileSlice = createSlice({
     reducers: {
         showModal: (state) => {
             state.show = !state.show;
+        },
+        addPortfolioEntry: (state,action) => {
+            state.profile.portfolio = [...state.profile.portfolio, action.payload];
         }
     }
 })
 export const {
-    showModal
+    showModal,
+    addPortfolioEntry
 } = profileSlice.actions;
 
 

@@ -16,26 +16,6 @@ const ProfileView = (props) => {
     }, [])
 
     const handleShowModal = () => showModal()
-    /*const [portfolio, setPortfolio] = useState([
-        {
-            title: "developer",
-            company: "experis",
-            date: "2021-2022",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Curabitur vitae luctus massa. Suspendisse potenti. " +
-                "Nunc accumsan volutpat posuere. Curabitur fringilla felis non sapien" +
-                " molestie, vitae sagittis tortor eleifend."
-        },
-        {
-            title: "Scrum maste",
-            company: "VGCS",
-            date: "2022-2023",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Curabitur vitae luctus massa. Suspendisse potenti. " +
-                "Nunc accumsan volutpat posuere. Curabitur fringilla felis non sapien" +
-                " molestie, vitae sagittis tortor eleifend."
-        }
-    ])*/
 
     return (
         <div className="profile-container">
