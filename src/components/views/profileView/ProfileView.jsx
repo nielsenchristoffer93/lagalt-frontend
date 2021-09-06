@@ -1,5 +1,5 @@
 import "./ProfileView.css"
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import PortfolioItem from "./portfolioItem/PortfolioItem";
 import {Form, Button, FormControl, FormLabel, Row, Col} from "react-bootstrap";
 import {showModal} from "../../../redux/profile/profileSlice";
@@ -13,14 +13,13 @@ const ProfileView = (props) => {
     } = props
 
     useEffect(() => {
-    }, [])
+    }, [profile.portfolio])
 
     const handleShowModal = () => showModal()
 
     return (
         <div className="profile-container">
             <Row className="mb-3">
-                <Col></Col>
                 <Col className="d-flex justify-content-end">
                     <Button className="" >New Project</Button>
                 </Col>
@@ -54,6 +53,7 @@ const ProfileView = (props) => {
                 <div>
                  {profile.portfolio.map(item => (
                     <PortfolioItem
+                        id = {item.id}
                         title = {item.title}
                         company = {item.company}
                         date = {item.date}
@@ -70,8 +70,6 @@ const mapStateToProps = state => {
     return {
         profile: state.profile.profile,
         show: state.profile.show,
-        loading: state.profile.loading,
-        error: state.profile.error
     };
 };
 

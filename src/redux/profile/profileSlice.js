@@ -16,6 +16,7 @@ const initialState = {
             " dolorem eum fugiat quo voluptas nulla pariatur?",
         portfolio:[
             {
+                id: 0,
                 title: "developer",
                 company: "experis",
                 date: "2021-2022",
@@ -25,6 +26,7 @@ const initialState = {
             " molestie, vitae sagittis tortor eleifend."
             },
             {
+                id: 1,
                 title: "Scrum master",
                 company: "VGCS",
                 date: "2022-2023",
@@ -34,6 +36,7 @@ const initialState = {
             " molestie, vitae sagittis tortor eleifend."
             },
             {
+                id: 2,
                 title: "Slayer",
                 company: "Sentinels",
                 date: "Unknown-2168",
@@ -57,12 +60,21 @@ const profileSlice = createSlice({
         },
         addPortfolioEntry: (state,action) => {
             state.profile.portfolio = [...state.profile.portfolio, action.payload];
+        },
+        deletePortfolioEntry: (state, action) => {
+            state.profile.portfolio = [
+                ...state.profile.portfolio.slice(0, action.payload),
+                ...state.profile.portfolio.slice(action.payload + 1)
+            ]
+            console.log(state.profile.portfolio);
+
         }
     }
 })
 export const {
     showModal,
-    addPortfolioEntry
+    addPortfolioEntry,
+    deletePortfolioEntry
 } = profileSlice.actions;
 
 
