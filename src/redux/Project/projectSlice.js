@@ -47,6 +47,8 @@ export const {
 		const response = await getAllProjects()
 		const data = await response.json()
 
+		console.log(data)
+
 		dispatch(getAllProjectsSuccess(data))
 	}
 	catch (err) {

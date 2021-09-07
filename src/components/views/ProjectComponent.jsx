@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 
 
-const ProjectComponent = ({ title, description, projectTags, skills }) => {
+const ProjectComponent = ({ title, description, projectTags, skills, category }) => {
   //useState
   //console.log(title);
   //console.log(project)
   const user = "user";
-  const category = "category";
   const time = "5 h ";
   //const skills = ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5",]
 

@@ -9,3 +9,13 @@ export const getAllProjects = async () => {
 		},
 	})
 }
+
+export const postNewProject = async (data) => {
+	return await fetch(`${BASE_API_URL}projects`, {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: data
+	})
+}

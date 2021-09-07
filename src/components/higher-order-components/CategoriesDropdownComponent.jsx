@@ -19,13 +19,13 @@ const CategoriesDropdownComponent = (props) => {
 
   useEffect(() => {
     if (!hasLoaded) {
-      console.log("hasLoaded:" + hasLoaded);
+      //console.log("hasLoaded:" + hasLoaded);
       fetchAllCategories();
     }
   }, []);
 
   const handleChange = (e) => {
-    console.log(e.target);
+    //console.log(e.target);
     setSelectedSkillsToEmptyArray();
     setSelectedCategory(e.target.value);
     fetchSkillsBasedOnCategory(e.target.value);

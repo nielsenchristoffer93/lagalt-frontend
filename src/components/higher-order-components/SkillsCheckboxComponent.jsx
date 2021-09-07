@@ -25,19 +25,20 @@ const SkillsCheckboxComponent = (props) => {
   }, [skillUrls]);
 
   const handleCheckboxClicked = (skillId) => {
-    console.log("checkbox clicked!");
-    console.log("skillId: " + skillId);
+    //console.log("checkbox clicked!");
+    //console.log("skillId: " + skillId);
     setSelectedSkills(skillId);
   };
 
   const populateCheckBoxes = (skills) => {
-    return skills.map((skill) => (
+    return skills.map((skill, id) => (
       <Form.Check
         inline
         type="checkbox"
         id={`inline-checkbox`}
         value={skill.id}
         label={skill.title}
+        key={id}
         onClick={(e) => handleCheckboxClicked(e.target.value)}
       ></Form.Check>
     ));

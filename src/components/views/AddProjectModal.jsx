@@ -5,27 +5,47 @@ import CategoriesDropdownComponent from "../higher-order-components/CategoriesDr
 import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
+import { postNewProject } from "../../services/projects";
+import {
+  fetchAllProjects,
+} from "../../redux/Project/projectSlice";
 
 const AddProjectModal = (props) => {
+  const {
+    displayProjectModal,
+    hideAddProjectModal,
+    selectedCategory,
+    selectedSkills,
+    fetchAllProjects
+  } = props;
 
-    const { displayProjectModal, hideAddProjectModal, selectedCategory, selectedSkills } = props;
-
-    const [projectTitle, setprojectTitle] = useState("")
-    const [projectDescription, setProjectDescription] = useState("")
-    const [selectedFile, setSelectedFile] = useState(null)
+  const [projectTitle, setprojectTitle] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleClose = () => {
     hideAddProjectModal();
   };
 
-  const handleSubmit = () => {
-      let formData = new FormData();
-      formData.append("title", projectTitle);
-      formData.append("image", selectedFile.files[0]);
-      formData.append("description", projectDescription);
-      formData.append("category", selectedCategory);
-      formData.append("skills", selectedSkills);
-  }
+  const handleSubmit = async () => {
+    
+    var date = new Date();
+    
+    let data = JSON.stringify({
+      title: projectTitle,
+      description: projectDescription,
+      image: [],
+      createdDate: date,
+      category: {
+        id: selectedCategory,
+      },
+    });
+   
+    console.log(data);
+    await postNewProject(data);
+    hideAddProjectModal();
+    fetchAllProjects();
+  };
 
   return (
     <Modal
@@ -40,14 +60,21 @@ const AddProjectModal = (props) => {
         <Form noValidate>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Title</Form.Label>
-            <Form.Control type="text" placeholder="Project 1" onChange={(e) => setprojectTitle(e.target.value)}/>
+            <Form.Control
+              type="text"
+              placeholder="Project 1"
+              onChange={(e) => setprojectTitle(e.target.value)}
+            />
           </Form.Group>
           {projectTitle}
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Project Image</Form.Label>
-            <Form.Control type="file" onChange={(e) => setSelectedFile(e.target.files[0])}/>
+            <Form.Control
+              type="file"
+              onChange={(e) => setSelectedFile(e.target.files[0])}
+            />
           </Form.Group>
-          {console.log(selectedFile)}
+          {/*console.log(selectedFile)*/}
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Project Description</Form.Label>
             <Form.Control
@@ -82,13 +109,15 @@ const AddProjectModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayProjectModal: state.displayAddProjectModal.displayProjectModal,
-    selectedSkills: state.skills.selectedSkills
+    selectedSkills: state.skills.selectedSkills,
+    selectedCategory: state.categories.selectedCategory,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
+    fetchAllProjects: () => dispatch(fetchAllProjects()),
   };
 };
 
