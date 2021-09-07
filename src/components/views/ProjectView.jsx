@@ -1,26 +1,34 @@
-import { useEffect, useState } from 'react'
-import ProjectComponent from './ProjectComponent'
-import ProjectRecomended from './ProjectRecomended'
-import ProjectFilterComponent from './ProjectFilterComponent'
-import ProjectModal from './ProjectModal'
-import Modal from "react-bootstrap/Modal";
-import './profileView/ProjectViewStyle.css'
-import axios from 'axios'
-import { connect } from 'react-redux';
-import { fetchAllProjects, setSelectedProject } from '../../redux/Project/projectSlice'
+
+import { useEffect, useState } from "react";
+import ProjectComponent from "./ProjectComponent";
+import ProjectRecomended from "./ProjectRecomended";
+import ProjectFilterComponent from "./ProjectFilterComponent";
+import "./ProjectViewStyle.css";
+import { connect } from "react-redux";
+import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { Button } from "react-bootstrap";
+import AddProjectModal from "./AddProjectModal";
 const ProjectView = (props) => {
-  const [open, setOpen] = useState(false);
-  
+  //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+
+  const handleShow = () => {
+    showAddProjectModal();
+  };
+
   const {
-		projects,
+    projects,
     fetchAllProjects,
+
+    displayProjectModal,
+    showAddProjectModal,
     setSelectedProject,
-	} = props
+  } = props;
+
 
   useEffect(() => {
     fetchAllProjects();
-
-  },[])
+  }, []);
 
   const onOpenModal = i => {
     setSelectedProject(i);
@@ -40,6 +48,7 @@ const ProjectView = (props) => {
   }
 
   return (
+
     <div  className="projectList">
         
 
@@ -47,7 +56,16 @@ const ProjectView = (props) => {
         <br/>
         <div>Filter projects</div>
         <ProjectFilterComponent/>
-        
+          
+              <div className="d-grid gap-2">
+        <Button variant="primary" size="lg" onClick={handleShow}>
+          Add new project
+        </Button>
+      </div>
+
+      {displayProjectModal ? (
+        <AddProjectModal show={displayProjectModal}></AddProjectModal>
+      ) : null}
         {projects && projects.map((project, i) => <div onClick={() => onOpenModal(i)} ><ProjectComponent 
           
          title={project.title}
@@ -62,24 +80,27 @@ const ProjectView = (props) => {
           {renderModal()}
         </Modal>
         
-    </div>
-  )
-}
 
-const mapStateToProps = state => {
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     loading: state.projects.loading,
-		error: state.projects.error
+    error: state.projects.error,
+    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
-    
-  }
+    showAddProjectModal: () => dispatch(showAddProjectModal()),
+       setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
+  };
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectView);

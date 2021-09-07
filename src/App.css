@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.modal-80w {
+  min-width: 80% !important;
+}

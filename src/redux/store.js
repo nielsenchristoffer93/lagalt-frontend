@@ -1,12 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { createStore } from 'redux';
 import projectReducer from './Project/projectSlice';
+import categoryReducer from "./Category/CategorySlice"
+import viewProjectModal from "./AddProject/AddProjectSlice"
+import skillsReducer from "./Skill/SkillSlice"
 import profileReducer from './profile/profileSlice';
 
 // const store = createStore(countReducer);
 const store = configureStore({
     reducer: {
       projects: projectReducer,
+      categories: categoryReducer,
+      displayAddProjectModal: viewProjectModal,
+      skills: skillsReducer
       profile: profileReducer,
       
     }

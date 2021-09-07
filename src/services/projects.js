@@ -1,4 +1,5 @@
-const BASE_API_URL = "https://lagalt-experis-backend.herokuapp.com/api/v1/";
+
+import { BASE_API_URL } from "."
 
 export const getAllProjects = async () => {
 	return await fetch(`${BASE_API_URL}projects`, {
