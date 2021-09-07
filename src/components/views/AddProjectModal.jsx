@@ -28,8 +28,19 @@ const AddProjectModal = (props) => {
   };
 
   const handleSubmit = async () => {
-    
+
     var date = new Date();
+
+    /*const formData = new FormData();
+    formData.append("title", projectTitle);
+    formData.append("description", projectDescription);
+    formData.append("image", selectedFile);
+    formData.append("createdDate", date);
+    formData.append("category", selectedCategory);
+*/
+
+
+    console.log(selectedFile)
     
     let data = JSON.stringify({
       title: projectTitle,
@@ -63,7 +74,7 @@ const AddProjectModal = (props) => {
             <Form.Control
               type="text"
               placeholder="Project 1"
-              onChange={(e) => setprojectTitle(e.target.value)}
+              onChange={(event) => setprojectTitle(event.target.value)}
             />
           </Form.Group>
           {projectTitle}
@@ -71,7 +82,7 @@ const AddProjectModal = (props) => {
             <Form.Label>Project Image</Form.Label>
             <Form.Control
               type="file"
-              onChange={(e) => setSelectedFile(e.target.files[0])}
+              onChange={(event) => setSelectedFile(event.target.files[0])}
             />
           </Form.Group>
           {/*console.log(selectedFile)*/}
@@ -81,7 +92,7 @@ const AddProjectModal = (props) => {
               as="textarea"
               rows={5}
               placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-              onChange={(e) => setProjectDescription(e.target.value)}
+              onChange={(event) => setProjectDescription(event.target.value)}
             />
           </Form.Group>
           {projectDescription}
