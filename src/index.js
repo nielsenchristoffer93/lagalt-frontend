@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Provider } from 'react-redux';
 import store from './redux/store';
 import UserService from "./services/UserService";
+import App from './App';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import reportWebVitals from './reportWebVitals';
 
 const renderApp = () => {ReactDOM.render(
     /*<React.StrictMode>*/
