@@ -11,7 +11,7 @@ const store = configureStore({
       projects: projectReducer,
       categories: categoryReducer,
       displayAddProjectModal: viewProjectModal,
-      skills: skillsReducer
+      skills: skillsReducer,
       profile: profileReducer,
       
     }

@@ -5,12 +5,14 @@ import ProjectRecomended from "./ProjectRecomended";
 import ProjectFilterComponent from "./ProjectFilterComponent";
 import "./ProjectViewStyle.css";
 import { connect } from "react-redux";
-import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { fetchAllProjects, setSelectedProject } from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import AddProjectModal from "./AddProjectModal";
+import ProjectModal from './ProjectModal'
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleShow = () => {
     showAddProjectModal();
@@ -98,7 +100,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
-       setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
+    setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
   };
 
 };
