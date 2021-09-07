@@ -8,6 +8,8 @@ import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxCo
 
 const AddProjectModal = (props) => {
 
+    const { displayProjectModal, hideAddProjectModal, selectedCategory, selectedSkills } = props;
+
     const [projectTitle, setprojectTitle] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
     const [selectedFile, setSelectedFile] = useState(null)
@@ -16,7 +18,14 @@ const AddProjectModal = (props) => {
     hideAddProjectModal();
   };
 
-  const { displayProjectModal, hideAddProjectModal, selectedCategory } = props;
+  const handleSubmit = () => {
+      let formData = new FormData();
+      formData.append("title", projectTitle);
+      formData.append("image", selectedFile.files[0]);
+      formData.append("description", projectDescription);
+      formData.append("category", selectedCategory);
+      formData.append("skills", selectedSkills);
+  }
 
   return (
     <Modal
@@ -28,7 +37,7 @@ const AddProjectModal = (props) => {
         <Modal.Title>Add new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form noValidate>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Title</Form.Label>
             <Form.Control type="text" placeholder="Project 1" onChange={(e) => setprojectTitle(e.target.value)}/>
@@ -62,7 +71,7 @@ const AddProjectModal = (props) => {
           Close
         </Button>
 
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={handleSubmit}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -73,7 +82,7 @@ const AddProjectModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayProjectModal: state.displayAddProjectModal.displayProjectModal,
-
+    selectedSkills: state.skills.selectedSkills
   };
 };
 

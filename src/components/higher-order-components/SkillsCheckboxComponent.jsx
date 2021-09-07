@@ -1,20 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { fetchSkillBasedOnSkillUrl, setSkillsToEmptyArray } from "../../redux/Skill/SkillSlice";
+import {
+  fetchSkillBasedOnSkillUrl,
+  setSkillsToEmptyArray,
+  setSelectedSkills,
+} from "../../redux/Skill/SkillSlice";
+import "./SkillsCheckboxComponent.css";
 
 const SkillsCheckboxComponent = (props) => {
-  const { skillUrls, skills, selectedCategory, fetchSkillBasedOnSkillUrl, setSkillsToEmptyArray} =
-    props;
-
-  /*const [skills, setSkills] = useState([
-    "Skill 1",
-    "Skill 2",
-    "Skill 3",
-    "Skill 4",
-    "Skill 5",
-    "Skill 6",
-  ]);*/
+  const {
+    skillUrls,
+    skills,
+    fetchSkillBasedOnSkillUrl,
+    setSkillsToEmptyArray,
+    setSelectedSkills
+  } = props;
 
   useEffect(() => {
     setSkillsToEmptyArray();
@@ -23,24 +24,34 @@ const SkillsCheckboxComponent = (props) => {
     }
   }, [skillUrls]);
 
+  const handleCheckboxClicked = (skillId) => {
+    console.log("checkbox clicked!");
+    console.log("skillId: " + skillId);
+    setSelectedSkills(skillId);
+  };
+
+  const populateCheckBoxes = (skills) => {
+    return skills.map((skill) => (
+      <Form.Check
+        inline
+        type="checkbox"
+        id={`inline-checkbox`}
+        value={skill.id}
+        label={skill.title}
+        onClick={(e) => handleCheckboxClicked(e.target.value)}
+      ></Form.Check>
+    ));
+  };
+
   return (
     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
       <Form.Label>Project Skills</Form.Label>
       <br></br>
-      {skills && populateCheckBoxes(skills)}
+      <div className="skills-container">
+        {skills && populateCheckBoxes(skills)}
+      </div>
     </Form.Group>
   );
-};
-
-const populateCheckBoxes = (skills) => {
-  return skills.map((skill) => (
-    <Form.Check
-      inline
-      type="checkbox"
-      id={`inline-checkbox`}
-      label={skill.title}
-    ></Form.Check>
-  ));
 };
 
 const mapStateToProps = (state) => {
@@ -54,11 +65,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchSkillBasedOnSkillUrl: (skillUrl) => dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
+  return {
+    fetchSkillBasedOnSkillUrl: (skillUrl) =>
+        dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
         setSkillsToEmptyArray: () => dispatch(setSkillsToEmptyArray()),
-    };
+        setSelectedSkills: (skillId) => dispatch(setSelectedSkills(skillId)),
   };
+};
 
 export default connect(
   mapStateToProps,
