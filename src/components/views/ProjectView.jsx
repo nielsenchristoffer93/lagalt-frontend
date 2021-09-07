@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
@@ -18,22 +19,45 @@ const ProjectView = (props) => {
   const {
     projects,
     fetchAllProjects,
+
     displayProjectModal,
     showAddProjectModal,
+    setSelectedProject,
   } = props;
+
 
   useEffect(() => {
     fetchAllProjects();
   }, []);
 
-  return (
-    <div className="projectList">
-      <ProjectRecomended />
-      <br />
-      <div>Filter projects</div>
-      <ProjectFilterComponent />
+  const onOpenModal = i => {
+    setSelectedProject(i);
+    console.log("i=?"+i)
+    setOpen(true);
+    
+  }
 
-      <div className="d-grid gap-2">
+  const onCloseModal = () => {
+    setOpen(false);
+};
+
+ const renderModal = () => {  
+    return (
+      <ProjectModal/>
+    );
+  }
+
+  return (
+
+    <div  className="projectList">
+        
+
+        <ProjectRecomended/>
+        <br/>
+        <div>Filter projects</div>
+        <ProjectFilterComponent/>
+          
+              <div className="d-grid gap-2">
         <Button variant="primary" size="lg" onClick={handleShow}>
           Add new project
         </Button>
@@ -42,17 +66,21 @@ const ProjectView = (props) => {
       {displayProjectModal ? (
         <AddProjectModal show={displayProjectModal}></AddProjectModal>
       ) : null}
+        {projects && projects.map((project, i) => <div onClick={() => onOpenModal(i)} ><ProjectComponent 
+          
+         title={project.title}
+         description={project.description}
+         projectTags={project.projectTags}
+         skills={project.skills}
+         key={i} 
+         
+         /></div>)}
+        
+        <Modal show={open} onHide={onCloseModal} center dialogClassName="custom-modal-80w">
+          {renderModal()}
+        </Modal>
+        
 
-      {projects &&
-        projects.map((project, i) => (
-          <ProjectComponent
-            title={project.title}
-            description={project.description}
-            projectTags={project.projectTags}
-            skills={project.skills}
-            key={i}
-          />
-        ))}
     </div>
   );
 };
@@ -70,7 +98,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
+       setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
   };
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectView);

@@ -37,3 +37,7 @@ ul.horizontal-list li {
     margin: 15px 0px;
     border-radius: 10px;
 }
+
+.custom-modal-80w{
+    max-width: 80% !important;
+}

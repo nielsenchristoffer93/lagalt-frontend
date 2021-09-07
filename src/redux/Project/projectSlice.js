@@ -4,6 +4,7 @@ import {
 } from '../../services/projects';
 
 const initialState = {
+    selectedProject:0,
     projects:[],
     loading: false,               		
 	error: ''
@@ -13,6 +14,9 @@ const projectSlice = createSlice({
     name:"projects",
     initialState: initialState,
     reducers:{
+        setSelectedProject: (state, action) => {
+            state.selectedProject = action.payload;
+        },
         getAllProjectsStarted: (state) => {
 			state.loading = true
 		},
@@ -30,9 +34,10 @@ const projectSlice = createSlice({
 })
 
 export const {
+    setSelectedProject,
 	getAllProjectsStarted,
 	getAllProjectsSuccess,
-	getAllProjectsFailed
+	getAllProjectsFailed,
 } = projectSlice.actions;
 
 //Thunk

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 
+
 const ProjectComponent = ({ title, description, projectTags, skills }) => {
   //useState
   //console.log(title);
@@ -9,6 +10,7 @@ const ProjectComponent = ({ title, description, projectTags, skills }) => {
   const category = "category";
   const time = "5 h ";
   //const skills = ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5",]
+
   return (
     <Card className="projectComponent">
       <Card.Body>
@@ -20,8 +22,10 @@ const ProjectComponent = ({ title, description, projectTags, skills }) => {
         <ul className="horizontal-list">
           {skills && skills.map((item, i) => <li>{item} </li>)}
         </ul>
-      </Card.Body>
-      <img src="https://source.unsplash.com/1600x900" alt="" />
+
+        </Card.Body>
+        <img style={{minHeight:"250px"}}src="https://source.unsplash.com/1600x900" alt="" />
+
     </Card>
   );
 };
