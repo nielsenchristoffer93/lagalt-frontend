@@ -8,12 +8,12 @@ const NavbarComponent = () => {
     return (
         <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
             <Container>
-                <Navbar.Brand href="#home">Lagalt</Navbar.Brand>
+                <Navbar.Brand href="/">Lagalt</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
 
-                        <Nav.Link eventKey={2} href="/">Public Component</Nav.Link>
+                        
 
                     </Nav>
                     <Nav>
