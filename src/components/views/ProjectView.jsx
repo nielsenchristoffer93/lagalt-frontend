@@ -69,6 +69,7 @@ const ProjectView = (props) => {
             <ProjectComponent
               title={project.title}
               description={project.description}
+              image={project.image}
               projectTags={project.projectTags}
               category={project.category}
               skills={project.skills}

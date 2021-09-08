@@ -29,6 +29,7 @@ ul.horizontal-list {
 
 ul.horizontal-list li {
     display: inline;
+    margin-right: 20px;
 }
 
 .searchContainer{

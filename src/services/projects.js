@@ -12,10 +12,11 @@ export const getAllProjects = async () => {
 
 export const postNewProject = async (data) => {
 	return await fetch(`${BASE_API_URL}projects`, {
-		method: "POST",
-		headers: {
+		/*headers: {
 			'Content-Type': 'application/json',
-		},
+			//"Content-Type": "multipart/form-data",
+		},*/
+		method: "POST",
 		body: data
 	})
 }

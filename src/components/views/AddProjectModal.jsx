@@ -6,9 +6,8 @@ import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
-import {
-  fetchAllProjects,
-} from "../../redux/Project/projectSlice";
+import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 
 const AddProjectModal = (props) => {
   const {
@@ -16,7 +15,8 @@ const AddProjectModal = (props) => {
     hideAddProjectModal,
     selectedCategory,
     selectedSkills,
-    fetchAllProjects
+    fetchAllProjects,
+    resetSkillsStates
   } = props;
 
   const [projectTitle, setprojectTitle] = useState("");
@@ -28,34 +28,35 @@ const AddProjectModal = (props) => {
   };
 
   const handleSubmit = async () => {
-
     var date = new Date();
 
-    /*const formData = new FormData();
+    /* let skills = []
+    selectedSkills.forEach(selectedSkill => {
+      skills.push({"id": selectedSkill});
+    });
+
+    console.log(skills); */
+    
+    const formData = new FormData();
     formData.append("title", projectTitle);
     formData.append("description", projectDescription);
-    formData.append("image", selectedFile);
+    formData.append("image", selectedFile, selectedFile.name);
     formData.append("createdDate", date);
     formData.append("category", selectedCategory);
-*/
+    formData.append("skills", selectedSkills)
 
+    //console.log(selectedSkills)
 
-    console.log(selectedFile)
+    //console.log(selectedFile);
+    // Display the key/value pairs
+    /* for (var pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    } */
     
-    let data = JSON.stringify({
-      title: projectTitle,
-      description: projectDescription,
-      image: [],
-      createdDate: date,
-      category: {
-        id: selectedCategory,
-      },
-    });
-   
-    console.log(data);
-    await postNewProject(data);
+    await postNewProject(formData);
     hideAddProjectModal();
     fetchAllProjects();
+    resetSkillsStates();
   };
 
   return (
@@ -68,7 +69,7 @@ const AddProjectModal = (props) => {
         <Modal.Title>Add new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate>
+        <Form noValidate encType="multipart/form-data">
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Title</Form.Label>
             <Form.Control
@@ -77,7 +78,6 @@ const AddProjectModal = (props) => {
               onChange={(event) => setprojectTitle(event.target.value)}
             />
           </Form.Group>
-          {projectTitle}
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Project Image</Form.Label>
             <Form.Control
@@ -95,12 +95,10 @@ const AddProjectModal = (props) => {
               onChange={(event) => setProjectDescription(event.target.value)}
             />
           </Form.Group>
-          {projectDescription}
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Category</Form.Label>
             <CategoriesDropdownComponent></CategoriesDropdownComponent>
           </Form.Group>
-          {console.log(selectedCategory)}
           <SkillsCheckboxComponent></SkillsCheckboxComponent>
         </Form>
       </Modal.Body>
@@ -129,6 +127,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
+    resetSkillsStates: () => dispatch(resetSkillsStates()),
   };
 };
 

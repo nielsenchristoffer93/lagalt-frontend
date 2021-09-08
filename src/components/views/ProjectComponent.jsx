@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 
-
-const ProjectComponent = ({ title, description, projectTags, skills, category }) => {
-  //useState
-  //console.log(title);
-  //console.log(project)
+const ProjectComponent = ({
+  title,
+  description,
+  projectTags,
+  skills,
+  category,
+  image,
+}) => {
   const user = "user";
   const time = "5 h ";
-  //const skills = ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5",]
+
+  const populateListWithSkills = (skills) => {
+    return skills.map((skill, index) => <li key={index}>{skill}</li>);
+  };
 
   return (
     <Card className="projectComponent">
@@ -18,13 +24,17 @@ const ProjectComponent = ({ title, description, projectTags, skills, category })
           category: {category} *posted by {user}, {time} ago
         </Card.Text>
         <Card.Title>{title}</Card.Title>
-        <ul className="horizontal-list">
-          {skills && skills.map((item, i) => <li>{item} </li>)}
-        </ul>
-
-        </Card.Body>
-        <img style={{minHeight:"250px"}}src="https://source.unsplash.com/1600x900" alt="" />
-
+        <p>{description}</p>
+        {console.log(skills)}
+        <ul className="horizontal-list">{skills && populateListWithSkills(skills)}</ul>
+      </Card.Body>
+      {/* Can only view PNG now (see data:image/png) */}
+      <img src={`data:image/png;base64,${image}`} alt=""></img>
+      <img
+        style={{ minHeight: "250px" }}
+        src="https://source.unsplash.com/1600x900"
+        alt=""
+      />
     </Card>
   );
 };

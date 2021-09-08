@@ -5,7 +5,10 @@ import {
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Form } from "react-bootstrap";
-import { fetchSkillsBasedOnCategory, setSelectedSkillsToEmptyArray } from "../../redux/Skill/SkillSlice";
+import {
+  fetchSkillsBasedOnCategory,
+  setSelectedSkillsToEmptyArray,
+} from "../../redux/Skill/SkillSlice";
 
 const CategoriesDropdownComponent = (props) => {
   const {
@@ -14,7 +17,7 @@ const CategoriesDropdownComponent = (props) => {
     fetchAllCategories,
     setSelectedCategory,
     fetchSkillsBasedOnCategory,
-    setSelectedSkillsToEmptyArray
+    setSelectedSkillsToEmptyArray,
   } = props;
 
   useEffect(() => {
@@ -27,12 +30,22 @@ const CategoriesDropdownComponent = (props) => {
   const handleChange = (e) => {
     //console.log(e.target);
     setSelectedSkillsToEmptyArray();
-    setSelectedCategory(e.target.value);
-    fetchSkillsBasedOnCategory(e.target.value);
+    if (e.target.value > 0) {
+      setSelectedCategory(e.target.value);
+      fetchSkillsBasedOnCategory(e.target.value);
+    }
   };
 
   return (
-    <Form.Select aria-label="Default select example" onChange={handleChange} required>
+    <Form.Select
+      aria-label="Default select example"
+      onChange={handleChange}
+      required
+      defaultValue={"DEFAULT"}
+    >
+      <option value="DEFAULT" disabled>
+        Select Category
+      </option>
       {categories && populateOptions(categories)}
     </Form.Select>
   );
@@ -61,7 +74,8 @@ const mapDispatchToProps = (dispatch) => {
     setSelectedCategory: (category) => dispatch(setSelectedCategory(category)),
     fetchSkillsBasedOnCategory: (categoryId) =>
       dispatch(fetchSkillsBasedOnCategory(categoryId)),
-      setSelectedSkillsToEmptyArray: () => dispatch(setSelectedSkillsToEmptyArray()),
+    setSelectedSkillsToEmptyArray: () =>
+      dispatch(setSelectedSkillsToEmptyArray()),
   };
 };
 
