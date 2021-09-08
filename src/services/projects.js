@@ -9,3 +9,13 @@ export const getAllProjects = async () => {
 		},
 	})
 }
+
+export const getAllProjectsWithCategory = async (id) => {
+	console.log(`projects/category/${id}`)
+	return await fetch(`${BASE_API_URL}projects/category/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}

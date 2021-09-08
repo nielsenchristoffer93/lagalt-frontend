@@ -7,14 +7,12 @@ const NavbarComponent = () => {
 
     return (
         <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
-            <Container>
+            
                 <Navbar.Brand href="/">Lagalt</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-
                         
-
                     </Nav>
                     <Nav>
                         {UserService.isLoggedIn() && <Button  className="danger" id="btn" onClick={() => UserService.doLogout()}>Log-out</Button>}
@@ -26,7 +24,7 @@ const NavbarComponent = () => {
                         </svg> {UserService.getUsername()}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-            </Container>
+            
         </Navbar>
 
     );
