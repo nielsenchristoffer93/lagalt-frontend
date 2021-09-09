@@ -19,6 +19,7 @@ const SkillsCheckboxComponent = (props) => {
 
   useEffect(() => {
     setSkillsToEmptyArray();
+    // DO THIS IN BACKEND INSTEAD AND JUST FETCH ALL SKILLS CONNECTED TO THE SPECIFIC CATEGORY
     for (let index = 0; index < skillUrls.length; index++) {
       fetchSkillBasedOnSkillUrl(skillUrls[index]);
     }
