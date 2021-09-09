@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-	getAllProjects
+	getAllProjects, getAllProjectsWithCategory
 } from '../../services/projects';
 
 const initialState = {
@@ -48,6 +48,20 @@ export const {
 		const data = await response.json()
 
 		console.log(data)
+
+		dispatch(getAllProjectsSuccess(data))
+	}
+	catch (err) {
+        console.log(err)
+		dispatch(getAllProjectsFailed(err.toString()))
+	}
+}
+
+export const fetchAllProjectsWithCategory = (id) => async dispatch => {
+	dispatch(getAllProjectsStarted())
+	try {
+		const response = await getAllProjectsWithCategory(id)
+		const data = await response.json()
 
 		dispatch(getAllProjectsSuccess(data))
 	}

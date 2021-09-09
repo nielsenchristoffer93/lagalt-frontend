@@ -10,6 +10,7 @@ export const getAllProjects = async () => {
 	})
 }
 
+
 export const postNewProject = async (data) => {
 	return await fetch(`${BASE_API_URL}projects`, {
 		/*headers: {
@@ -18,5 +19,17 @@ export const postNewProject = async (data) => {
 		},*/
 		method: "POST",
 		body: data
+  }
+});
+
+    
+export const getAllProjectsWithCategory = async (id) => {
+	console.log(`projects/category/${id}`)
+	return await fetch(`${BASE_API_URL}projects/category/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+
 	})
 }
