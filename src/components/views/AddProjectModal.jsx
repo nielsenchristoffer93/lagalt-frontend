@@ -5,27 +5,59 @@ import CategoriesDropdownComponent from "../higher-order-components/CategoriesDr
 import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
+import { postNewProject } from "../../services/projects";
+import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 
 const AddProjectModal = (props) => {
+  const {
+    displayProjectModal,
+    hideAddProjectModal,
+    selectedCategory,
+    selectedSkills,
+    fetchAllProjects,
+    resetSkillsStates
+  } = props;
 
-    const { displayProjectModal, hideAddProjectModal, selectedCategory, selectedSkills } = props;
-
-    const [projectTitle, setprojectTitle] = useState("")
-    const [projectDescription, setProjectDescription] = useState("")
-    const [selectedFile, setSelectedFile] = useState(null)
+  const [projectTitle, setprojectTitle] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleClose = () => {
     hideAddProjectModal();
   };
 
-  const handleSubmit = () => {
-      let formData = new FormData();
-      formData.append("title", projectTitle);
-      formData.append("image", selectedFile.files[0]);
-      formData.append("description", projectDescription);
-      formData.append("category", selectedCategory);
-      formData.append("skills", selectedSkills);
-  }
+  const handleSubmit = async () => {
+    var date = new Date();
+
+    /* let skills = []
+    selectedSkills.forEach(selectedSkill => {
+      skills.push({"id": selectedSkill});
+    });
+
+    console.log(skills); */
+    
+    const formData = new FormData();
+    formData.append("title", projectTitle);
+    formData.append("description", projectDescription);
+    formData.append("image", selectedFile, selectedFile.name);
+    formData.append("createdDate", date);
+    formData.append("category", selectedCategory);
+    formData.append("skills", selectedSkills)
+
+    //console.log(selectedSkills)
+
+    //console.log(selectedFile);
+    // Display the key/value pairs
+    /* for (var pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    } */
+    
+    await postNewProject(formData);
+    hideAddProjectModal();
+    fetchAllProjects();
+    resetSkillsStates();
+  };
 
   return (
     <Modal
@@ -37,32 +69,36 @@ const AddProjectModal = (props) => {
         <Modal.Title>Add new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate>
+        <Form noValidate encType="multipart/form-data">
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Title</Form.Label>
-            <Form.Control type="text" placeholder="Project 1" onChange={(e) => setprojectTitle(e.target.value)}/>
+            <Form.Control
+              type="text"
+              placeholder="Project 1"
+              onChange={(event) => setprojectTitle(event.target.value)}
+            />
           </Form.Group>
-          {projectTitle}
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Project Image</Form.Label>
-            <Form.Control type="file" onChange={(e) => setSelectedFile(e.target.files[0])}/>
+            <Form.Control
+              type="file"
+              onChange={(event) => setSelectedFile(event.target.files[0])}
+            />
           </Form.Group>
-          {console.log(selectedFile)}
+          {/*console.log(selectedFile)*/}
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Project Description</Form.Label>
             <Form.Control
               as="textarea"
               rows={5}
               placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-              onChange={(e) => setProjectDescription(e.target.value)}
+              onChange={(event) => setProjectDescription(event.target.value)}
             />
           </Form.Group>
-          {projectDescription}
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Category</Form.Label>
             <CategoriesDropdownComponent></CategoriesDropdownComponent>
           </Form.Group>
-          {console.log(selectedCategory)}
           <SkillsCheckboxComponent></SkillsCheckboxComponent>
         </Form>
       </Modal.Body>
@@ -82,13 +118,16 @@ const AddProjectModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayProjectModal: state.displayAddProjectModal.displayProjectModal,
-    selectedSkills: state.skills.selectedSkills
+    selectedSkills: state.skills.selectedSkills,
+    selectedCategory: state.categories.selectedCategory,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
+    fetchAllProjects: () => dispatch(fetchAllProjects()),
+    resetSkillsStates: () => dispatch(resetSkillsStates()),
   };
 };
 
