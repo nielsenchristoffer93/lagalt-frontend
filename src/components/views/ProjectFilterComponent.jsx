@@ -4,44 +4,59 @@ import { faFilter,faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
 import { connect } from "react-redux";
-import { fetchAllProjectsWithCategory } from '../../redux/Project/projectSlice'
+import { fetchAllProjectsWithCategory, fetchFilteredProjects } from '../../redux/Project/projectSlice'
 const ProjectFilterComponent = (props) => {
+    const [searchQuery, setSearchQuery] = useState("");
+
 
     const {
         selectedCategory,
         fetchAllProjectsWithCategory,
+        fetchFilteredProjects,
       } = props;
 
 
     const filterProjects = () => {
-        fetchAllProjectsWithCategory(selectedCategory)
+        fetchFilteredProjects(searchQuery,selectedCategory );
+        
     }
 
-    useEffect(() => {
-       console.log("hello!") 
-      }, [CategoriesDropdownComponent]);
+  
 
-    const user = "user";
-    const category = "category";
-    const time = "5 h "
-    const skills = ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5",]
+    
+
+    useEffect(() => {
+
+        fetchFilteredProjects(searchQuery,selectedCategory );
+
+      }, [selectedCategory]);
+
   return (
     <div className="searchContainer">
-         <Form>
+         <Form onSubmit={e => { e.preventDefault(); }}>
              <Row>
                 <Col sm="3">
-                    <CategoriesDropdownComponent/>
+                    <CategoriesDropdownComponent disableDefault={false}
+                     onChange={() => filterProjects()}/>
                 </Col>
-                <Col sm="6">
-                    <Form.Control type="text" placeholder="search" /> 
+                <Col sm="5">
+                    <Form.Control type="text" placeholder="search" 
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    onKeyPress={event => {
+                        if (event.key === "Enter") {
+                            filterProjects();
+                        }
+                    }}/> 
+                    
                 </Col>
+                <Col sm="1"><Button onClick={() => filterProjects()}>Search</Button></Col>
                 <Col sm="2"></Col>
                 <Col sm="1">
                 <FontAwesomeIcon icon={faFilter} />
                 <FontAwesomeIcon icon={faSlidersH} />
                 </Col>
             </Row>
-            <Button onClick={() => filterProjects()}>Search</Button>
+            
         </Form> 
     </div>
   )
@@ -56,6 +71,7 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return {
         fetchAllProjectsWithCategory: (id) => dispatch(fetchAllProjectsWithCategory(id)),
+        fetchFilteredProjects: (title, categorId) => dispatch(fetchFilteredProjects(title, categorId)),
     };
   
   };

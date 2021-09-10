@@ -12,6 +12,7 @@ import {
 
 const CategoriesDropdownComponent = (props) => {
   const {
+    disableDefault,
     categories,
     hasLoaded,
     fetchAllCategories,
@@ -34,6 +35,9 @@ const CategoriesDropdownComponent = (props) => {
       setSelectedCategory(e.target.value);
       fetchSkillsBasedOnCategory(e.target.value);
     }
+    if(e.target.value == -1){
+      setSelectedCategory(e.target.value);
+    }
   };
 
   return (
@@ -41,9 +45,9 @@ const CategoriesDropdownComponent = (props) => {
       aria-label="Default select example"
       onChange={handleChange}
       required
-      defaultValue={"DEFAULT"}
+      defaultValue={"-1"}
     >
-      <option value="DEFAULT" disabled>
+      <option value="-1" disabled={disableDefault ? true : null}>
         Select Category
       </option>
       {categories && populateOptions(categories)}

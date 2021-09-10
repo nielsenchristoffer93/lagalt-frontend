@@ -29,3 +29,12 @@ export const getAllProjectsWithCategory = async (id) => {
 
 	})
 }
+
+export const filterProjects = async (title, categoryId) => {
+	return await fetch(`${BASE_API_URL}projects/filter/${title},${categoryId}`, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: "GET",
+  	})
+}

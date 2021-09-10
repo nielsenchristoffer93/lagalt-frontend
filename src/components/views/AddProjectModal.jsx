@@ -97,7 +97,7 @@ const AddProjectModal = (props) => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Category</Form.Label>
-            <CategoriesDropdownComponent></CategoriesDropdownComponent>
+            <CategoriesDropdownComponent disableDefault={true}></CategoriesDropdownComponent>
           </Form.Group>
           <SkillsCheckboxComponent></SkillsCheckboxComponent>
         </Form>
