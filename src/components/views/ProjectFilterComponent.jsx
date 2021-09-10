@@ -33,14 +33,20 @@ const ProjectFilterComponent = (props) => {
 
   return (
     <div className="searchContainer">
-         <Form>
+         <Form onSubmit={e => { e.preventDefault(); }}>
              <Row>
                 <Col sm="3">
-                    <CategoriesDropdownComponent onChange={() => filterProjects()}/>
+                    <CategoriesDropdownComponent disableDefault={false}
+                     onChange={() => filterProjects()}/>
                 </Col>
                 <Col sm="5">
                     <Form.Control type="text" placeholder="search" 
-                    onChange={(event) => setSearchQuery(event.target.value)}/> 
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    onKeyPress={event => {
+                        if (event.key === "Enter") {
+                            filterProjects();
+                        }
+                    }}/> 
                     
                 </Col>
                 <Col sm="1"><Button onClick={() => filterProjects()}>Search</Button></Col>
