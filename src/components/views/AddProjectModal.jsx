@@ -19,12 +19,12 @@ const AddProjectModal = (props) => {
   };
 
   const handleSubmit = () => {
-      let formData = new FormData();
-      formData.append("title", projectTitle);
-      formData.append("image", selectedFile.files[0]);
-      formData.append("description", projectDescription);
-      formData.append("category", selectedCategory);
-      formData.append("skills", selectedSkills);
+      // let formData = new FormData();
+      // formData.append("title", projectTitle);
+      // formData.append("image", selectedFile.files[0]);
+      // formData.append("description", projectDescription);
+      // formData.append("category", selectedCategory);
+      // formData.append("skills", selectedSkills);
   }
 
   return (
