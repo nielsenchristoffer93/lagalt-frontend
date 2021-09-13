@@ -7,22 +7,36 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import UserService from "../../services/UserService";
 import "./ChatWindowComponent.css";
+import { computeHeadingLevel } from "@testing-library/dom";
 
 const socket = io.connect("http://localhost:4000");
 
 const ChatWindowComponent = () => {
+  const [chat, setChat] = useState([]);
   const [state, setState] = useState({
     message: "",
     name: UserService.getUsername(),
     date_created: "5 h",
   });
-  const [chat, setChat] = useState([]);
 
   useEffect(() => {
+    
     socket.on("message", ({ name, message, date_created }) => {
-      setChat([...chat, { name, message, date_created }]);
+      // without this line chat needs you to change something on screen before it updates chat.
+      setChat([...chat, {name, message, date_created }])
+      addToChat({name, message, date_created })
+      
     });
-  });
+  }, []);
+
+  const addToChat = (message) => {
+    const newArray = chat;
+    newArray.push(message)
+    setChat(newArray);
+    
+  }
+
+
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
