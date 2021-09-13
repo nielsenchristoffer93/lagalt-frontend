@@ -68,13 +68,13 @@ const ProjectView = (props) => {
       {displayProjectModal ? (
         <AddProjectModal show={displayProjectModal}></AddProjectModal>
       ) : null}
-        {projects && projects.map((project, i) => <div onClick={() => onOpenModal(i)} ><ProjectComponent 
+        {projects && projects.map((project, i) => <div onClick={() => onOpenModal(project.id)} ><ProjectComponent 
           
          title={project.title}
          description={project.description}
          projectTags={project.projectTags}
          skills={project.skills}
-         key={i} 
+         key={project.id} 
          
          /></div>)}
         

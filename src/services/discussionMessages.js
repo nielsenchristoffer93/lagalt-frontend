@@ -10,12 +10,17 @@ export const getMessagesBasedOnDiscussionBoard = async (boardId) => {
 }
 
 
-export const postMessages = async () => {
+export const postMessages = async (data) => {
+	console.log("data")
+	console.log(data)
+
+	for (var pair of data.entries()) {
+		console.log(pair[0]+ ', ' + pair[1]); 
+	}
 	return await fetch(`${BASE_API_URL}discussionMessages`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
+		body: data,
+		method: 'POST'
+		
 	})
 }
 

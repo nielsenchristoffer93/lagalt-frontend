@@ -15,8 +15,8 @@
   
     useEffect(() => {
       
-      //  fetchDiscussionBoard(selectedProject);
-       // fetchMessagesBasedOnBoard(selectedProject)
+      //fetchDiscussionBoard(selectedProject);
+       //fetchMessagesBasedOnBoard(selectedProject)
       
     }, []); 
   
@@ -24,11 +24,10 @@
   
     return (
       <div>
-        {messages && messages.map((message, i) => <DiscussionMessageComponent 
+       {messages && messages.length > 0 && messages.map((message) => <DiscussionMessageComponent 
           message={message.message}
           timestamp={message.timestamp}
-          key={i} 
-        ></DiscussionMessageComponent>)} 
+        ></DiscussionMessageComponent>)}
 
           
       </div>
