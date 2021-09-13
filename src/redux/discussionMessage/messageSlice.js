@@ -76,6 +76,7 @@ export const fetchMessagesBasedOnBoard = (discussionBoardId) => async (dispatch)
   };
   //Add Post
   export const createMessages = (message) => async (dispatch) => {
+	  console.log("text")
 	dispatch(postMessagesStarted());
 	try {
 	  const response = await postMessages(message);

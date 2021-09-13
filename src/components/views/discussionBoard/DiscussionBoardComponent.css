@@ -1,0 +1,29 @@
+.custom-input {
+  position: relative;
+  width: 100%;
+}
+.custom-input-input {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  padding-right: 100px !important; 
+  line-height: 1;
+  box-sizing: border-box;
+  outline: none;
+  height: 45px;
+}
+.custom-input-botton {
+  position: absolute;
+  right: 3px; 
+  top: 2px;
+  bottom: 1px;
+  width: 150px;
+  border: 0;
+  background: #097e61;
+  color: #fff;
+  outline: none;
+  margin: 0;
+  padding: 0 10px;
+  border-radius: 100px;
+  z-index: 4;
+} 

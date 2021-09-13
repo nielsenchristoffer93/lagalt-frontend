@@ -17,39 +17,39 @@ const ProjectModal = (props) => {
 
 	} = props
 
-  const [textMessage, setTextMessage] = useState('');
+  // const [textMessage, setTextMessage] = useState('');
 
   useEffect(() => {
-     fetchMessagesBasedOnBoard(selectedProject);
+ 
   
 
-  }, [messages]);
+  }, []);
 
 
  
-  const handleTextMessage = (e) => {
-    setTextMessage(e.target.value); 
-  };
+//   const handleTextMessage = (e) => {
+//     setTextMessage(e.target.value); 
+//   };
 
-  const handlePost = (e) => {
+//   const handlePost = (e) => {
 
-    const formData = new FormData();
-    formData.append("message", textMessage);
-    formData.append("timestamp", "2021-09-02 10:04:50");
-    formData.append("user_id", 1);
-    formData.append("discussion_board_id", 1);
+//     const formData = new FormData();
+//     formData.append("message", textMessage);
+//     formData.append("timestamp", "2021-09-02 10:04:50");
+//     formData.append("user_id", 1);
+//     formData.append("discussion_board_id", selectedProject);
    
-    console.log("textMessage: " + textMessage);
-    /* createMessages({
-      "message": textMessage,
-      "timestamp": "2021-09-02 10:04:50" ,
-      "discussion_board_id": 1,
-      "user_id": 1 
-  }) */
-  createMessages(formData)
+//     console.log("textMessage: " + textMessage);
+//     /* createMessages({
+//       "message": textMessage,
+//       "timestamp": "2021-09-02 10:04:50" ,
+//       "discussion_board_id": 1,
+//       "user_id": 1 
+//   }) */
+//   createMessages(formData)
     
     
-}
+// }
 
 
 
@@ -66,19 +66,21 @@ const ProjectModal = (props) => {
         </Card.Body>
         <img style={{minHeight:"250px"}}src="https://source.unsplash.com/1600x900" alt="" />
         <br/>
-        <input type="text" class="form-control" placeholder="Type your comment..." 
+        {/* <input type="text" class="form-control" placeholder="Type your comment..." 
           value={textMessage} onChange={handleTextMessage}
 
 
         />
         <div class="input-group-append"> 
             <button  type="submit" class="btn btn-info" onClick={handlePost}>Post</button>
-        </div> 
-        <Card.Body>
-            <div style={{height:"200px", border:"solid black 1px"}}></div>
+        </div>  */}
+        {/* <Card.Body> */}
+            <div>
             <DiscussionBoardComponent/>
-            message board
-        </Card.Body>
+            </div>
+           
+          
+        {/* </Card.Body> */}
     </Card>
     </Col>
     {/* if user is member of project*/}
@@ -106,8 +108,8 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
-      createMessages: (data) => dispatch(createMessages(data)),
+      // fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
+      // createMessages: (data) => dispatch(createMessages(data)),
     }
   };
   
