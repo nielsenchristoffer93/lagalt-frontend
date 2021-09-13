@@ -1,10 +1,16 @@
 import React from "react";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import UserService from "../../services/UserService";
+import {connect} from "react-redux";
 import './Navbar.css'
+import {resetAddUser, showModal} from "../../redux/profile/profileSlice";
 
 const NavbarComponent = () => {
 
+    const handleLogout = () => {
+        resetAddUser();
+        UserService.doLogout();
+    }
     return (
         <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
             
@@ -15,7 +21,7 @@ const NavbarComponent = () => {
                         
                     </Nav>
                     <Nav>
-                        {UserService.isLoggedIn() && <Button  className="danger" id="btn" onClick={() => UserService.doLogout()}>Log-out</Button>}
+                        {UserService.isLoggedIn() && <Button  className="danger" id="btn" onClick={() => handleLogout()}>Log-out</Button>}
                         {!UserService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => UserService.doLogin()}>Log-in</Button>}
                         {!UserService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => UserService.doRegister()}>Sign Up</Button>}
                         <Nav.Link eventKey={2} href="/profile"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
@@ -30,4 +36,12 @@ const NavbarComponent = () => {
     );
 }
 
-export default NavbarComponent;
+const mapDispatchToProps = dispatch => {
+    return {
+        resetAddUser:() => dispatch(resetAddUser()),
+
+    }
+};
+
+
+export default connect(mapDispatchToProps)(NavbarComponent);

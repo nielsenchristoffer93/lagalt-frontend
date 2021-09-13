@@ -1,4 +1,5 @@
 import Keycloak from "keycloak-js";
+import {BASE_API_URL} from "./index";
 
 const _kc = new Keycloak('/keycloak.json');
 
@@ -39,9 +40,28 @@ const updateToken = (successCallback) =>
         .then(successCallback)
         .catch(doLogin);
 
-const getUsername = () => _kc.tokenParsed?.preferred_username;
+const getUsername = () => _kc.idTokenParsed?.preferred_username;
 
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
+
+const postNewUser = async() => {
+    const email = _kc.idTokenParsed?.email;
+    const firstname =  _kc.idTokenParsed?.given_name;
+    const lastname = _kc.idTokenParsed?.family_name;
+
+
+    return await fetch(`${BASE_API_URL}users`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "POST",
+        body:JSON.stringify({
+            keycloak_email: email,
+            firstname: firstname,
+            lastname: lastname
+        })
+    })
+}
 
 const UserService = {
     initKeycloak,
@@ -53,6 +73,7 @@ const UserService = {
     updateToken,
     getUsername,
     hasRole,
+    postNewUser,
 };
 
 export default UserService;

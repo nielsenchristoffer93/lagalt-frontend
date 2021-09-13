@@ -49,7 +49,8 @@ const initialState = {
     },
     show: false,
     loading: false,
-    error: ''
+    error: '',
+    userPosted: false,
 }
 const profileSlice = createSlice({
     name: "profile",
@@ -68,13 +69,21 @@ const profileSlice = createSlice({
             ]
             console.log(state.profile.portfolio);
 
+        },
+        initialAddUser: (state, action) => {
+            state.userPosted = true;
+        },
+        resetAddUser: (state, action) => {
+            state.userPosted = false;
         }
     }
 })
 export const {
     showModal,
     addPortfolioEntry,
-    deletePortfolioEntry
+    deletePortfolioEntry,
+    initialAddUser,
+    resetAddUser
 } = profileSlice.actions;
 
 

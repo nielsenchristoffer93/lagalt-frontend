@@ -12,6 +12,8 @@ import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { Button, Modal } from "react-bootstrap";
 import AddProjectModal from "./AddProjectModal";
 import ProjectModal from "./ProjectModal";
+import UserService from "../../services/UserService";
+import {initialAddUser} from "../../redux/profile/profileSlice";
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
   const [open, setOpen] = useState(false);
@@ -21,6 +23,7 @@ const ProjectView = (props) => {
   };
 
   const {
+    userPosted,
     projects,
     fetchAllProjects,
     displayProjectModal,
@@ -30,7 +33,15 @@ const ProjectView = (props) => {
 
   useEffect(() => {
     fetchAllProjects();
-  }, []);
+    tryPushUser();
+  }, [fetchAllProjects]);
+
+  const tryPushUser = () => {
+    if(!userPosted){
+      UserService.postNewUser();
+      initialAddUser();
+    }
+  }
 
   const onOpenModal = (i) => {
     setSelectedProject(i);
@@ -60,7 +71,7 @@ const ProjectView = (props) => {
       </div>
 
       {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal}></AddProjectModal>
+        <AddProjectModal show={displayProjectModal}/>
       ) : null}
 
       {projects &&
@@ -92,6 +103,7 @@ const ProjectView = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    userPosted: state.profile.userPosted,
     projects: state.projects.projects,
     loading: state.projects.loading,
     error: state.projects.error,
@@ -101,6 +113,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
     setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
