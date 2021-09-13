@@ -1,12 +1,14 @@
 import React from "react";
-import {Col, Row} from 'react-bootstrap';
-import './Footer.css'
+import { Col, Container, Row } from "react-bootstrap";
+import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="Footer" >
-       footer
-    </div>
+    <footer>
+      <h4>Made with 💙 in Gothenburg, Sweden</h4>
+      <h4>&copy; 2021</h4>
+      <h5>Christoffer Nielsen, Markus Wrang, Jaber Ali &amp; Pontus Rohdén</h5>
+    </footer>
   );
 }
 
