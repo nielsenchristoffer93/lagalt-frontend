@@ -43,6 +43,7 @@ const ProjectView = (props) => {
     }
   }
 
+
   const onOpenModal = (i) => {
     setSelectedProject(i);
     console.log("i=?" + i);

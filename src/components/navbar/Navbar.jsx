@@ -11,6 +11,9 @@ const NavbarComponent = () => {
         resetAddUser();
         UserService.doLogout();
     }
+    const handleTest = async () => {
+        console.log( await UserService.getUserId("dsa@dsa.dsa"));
+    }
     return (
         <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
             
@@ -21,6 +24,7 @@ const NavbarComponent = () => {
                         
                     </Nav>
                     <Nav>
+                        <Button  className="danger" id="btn" onClick={() => handleTest()}>test</Button>
                         {UserService.isLoggedIn() && <Button  className="danger" id="btn" onClick={() => handleLogout()}>Log-out</Button>}
                         {!UserService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => UserService.doLogin()}>Log-in</Button>}
                         {!UserService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => UserService.doRegister()}>Sign Up</Button>}

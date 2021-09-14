@@ -49,7 +49,6 @@ const postNewUser = async() => {
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
 
-
     return await fetch(`${BASE_API_URL}users`, {
         headers: {
             'Content-Type': 'application/json',
@@ -61,6 +60,15 @@ const postNewUser = async() => {
             lastname: lastname
         })
     })
+}
+const getUserId = async (email) => {
+    const response = await fetch(`${BASE_API_URL}users/${email}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "GET",
+    })
+    return await response.json();
 }
 
 const UserService = {
@@ -74,6 +82,7 @@ const UserService = {
     getUsername,
     hasRole,
     postNewUser,
+    getUserId,
 };
 
 export default UserService;
