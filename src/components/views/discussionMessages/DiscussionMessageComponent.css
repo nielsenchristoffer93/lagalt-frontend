@@ -14,6 +14,7 @@ body {
     line-height: 1.4;
     color: rgba(0, 0, 0, 0.85);
     background-color: #f9f9f9;
+    
 
 }
 
@@ -24,6 +25,8 @@ body {
     padding: 0 30px;
     background-color: #fff;
     border: 1px solid transparent; /* Removes margin collapse */
+    
+    
     
 }
 .m-0 {
@@ -44,6 +47,7 @@ body {
     position: relative;
     margin: 20px auto;
     
+    
 }
 .comment-heading {
     display: flex;
@@ -55,6 +59,7 @@ body {
 .comment-info {
     color: rgba(0, 0, 0, 0.5);
     margin-left: 10px;
+    
 }
 .comment-author {
     color: rgba(0, 0, 0, 0.85);
@@ -87,4 +92,5 @@ body {
     padding: 0 20px;
     padding-left: 28px;
     font-style: italic;
+   
 }

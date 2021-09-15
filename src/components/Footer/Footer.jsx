@@ -4,9 +4,13 @@ import './Footer.css'
 
 function Footer() {
   return (
-    <div className="Footer" >
-       footer
+    <footer class="bg-dark text-center text-lg-start">
+
+  <div class="text-white text-center p-3">
+    © 2021 Copyright: <a class="text-white" > LAGALT</a>
     </div>
+
+</footer>
   );
 }
 

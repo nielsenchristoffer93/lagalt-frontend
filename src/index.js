@@ -8,6 +8,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 
+
 const renderApp = () => {ReactDOM.render(
     /*<React.StrictMode>*/
     <Provider store={store}>
