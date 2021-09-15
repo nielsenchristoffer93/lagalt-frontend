@@ -1,6 +1,7 @@
 import { Card, Col, Row, Button, Container } from 'react-bootstrap';
 import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
-import ChatWindowComponent from "../chat/ChatWindowComponent"
+import ChatWindowComponent from "../chat/ChatWindowComponent";
+import KeycloakService from '../../services/keycloakService';
 import { connect } from 'react-redux';
 import "./ProjectModal.css";
 
@@ -10,7 +11,7 @@ const ProjectModal = (props) => {
   function displayChatWindow() {
     return (
       <Col sm="4">
-        <ChatWindowComponent></ChatWindowComponent>
+        <ChatWindowComponent chatboardUrl={projects[selectedProject - 1].chatBoard}></ChatWindowComponent>
       </Col>
     );
   }
@@ -37,7 +38,7 @@ const ProjectModal = (props) => {
           </Card>
         </Col>
         {/* if user is member of project*/}
-        {displayChat ? displayChatWindow() : null}
+        {KeycloakService.isLoggedIn() ? displayChatWindow() : null}
       </Row>
       <br />
       <Row>

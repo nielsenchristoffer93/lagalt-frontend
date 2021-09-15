@@ -2,7 +2,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
+const { addUser, removeUser, removeUserByNameAndRoom, getUser, getUserByNameAndRoom, getUsersInRoom } = require("./users");
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,20 +17,35 @@ const io = socketio(server, {
 
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
-    const { error, user } = addUser({ id: socket.id, name, room });
+    //console.log("name " + name);
+    //console.log("room " + room);
+    //const user = getUser(socket.id);
+
+    const { error, user, existingUser } = addUser({ id: socket.id, name, room });
 
     if (error) {
       return callback(error);
     }
 
+    //console.log("USER")
+    //console.log(user);
+
     socket.join(user.room);
 
     console.log(`User ${user.name} has joined the room ${user.room}.`);
 
-    socket.emit("message", {
-      user: "admin",
-      text: `${user.name}, welcome to room ${user.room}.`,
-    });
+    if (existingUser) {
+      socket.emit("message", {
+        user: "admin",
+        text: ` Welcome back to room ${user.room},  ${user.name}.`,
+      });
+    } else {
+      socket.emit("message", {
+        user: "admin",
+        text: `${user.name}, welcome to room ${user.room}.`,
+      });
+    }
+
     socket.broadcast
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
@@ -43,8 +58,12 @@ io.on("connection", (socket) => {
     callback();
   });
 
-  socket.on("sendMessage", (message, dateCreated, callback) => {
-    const user = getUser(socket.id);
+  socket.on("sendMessage", (message, dateCreated, name, room, callback) => {
+    //const user = getUser(socket.id);
+    const user = getUserByNameAndRoom(name, room);
+
+    //console.log("USER")
+    //console.log(user);
 
     //console.log(message);
     //console.log("Send at time " + dateCreated);
@@ -59,7 +78,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+  //socket.on("disconnect", (name, room) => {
     const user = removeUser(socket.id);
+    //const user = removeUserByNameAndRoom(name, room);
+    //console.log(user)
 
     if (user) {
       io.to(user.room).emit("message", {

@@ -25,7 +25,7 @@ const ProjectComponent = ({
         </Card.Text>
         <Card.Title>{title}</Card.Title>
         <p>{description}</p>
-        {console.log(skills)}
+        {/* console.log(skills) */}
         <ul className="horizontal-list">{skills && populateListWithSkills(skills)}</ul>
       </Card.Body>
       {/* Can only view PNG now (see data:image/png) */}
