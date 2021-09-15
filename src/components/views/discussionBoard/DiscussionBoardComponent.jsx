@@ -1,39 +1,34 @@
 import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { fetchMessagesBasedOnBoard, createMessages } from '../../../redux/discussionMessage/messageSlice';
-import DiscussionMessageComponent from '../discussionMessages/DiscussionMessageComponent'
-
+import {
+  fetchMessagesBasedOnBoard,
+  createMessages,
+} from "../../../redux/discussionMessage/messageSlice";
+import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 
 const DiscussionBoardComponent = (props) => {
   const {
-
     messages,
     selectedProject,
     fetchMessagesBasedOnBoard,
-    createMessages
+    createMessages,
   } = props;
   const [newMessage, setnewMessage] = useState(true);
-  const [textMessage, setTextMessage] = useState('');
-
+  const [textMessage, setTextMessage] = useState("");
 
   useEffect(() => {
     if (newMessage) {
-      setnewMessage(false)
+      setnewMessage(false);
       fetchMessagesBasedOnBoard(selectedProject);
     }
-
-
   }, [messages]);
-
 
   const handleTextMessage = (e) => {
     setTextMessage(e.target.value);
-
   };
 
   const handlePost = (e) => {
-
     e.preventDefault();
 
     const formData = new FormData();
@@ -44,48 +39,51 @@ const DiscussionBoardComponent = (props) => {
 
     console.log("textMessage: " + textMessage);
 
-    createMessages(formData)
+    createMessages(formData);
 
     fetchMessagesBasedOnBoard(selectedProject);
-    setnewMessage(true)
-    setTextMessage('')
-
-  }
-
-
-
-
-
+    setnewMessage(true);
+    setTextMessage("");
+  };
 
   return (
-
     <div id="scroll1">
       {/* easy scroll */}
       <a href="#scroll2">Add comments</a>
-      {messages && messages.length > 0 && messages.map((message) => <DiscussionMessageComponent
-        message={message.message}
-        timestamp={message.timestamp}
-
-      ></DiscussionMessageComponent>)}
+      {messages &&
+        messages.length > 0 &&
+        messages.map((message) => (
+          <DiscussionMessageComponent
+            message={message.message}
+            timestamp={message.timestamp}
+          ></DiscussionMessageComponent>
+        ))}
 
       <br />
       <div class="custom-input" id="scroll2">
-        <input type="text" class="custom-input-input" placeholder="Type your comment..."
-          value={textMessage} onChange={handleTextMessage} onKeyPress={event => {
+        <input
+          type="text"
+          class="custom-input-input"
+          placeholder="Type your comment..."
+          value={textMessage}
+          onChange={handleTextMessage}
+          onKeyPress={(event) => {
             if (event.key === "Enter") {
               handlePost(event);
             }
-          }} />
-        <button type="submit" class="custom-input-botton" onClick={(event) => handlePost(event)}>Post</button>
+          }}
+        />
+        <button
+          type="submit"
+          class="custom-input-botton"
+          onClick={(event) => handlePost(event)}
+        >
+          Post
+        </button>
       </div>
-
     </div>
-
-
   );
-
 };
-
 
 const mapStateToProps = (state) => {
   return {
@@ -99,7 +97,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
     createMessages: (data) => dispatch(createMessages(data)),
-
   };
 };
 

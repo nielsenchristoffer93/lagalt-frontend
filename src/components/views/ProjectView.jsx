@@ -80,20 +80,6 @@ const ProjectView = (props) => {
       {displayProjectModal ? (
         <AddProjectModal show={displayProjectModal}/>
       ) : null}
-        {projects && projects.map((project, i) => <div onClick={() => onOpenModal(project.id)} ><ProjectComponent 
-          
-         title={project.title}
-         description={project.description}
-         projectTags={project.projectTags}
-         skills={project.skills}
-         key={project.id} 
-         
-         /></div>)}
-        
-        <Modal show={open} onHide={onCloseModal} center dialogClassName="custom-modal-80w">
-          {renderModal()}
-        </Modal>
-        
 
       {projects &&
         projects.map((project, i) => (
