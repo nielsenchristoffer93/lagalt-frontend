@@ -1,44 +1,75 @@
 import { useEffect, useState } from 'react'
-import { Card, Form, Col, Row, Dropdown } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { faFilter,faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
+import { connect } from "react-redux";
+import { fetchAllProjectsWithCategory, fetchFilteredProjects } from '../../redux/Project/projectSlice'
+const ProjectFilterComponent = (props) => {
+    const [searchQuery, setSearchQuery] = useState("");
 
 
-const ProjectFilterComponent = () => {
+    const {
+        selectedCategory,
+        fetchAllProjectsWithCategory,
+        fetchFilteredProjects,
+      } = props;
 
-    const user = "user";
-    const category = "category";
-    const time = "5 h "
-    const skills = ["skill 1", "skill 2", "skill 3", "skill 4", "skill 5",]
+
+    const filterProjects = () => {
+        fetchFilteredProjects(searchQuery,selectedCategory );
+        
+    }
+
+    useEffect(() => {
+
+        fetchFilteredProjects(searchQuery,selectedCategory );
+
+      }, [selectedCategory]);
+
   return (
     <div className="searchContainer">
-         <Form>
+         <Form onSubmit={e => { e.preventDefault(); }}>
              <Row>
                 <Col sm="3">
-                    <Dropdown>
-                    <Dropdown.Toggle id="dropdown-basic">
-                        Categories
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item >Movie</Dropdown.Item>
-                        <Dropdown.Item >Games action</Dropdown.Item>
-                        <Dropdown.Item >Web development</Dropdown.Item>
-                    </Dropdown.Menu>
-                    </Dropdown>
+                    <CategoriesDropdownComponent disableDefault={false}
+                     onChange={() => filterProjects()}/>
                 </Col>
-                <Col sm="6">
-                    <Form.Control type="text" placeholder="search" /> 
+                <Col sm="5">
+                    <Form.Control type="text" placeholder="search" 
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    onKeyPress={event => {
+                        if (event.key === "Enter") {
+                            filterProjects();
+                        }
+                    }}/> 
+                    
                 </Col>
+                <Col sm="1"><Button onClick={() => filterProjects()}>Search</Button></Col>
                 <Col sm="2"></Col>
                 <Col sm="1">
                 <FontAwesomeIcon icon={faFilter} />
                 <FontAwesomeIcon icon={faSlidersH} />
                 </Col>
             </Row>
+            
         </Form> 
     </div>
   )
 }
-
-export default ProjectFilterComponent;
+const mapStateToProps = (state) => {
+    return {
+    selectedCategory: state.categories.selectedCategory,
+      
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchAllProjectsWithCategory: (id) => dispatch(fetchAllProjectsWithCategory(id)),
+        fetchFilteredProjects: (title, categorId) => dispatch(fetchFilteredProjects(title, categorId)),
+    };
+  
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(ProjectFilterComponent);

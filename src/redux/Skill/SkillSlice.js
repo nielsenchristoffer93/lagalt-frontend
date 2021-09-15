@@ -52,6 +52,13 @@ const skillsSlice = createSlice({
     },
     setSelectedSkillsToEmptyArray: (state) => {
       state.selectedSkills = [];
+    },
+    resetSkillsStates: (state) => {
+      state.skillUrls = [];
+      state.skills = [];
+      state.selectedSkills = [];
+      state.loading = false;
+      state.error =  "";
     }
   },
 });
@@ -66,6 +73,7 @@ export const {
   setSkillsToEmptyArray,
   setSelectedSkills,
   setSelectedSkillsToEmptyArray,
+  resetSkillsStates
 } = skillsSlice.actions;
 
 //Thunk

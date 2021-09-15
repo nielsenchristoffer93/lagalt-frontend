@@ -1,16 +1,14 @@
 import React from "react";
-import {Col, Row} from 'react-bootstrap';
-import './Footer.css'
+import { Col, Container, Row } from "react-bootstrap";
+import "./Footer.css";
 
 function Footer() {
   return (
-    <footer class="bg-dark text-center text-lg-start">
-
-  <div class="text-white text-center p-3">
-    © 2021 Copyright: <a class="text-white" > LAGALT</a>
-    </div>
-
-</footer>
+    <footer>
+      <h4>Made with 💙 in Gothenburg, Sweden</h4>
+      <h4>&copy; 2021</h4>
+      <h5>Christoffer Nielsen, Markus Wrang, Jaber Ali &amp; Pontus Rohdén</h5>
+    </footer>
   );
 }
 
