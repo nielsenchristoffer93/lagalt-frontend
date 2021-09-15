@@ -1,13 +1,10 @@
 import {Card, Button, Col, Row} from "react-bootstrap";
-import {deletePortfolioEntry} from "../../../../redux/profile/profileSlice";
 import {connect} from "react-redux";
 
 
 const PortfolioItem = (props) => {
 
     const {
-        deletePortfolioEntry,
-        id,
         title,
         company,
         date,
@@ -26,7 +23,7 @@ const PortfolioItem = (props) => {
                         <Button variant="danger" onClick={() => {
                             const confirmBox = window.confirm("Are you sure?")
                             if(confirmBox === true) {
-                                deletePortfolioEntry(id)
+                                // deletePortfolioEntry(id)
                             }
                         }} >Remove</Button>
 
@@ -41,16 +38,17 @@ const PortfolioItem = (props) => {
         </Card>
     )
 }
-const mapStateToProps = state => {
-    return {
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        deletePortfolioEntry: (id) => dispatch(deletePortfolioEntry(id))
-
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PortfolioItem);
+// const mapStateToProps = state => {
+//     return {
+//     };
+// };
+//
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         // deletePortfolioEntry: (id) => dispatch(deletePortfolioEntry(id))
+//
+//     }
+// };
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(PortfolioItem);
+export default PortfolioItem;

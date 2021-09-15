@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import NavbarComponent from './components/navbar/Navbar';
 import Footer from './components/Footer/Footer'
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import NavbarComponent from './components/navbar/Navbar';
 import Welcome from './components/views/ProjectView';
 import ProfileView from "./components/views/profileView/ProfileView";
 import './App.css';
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
         <BrowserRouter>
-          <div style={{overflowX:"hidden"}}>   
+          <div style={{overflowX:"hidden"}}>
           <NavbarComponent />
             <div className="container" style={{paddingTop:"100px"}}>
               <Switch>

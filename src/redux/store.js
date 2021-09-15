@@ -5,6 +5,7 @@ import viewProjectModal from "./AddProject/AddProjectSlice"
 import skillsReducer from "./Skill/SkillSlice"
 import profileReducer from './profile/profileSlice';
 import messageReducer from './discussionMessage/messageSlice';
+import userReducer from "./User/userSlice";
 
 // const store = createStore(countReducer);
 const store = configureStore({
@@ -15,7 +16,7 @@ const store = configureStore({
       skills: skillsReducer,
       profile: profileReducer,
       messages: messageReducer,
-
+      user: userReducer
     }
   })
  export default store;

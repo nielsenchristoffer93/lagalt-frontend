@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
-import ProjectFilterComponent from "./ProjectFilterComponent";
-import "./ProjectViewStyle.css";
-import { connect } from "react-redux";
-import {
-  fetchAllProjects,
-  setSelectedProject,
-} from "../../redux/Project/projectSlice";
+import { useEffect, useState } from "react";
+import {fetchAllProjects, setSelectedProject} from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
+import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
+import KeycloakService from "../../services/keycloakService";
+import ProjectFilterComponent from "./ProjectFilterComponent";
 import AddProjectModal from "./AddProjectModal";
 import ProjectModal from "./ProjectModal";
+import "./ProjectViewStyle.css";
+
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
   const [open, setOpen] = useState(false);
@@ -21,6 +21,11 @@ const ProjectView = (props) => {
   };
 
   const {
+    fetchUserAbout,
+    fetchUserSkills,
+    fetchUserPortfolio,
+    fetchUserData,
+    userPosted,
     projects,
     fetchAllProjects,
     displayProjectModal,
@@ -30,11 +35,24 @@ const ProjectView = (props) => {
 
   useEffect(() => {
     fetchAllProjects();
-  }, []);
+    tryPushUser();
+  }, [fetchAllProjects]);
+
+  const tryPushUser = () => {
+    if(!userPosted){
+      KeycloakService.postNewUser();
+      initialAddUser();
+      fetchUserData();
+      fetchUserPortfolio();
+      fetchUserSkills();
+      fetchUserAbout();
+    }
+  }
+
 
   const onOpenModal = (i) => {
     setSelectedProject(i);
-    console.log("i=?" + i);
+    //console.log("i=?" + i);
     setOpen(true);
   };
 
@@ -60,7 +78,7 @@ const ProjectView = (props) => {
       </div>
 
       {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal}></AddProjectModal>
+        <AddProjectModal show={displayProjectModal}/>
       ) : null}
         {projects && projects.map((project, i) => <div onClick={() => onOpenModal(project.id)} ><ProjectComponent 
           
@@ -106,6 +124,7 @@ const ProjectView = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    userPosted: state.profile.userPosted,
     projects: state.projects.projects,
     loading: state.projects.loading,
     error: state.projects.error,
@@ -115,6 +134,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchUserAbout: () => dispatch(fetchUserAbout),
+    fetchUserData: () => dispatch(fetchUserData()),
+    fetchUserSkills: () => dispatch(fetchUserSkills()),
+    fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
+    initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
     setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),

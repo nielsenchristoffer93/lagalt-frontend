@@ -1,8 +1,8 @@
-import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import {addPortfolioEntry, showModal} from "../../../../redux/profile/profileSlice";
-import {connect} from "react-redux";
+import {showModal} from "../../../../redux/profile/profileSlice";
 import {useState} from "react";
+import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
+import {connect} from "react-redux";
+import ModalHeader from "react-bootstrap/ModalHeader";
 
 
 const ProfileModal = (props) => {
@@ -12,7 +12,7 @@ const ProfileModal = (props) => {
     const [date, setDate] = useState()
     const [description, setDescription] = useState("")
 
-    const {show, showModal, addPortfolioEntry} = props
+    const {show, showModal} = props
     const handleClose = () => showModal();
 
 
@@ -26,7 +26,7 @@ const ProfileModal = (props) => {
             description: description
 
         }
-        addPortfolioEntry(item);
+        // addPortfolioEntry(item);
         showModal();
     }
 
@@ -68,7 +68,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showModal:() => dispatch(showModal()),
-        addPortfolioEntry: (entry) => dispatch(addPortfolioEntry(entry))
+        // addPortfolioEntry: (entry) => dispatch(addPortfolioEntry(entry))
 
     }
 };
