@@ -1,4 +1,4 @@
-const BASE_API_URL = "http://localhost:8080/api/v1/";
+import { BASE_API_URL } from "."
 
 export const getProfile = async () => {
     return await fetch(`${BASE_API_URL}userPofile`, {

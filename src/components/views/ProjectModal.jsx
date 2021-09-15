@@ -11,7 +11,7 @@ const ProjectModal = (props) => {
   function displayChatWindow() {
     return (
       <Col sm="4">
-        <ChatWindowComponent></ChatWindowComponent>
+        <ChatWindowComponent chatboardUrl={projects[selectedProject - 1].chatBoard}></ChatWindowComponent>
       </Col>
     );
   }

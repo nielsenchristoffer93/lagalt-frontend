@@ -9,6 +9,7 @@ import KeycloakService from "../../services/keycloakService";
 import "./ChatWindowComponent.css";
 import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
+import { BASE_URL } from "../../services/index"
 
 let socket;
 let ENDPOINT = "localhost:5000";
@@ -18,7 +19,8 @@ const ChatWindowComponent = (props) => {
   const {
     selectedProjects,
     fullName,
-    keycloakEmail
+    keycloakEmail,
+    chatboardUrl
   } = props
 
   const [name, setName] = useState(fullName);
@@ -47,7 +49,7 @@ const ChatWindowComponent = (props) => {
 
   useEffect(() => {
 
-    //fetchData();
+    fetchData();
 
     socket.on("message", (message) => {
       /* console.log("socket.on");
@@ -56,6 +58,32 @@ const ChatWindowComponent = (props) => {
       addMessageToMessages(message);
     });
   }, []);
+
+  const fetchData = async () => {
+    //console.log("chatboardUrl: " + chatboardUrl);
+    const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
+    //console.log(chatMessages.chatMessages);
+    const chatMessagesArray = chatMessages.chatMessages;
+    console.log(chatMessagesArray)
+
+    chatMessagesArray.forEach(async(chatMessageUrl) => {
+      const chatMessageData = await fetch(`${BASE_URL}${chatMessageUrl}`).then(response => response.json());
+      console.log(chatMessageData);
+
+      const message = chatMessageData.message;
+      const timestamp = chatMessageData.timestamp;
+      console.log("message: " + message);
+      console.log("timestamp: " + timestamp);
+
+      const userUrl = chatMessageData.user;
+      console.log("userUrl: " + userUrl);
+
+      //const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json());
+      //console.log(userData);
+
+    });
+
+  }
 
   const addMessageToMessages = (message) => {
     const newArray = messages;
@@ -150,7 +178,8 @@ const mapStateToProps = (state) => {
   return {
     selectedProjects: state.projects.selectedProject,
     fullName: `${state.user.firstname} ${state.user.lastname}`,
-    keycloakEmail: state.user.email
+    keycloakEmail: state.user.email,
+    //chatboardUrl: state.projects.
   };
 };
 

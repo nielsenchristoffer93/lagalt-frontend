@@ -61,7 +61,7 @@ const ProjectView = (props) => {
   };
 
   const renderModal = () => {
-    return <ProjectModal />;
+    return <ProjectModal></ProjectModal>;
   };
 
   return (
