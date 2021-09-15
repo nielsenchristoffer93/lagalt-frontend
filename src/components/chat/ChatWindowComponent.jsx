@@ -16,10 +16,12 @@ let ENDPOINT = "localhost:5000";
 const ChatWindowComponent = (props) => {
 
   const {
-    selectedProjects
+    selectedProjects,
+    fullName,
+    keycloakEmail
   } = props
 
-  const [name, setName] = useState(KeycloakService.getUsername());
+  const [name, setName] = useState(fullName);
   const [room, setRoom] = useState(selectedProjects.toString());
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -28,16 +30,18 @@ const ChatWindowComponent = (props) => {
   useEffect(() => {
     socket = io(ENDPOINT);
 
-    console.log("name: " + name);
-    console.log("room: " + room);
+    /* console.log("name: " + name);
+    console.log("room: " + room); */
     if (name !== undefined && room !== undefined) {
       socket.emit("join", { name, room }, () => {});
     }
 
     return () => {
       socket.on("disconnect");
+      //socket.emit("disconnect", (name, room));
 
       socket.off();
+      //console.log(socket.connected);
     };
   }, [ENDPOINT]);
 
@@ -46,8 +50,8 @@ const ChatWindowComponent = (props) => {
     //fetchData();
 
     socket.on("message", (message) => {
-      console.log("socket.on");
-      console.log(message);
+      /* console.log("socket.on");
+      console.log(message); */
       setMessages([...messages, message]);
       addMessageToMessages(message);
     });
@@ -63,7 +67,7 @@ const ChatWindowComponent = (props) => {
     event.preventDefault();
 
     if (message) {
-      socket.emit("sendMessage", message, dateCreated, () => {
+      socket.emit("sendMessage", message, dateCreated, name, room, () => {
         setMessage("");
       });
     }
@@ -75,12 +79,12 @@ const ChatWindowComponent = (props) => {
     formData.append("projectId", selectedProjects);
     formData.append("message", message);
     formData.append("timestamp", date);
-    formData.append("user", name);
+    formData.append("keycloakEmail", keycloakEmail);
 
     // Display the key/value pairs
-    for (var pair of formData.entries()) {
+    /* for (var pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
-    }
+    } */
 
     await postNewChatMessage(formData);
   };
@@ -89,13 +93,13 @@ const ChatWindowComponent = (props) => {
     return messages.map(({ user, text, dateCreated }, index) => (
       <Row
         className={
-          user === KeycloakService.getUsername()
+          user === fullName
             ? "message row-70w right"
             : "message row-70w left"
         }
         key={index}
       >
-        {user === KeycloakService.getUsername() ? (
+        {user === fullName ? (
           <ChatMessageRightComponent
             name={user}
             message={text}
@@ -145,6 +149,8 @@ const ChatWindowComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     selectedProjects: state.projects.selectedProject,
+    fullName: `${state.user.firstname} ${state.user.lastname}`,
+    keycloakEmail: state.user.email
   };
 };
 

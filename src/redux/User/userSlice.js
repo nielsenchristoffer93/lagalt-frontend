@@ -59,7 +59,7 @@ export const fetchUserData = () => async (dispatch) => {
         const response = await getUserData();
         const data = await response.json();
 
-        dispatch(setEmail(data.keycloak_email));
+        dispatch(setEmail(data.keycloakEmail));
         dispatch(setFirstname(data.firstname));
         dispatch(setLastname(data.lastname));
     } catch (err) {
