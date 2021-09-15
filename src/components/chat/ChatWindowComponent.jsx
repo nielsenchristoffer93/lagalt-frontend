@@ -7,107 +7,133 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import UserService from "../../services/UserService";
 import "./ChatWindowComponent.css";
-import { computeHeadingLevel } from "@testing-library/dom";
+import { postNewChatMessage } from "../../services/chat";
+import { connect } from "react-redux";
 
-const socket = io.connect("http://localhost:4000");
+let socket;
+let ENDPOINT = "localhost:5000";
 
-const ChatWindowComponent = () => {
-  const [chat, setChat] = useState([]);
-  const [state, setState] = useState({
-    message: "",
-    name: UserService.getUsername(),
-    date_created: "5 h",
-  });
+const ChatWindowComponent = (props) => {
+
+  const {
+    selectedProjects
+  } = props
+
+  const [name, setName] = useState(UserService.getUsername());
+  const [room, setRoom] = useState(selectedProjects.toString());
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [dateCreated, setDateCreated] = useState("5 h");
 
   useEffect(() => {
-    
-    socket.on("message", ({ name, message, date_created }) => {
-      // without this line chat needs you to change something on screen before it updates chat.
-      setChat([...chat, {name, message, date_created }])
-      addToChat({name, message, date_created })
-      
+    socket = io(ENDPOINT);
+
+    console.log("name: " + name);
+    console.log("room: " + room);
+    if (name !== undefined && room !== undefined) {
+      socket.emit("join", { name, room }, () => {});
+    }
+
+    return () => {
+      socket.on("disconnect");
+
+      socket.off();
+    };
+  }, [ENDPOINT]);
+
+  useEffect(() => {
+
+    //fetchData();
+
+    socket.on("message", (message) => {
+      console.log("socket.on");
+      console.log(message);
+      setMessages([...messages, message]);
+      addMessageToMessages(message);
     });
   }, []);
 
-  const addToChat = (message) => {
-    const newArray = chat;
-    newArray.push(message)
-    setChat(newArray);
-    
-  }
-
-
-
-  const onTextChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+  const addMessageToMessages = (message) => {
+    const newArray = messages;
+    newArray.push(message);
+    setMessages(newArray);
   };
 
-  const onMessageSubmit = (e) => {
-    e.preventDefault();
+  const sendMessage = async (event) => {
+    event.preventDefault();
 
-    const { name, message, date_created } = state;
-    console.log(name);
-    socket.emit("message", { name, message, date_created });
-    setState({ message: "", name: name, date_created: "" });
+    if (message) {
+      socket.emit("sendMessage", message, dateCreated, () => {
+        setMessage("");
+      });
+    }
+
+    let date = new Date();
+
+    // Create a new chatboard if it doesn't exist and post message to chatboard.
+    const formData = new FormData();
+    formData.append("projectId", selectedProjects);
+    formData.append("message", message);
+    formData.append("timestamp", date);
+    formData.append("user", name);
+
+    // Display the key/value pairs
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+
+    await postNewChatMessage(formData);
   };
 
-  const renderChat = () => {
-    return chat.map(({ name, message, date_created }, index) => (
-      <Row className={name === UserService.getUsername() ? "message row-70w right" : "message row-70w left"} key={index}>  
-        {name === UserService.getUsername() ? (
+  const renderMessages = () => {
+    return messages.map(({ user, text, dateCreated }, index) => (
+      <Row
+        className={
+          user === UserService.getUsername()
+            ? "message row-70w right"
+            : "message row-70w left"
+        }
+        key={index}
+      >
+        {user === UserService.getUsername() ? (
           <ChatMessageRightComponent
-            name={name}
-            message={message}
-            date_created={date_created}
+            name={user}
+            message={text}
+            date_created={dateCreated}
           ></ChatMessageRightComponent>
         ) : (
           <ChatMessageLeftComponent
-            name={name}
-            message={message}
-            date_created={date_created}
+            name={user}
+            message={text}
+            date_created={dateCreated}
           ></ChatMessageLeftComponent>
         )}
-        </Row>
+      </Row>
     ));
   };
 
   return (
     <div>
-      <Container className="message-container">
-        {renderChat()}
-        {/*<ChatMessageLeftComponent
-          name={name}
-          message={message}
-          date_created={date_created}
-        ></ChatMessageLeftComponent>
-        <ChatMessageRightComponent
-          name={name}
-          message={message}
-          date_created={date_created}
-        ></ChatMessageRightComponent>
-        <ChatMessageLeftComponent
-          name={name}
-          message={"Lorem ipsum dolor sit amet consectetur adipisicing elit."}
-          date_created={date_created}
-        ></ChatMessageLeftComponent>
-        <ChatMessageRightComponent
-          name={name}
-          message={"Lorem ipsum dolor sit amet consectetur adipisicing elit."}
-          date_created={date_created}
-        ></ChatMessageRightComponent>*/}
-      </Container>
-      <Form onSubmit={onMessageSubmit}>
+      <Container className="message-container">{renderMessages()}</Container>
+      <Form>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Control
             as="textarea"
             rows={3}
-            onChange={(e) => onTextChange(e)}
             name="message"
-            value={state.message}
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            onKeyPress={(event) =>
+              event.key === "Enter" ? sendMessage(event) : null
+            }
           />
         </Form.Group>
         <div className="d-grid gap-2">
-          <Button variant="success" size="lg" type="submit">
+          <Button
+            variant="success"
+            size="lg"
+            onClick={(event) => sendMessage(event)}
+          >
             <FontAwesomeIcon icon={faReply} />
           </Button>
         </div>
@@ -116,4 +142,18 @@ const ChatWindowComponent = () => {
   );
 };
 
-export default ChatWindowComponent;
+const mapStateToProps = (state) => {
+  return {
+    selectedProjects: state.projects.selectedProject,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatWindowComponent);

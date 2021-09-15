@@ -79,7 +79,7 @@ const ProjectView = (props) => {
 
       {projects &&
         projects.map((project, i) => (
-          <div onClick={() => onOpenModal(i)}>
+          <div onClick={() => onOpenModal(project.id)}>
             <ProjectComponent
               title={project.title}
               description={project.description}
