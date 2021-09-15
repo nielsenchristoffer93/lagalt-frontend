@@ -34,6 +34,8 @@ const DiscussionBoardComponent = (props) => {
 
   const handlePost = (e) => {
 
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append("message", textMessage);
     formData.append("timestamp", "2021-09-02 10:04:50");
@@ -71,10 +73,10 @@ const DiscussionBoardComponent = (props) => {
         <input type="text" class="custom-input-input" placeholder="Type your comment..."
           value={textMessage} onChange={handleTextMessage} onKeyPress={event => {
             if (event.key === "Enter") {
-              handlePost();
+              handlePost(event);
             }
           }} />
-        <button type="submit" class="custom-input-botton" onClick={handlePost}>Post</button>
+        <button type="submit" class="custom-input-botton" onClick={(event) => handlePost(event)}>Post</button>
       </div>
 
     </div>

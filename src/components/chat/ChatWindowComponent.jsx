@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
-import UserService from "../../services/UserService";
+import KeycloakService from "../../services/keycloakService";
 import "./ChatWindowComponent.css";
 import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
@@ -19,7 +19,7 @@ const ChatWindowComponent = (props) => {
     selectedProjects
   } = props
 
-  const [name, setName] = useState(UserService.getUsername());
+  const [name, setName] = useState(KeycloakService.getUsername());
   const [room, setRoom] = useState(selectedProjects.toString());
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -89,13 +89,13 @@ const ChatWindowComponent = (props) => {
     return messages.map(({ user, text, dateCreated }, index) => (
       <Row
         className={
-          user === UserService.getUsername()
+          user === KeycloakService.getUsername()
             ? "message row-70w right"
             : "message row-70w left"
         }
         key={index}
       >
-        {user === UserService.getUsername() ? (
+        {user === KeycloakService.getUsername() ? (
           <ChatMessageRightComponent
             name={user}
             message={text}

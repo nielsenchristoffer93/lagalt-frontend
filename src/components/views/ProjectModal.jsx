@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Card, Col, Row, Button, Container } from 'react-bootstrap';
-
 import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
+import ChatWindowComponent from "../chat/ChatWindowComponent"
 import { connect } from 'react-redux';
 import "./ProjectModal.css";
 
@@ -24,8 +23,8 @@ const ProjectModal = (props) => {
         <Col>
           <Card className="projectComponent" style={{ marginTop: "0px" }}>
             <Card.Body>
-              <Card.Title>{projects[selectedProject].title}</Card.Title>
-              <Card.Text>{projects[selectedProject].description}</Card.Text>
+              <Card.Title>{projects[selectedProject - 1].title}</Card.Title>
+              <Card.Text>{projects[selectedProject - 1].description}</Card.Text>
             </Card.Body>
             <img
               style={{ minHeight: "250px" }}
@@ -33,8 +32,7 @@ const ProjectModal = (props) => {
               alt=""
             />
             <Card.Body>
-              <div style={{ height: "200px", border: "solid black 1px" }}></div>
-              message board
+              <DiscussionBoardComponent></DiscussionBoardComponent>
             </Card.Body>
           </Card>
         </Col>
