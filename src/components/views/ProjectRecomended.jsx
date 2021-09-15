@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 const ProjectRecomended = () => {
   const ProjectRecomended = ["asd", "qwe", "lol", "kalle"];

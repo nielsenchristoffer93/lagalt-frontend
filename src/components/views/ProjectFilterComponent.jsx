@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button,  Card, Form, Col, Row, Dropdown } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { faFilter,faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
@@ -20,10 +20,6 @@ const ProjectFilterComponent = (props) => {
         fetchFilteredProjects(searchQuery,selectedCategory );
         
     }
-
-  
-
-    
 
     useEffect(() => {
 
