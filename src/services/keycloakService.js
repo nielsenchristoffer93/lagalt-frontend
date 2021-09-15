@@ -1,6 +1,8 @@
 import Keycloak from "keycloak-js";
 import {BASE_API_URL} from "./index";
-
+import {connect} from "react-redux";
+import {showModal} from "../redux/profile/profileSlice";
+import {fetchUserData} from "../redux/User/userSlice";
 const _kc = new Keycloak('/keycloak.json');
 
 /**
@@ -17,8 +19,10 @@ const initKeycloak = (onAuthenticatedCallback) => {
         //silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
     })
         .then((authenticated) => {
+             //setUserData();
             // if (authenticated) {
             onAuthenticatedCallback();
+            //fetchUserData();
             // } else {
             //   doLogin();
             // }
@@ -33,16 +37,20 @@ const doRegister = _kc.register;
 
 const getToken = () => _kc.token;
 
-const isLoggedIn = () => !!_kc.token;
-
 const updateToken = (successCallback) =>
     _kc.updateToken(5)
         .then(successCallback)
         .catch(doLogin);
 
+const isLoggedIn = () => !!_kc.token;
+
 const getUsername = () => _kc.idTokenParsed?.preferred_username;
 
+export const getEmail = () => _kc.idTokenParsed?.email;
+
+
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
+
 
 const postNewUser = async() => {
     const email = _kc.idTokenParsed?.email;
@@ -61,17 +69,8 @@ const postNewUser = async() => {
         })
     })
 }
-const getUserId = async (email) => {
-    const response = await fetch(`${BASE_API_URL}users/${email}`, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        method: "GET",
-    })
-    return await response.json();
-}
 
-const UserService = {
+const KeycloakService = {
     initKeycloak,
     doLogin,
     doLogout,
@@ -81,8 +80,21 @@ const UserService = {
     updateToken,
     getUsername,
     hasRole,
-    postNewUser,
-    getUserId,
+    getEmail,
+    postNewUser
 };
-
-export default UserService;
+// const mapStateToProps = state => {
+//     return {
+//         user: state.user.user,
+//     };
+// };
+//
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         fetchUserData:() => dispatch(fetchUserData()),
+//
+//     }
+// };
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(KeycloakService);
+export default KeycloakService;

@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
-import ProjectFilterComponent from "./ProjectFilterComponent";
-import "./ProjectViewStyle.css";
-import { connect } from "react-redux";
-import {
-  fetchAllProjects,
-  setSelectedProject,
-} from "../../redux/Project/projectSlice";
+import { useEffect, useState } from "react";
+import {fetchAllProjects, setSelectedProject} from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
+import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
+import KeycloakService from "../../services/keycloakService";
+import ProjectFilterComponent from "./ProjectFilterComponent";
 import AddProjectModal from "./AddProjectModal";
 import ProjectModal from "./ProjectModal";
-import UserService from "../../services/UserService";
-import {initialAddUser} from "../../redux/profile/profileSlice";
+import "./ProjectViewStyle.css";
+
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
   const [open, setOpen] = useState(false);
@@ -23,6 +21,10 @@ const ProjectView = (props) => {
   };
 
   const {
+    fetchUserAbout,
+    fetchUserSkills,
+    fetchUserPortfolio,
+    fetchUserData,
     userPosted,
     projects,
     fetchAllProjects,
@@ -38,15 +40,19 @@ const ProjectView = (props) => {
 
   const tryPushUser = () => {
     if(!userPosted){
-      UserService.postNewUser();
+      KeycloakService.postNewUser();
       initialAddUser();
+      fetchUserData();
+      fetchUserPortfolio();
+      fetchUserSkills();
+      fetchUserAbout();
     }
   }
 
 
   const onOpenModal = (i) => {
     setSelectedProject(i);
-    console.log("i=?" + i);
+    //console.log("i=?" + i);
     setOpen(true);
   };
 
@@ -114,6 +120,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchUserAbout: () => dispatch(fetchUserAbout),
+    fetchUserData: () => dispatch(fetchUserData()),
+    fetchUserSkills: () => dispatch(fetchUserSkills()),
+    fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
