@@ -1,6 +1,9 @@
-import { Card, Col, Row, Button, Container } from "react-bootstrap";
-import { connect } from "react-redux";
-import ChatWindowComponent from "../chat/ChatWindowComponent";
+import { useEffect, useState } from 'react'
+import { Card, Col, Row, Button, Container } from 'react-bootstrap';
+
+import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
+import { connect } from 'react-redux';
+import "./ProjectModal.css";
 
 const ProjectModal = (props) => {
   const displayChat = true;
@@ -49,15 +52,19 @@ const ProjectModal = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
+    messages: state.messages.messages,
+
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectModal);
