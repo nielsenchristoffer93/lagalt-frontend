@@ -55,13 +55,18 @@ const postNewUser = async() => {
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
 
+    console.log("firstName: " + firstname);
+    console.log("email: " + email);
+    console.log("lastname: " + lastname);
+
+
     return await fetch(`${BASE_API_URL}users`, {
         headers: {
             'Content-Type': 'application/json',
         },
         method: "POST",
         body:JSON.stringify({
-            keycloak_email: email,
+            keycloakEmail: email,
             firstname: firstname,
             lastname: lastname
         })
