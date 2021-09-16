@@ -17,14 +17,14 @@ let ENDPOINT = "localhost:5000";
 const ChatWindowComponent = (props) => {
 
   const {
-    selectedProjects,
+    selectedProject,
     fullName,
     keycloakEmail,
     chatboardUrl
   } = props
 
   const [name, setName] = useState(fullName);
-  const [room, setRoom] = useState(selectedProjects.toString());
+  const [room, setRoom] = useState(selectedProject.id);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [dateCreated, setDateCreated] = useState("5 h");
@@ -104,7 +104,7 @@ const ChatWindowComponent = (props) => {
 
     // Create a new chatboard if it doesn't exist and post message to chatboard.
     const formData = new FormData();
-    formData.append("projectId", selectedProjects);
+    formData.append("projectId", selectedProject);
     formData.append("message", message);
     formData.append("timestamp", date);
     formData.append("keycloakEmail", keycloakEmail);
@@ -176,7 +176,7 @@ const ChatWindowComponent = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    selectedProjects: state.projects.selectedProject,
+    selectedProject: state.projects.selectedProject,
     fullName: `${state.user.firstname} ${state.user.lastname}`,
     keycloakEmail: state.user.email,
     //chatboardUrl: state.projects.

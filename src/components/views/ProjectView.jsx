@@ -1,7 +1,7 @@
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
-import {fetchAllProjects, setSelectedProject} from "../../redux/Project/projectSlice";
+import {fetchAllProjects, fetchSelectedProjectData} from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
@@ -30,7 +30,7 @@ const ProjectView = (props) => {
     fetchAllProjects,
     displayProjectModal,
     showAddProjectModal,
-    setSelectedProject,
+    fetchSelectedProjectData,
   } = props;
 
   useEffect(() => {
@@ -50,8 +50,9 @@ const ProjectView = (props) => {
   }
 
 
-  const onOpenModal = (i) => {
-    setSelectedProject(i);
+  const onOpenModal = (id) => {
+    fetchSelectedProjectData(id)
+    //setSelectedProject(i);
     //console.log("i=?" + i);
     setOpen(true);
   };
@@ -120,14 +121,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserAbout: () => dispatch(fetchUserAbout),
+    fetchUserAbout: () => dispatch(fetchUserAbout()),
     fetchUserData: () => dispatch(fetchUserData()),
     fetchUserSkills: () => dispatch(fetchUserSkills()),
     fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
-    setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
+    fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
   };
 };
 

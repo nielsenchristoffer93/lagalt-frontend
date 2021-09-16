@@ -38,3 +38,12 @@ export const filterProjects = async (title, categoryId) => {
 		method: "GET",
   	})
 }
+
+export const getSelectedProjectData = async (id) => {
+	return await fetch(`${BASE_API_URL}projects/${id}`, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: "GET",
+  	})
+}

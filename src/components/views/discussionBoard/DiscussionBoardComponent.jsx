@@ -20,7 +20,7 @@ const DiscussionBoardComponent = (props) => {
   useEffect(() => {
     if (newMessage) {
       setnewMessage(false);
-      fetchMessagesBasedOnBoard(selectedProject);
+      fetchMessagesBasedOnBoard(selectedProject.id);
     }
   }, [messages]);
 
@@ -35,13 +35,13 @@ const DiscussionBoardComponent = (props) => {
     formData.append("message", textMessage);
     formData.append("timestamp", "2021-09-02 10:04:50");
     formData.append("user_id", 1);
-    formData.append("discussion_board_id", selectedProject);
+    formData.append("discussion_board_id", selectedProject.id);
 
     console.log("textMessage: " + textMessage);
 
     createMessages(formData);
 
-    fetchMessagesBasedOnBoard(selectedProject);
+    fetchMessagesBasedOnBoard(selectedProject.id);
     setnewMessage(true);
     setTextMessage("");
   };
