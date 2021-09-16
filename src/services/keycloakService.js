@@ -11,22 +11,26 @@ const _kc = new Keycloak('/keycloak.json');
  * @param onAuthenticatedCallback
  */
 const initKeycloak = (onAuthenticatedCallback) => {
-    _kc.init({
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
+    try {
+        _kc.init({
+            onLoad: 'check-sso',
+            pkceMethod: 'S256',
 
-        //Breaks everything after login
-        //silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-    })
-        .then((authenticated) => {
-             //setUserData();
-            // if (authenticated) {
-            onAuthenticatedCallback();
-            //fetchUserData();
-            // } else {
-            //   doLogin();
-            // }
+            //Breaks everything after login
+            //silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
         })
+            .then((authenticated) => {
+                 //setUserData();
+                // if (authenticated) {
+                onAuthenticatedCallback();
+                //fetchUserData();
+                // } else {
+                //   doLogin();
+                // }
+            })
+    }catch(e) {
+        console.log(e);
+    }
 };
 
 const doLogin = _kc.login;
