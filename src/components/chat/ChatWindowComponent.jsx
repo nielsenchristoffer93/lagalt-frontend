@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { BASE_URL } from "../../services/index"
 
 let socket;
-let ENDPOINT = "localhost:5000";
+let ENDPOINT = "https://lagalt-chat.herokuapp.com/";
 
 const ChatWindowComponent = (props) => {
 
