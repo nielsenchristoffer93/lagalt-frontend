@@ -4,22 +4,19 @@ import { useState } from "react";
 import KeycloakService from "../../services/keycloakService";
 import { connect } from "react-redux";
 import { resetAddUser } from "../../redux/User/userSlice.js";
-import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,
   faUser,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const NavbarComponent = (props) => {
 
-    // 
   const { fullName } = props;
   const [isLoggedIn, setIsLoggedIn] = useState(KeycloakService.isLoggedIn());
-
-  const history = useHistory();
 
   /**
    * Method for logging out the user from keycloak.
@@ -30,18 +27,10 @@ const NavbarComponent = (props) => {
     KeycloakService.doLogout();
   };
 
-  /**
-   * Method for redirecting user to profile page.
-   */
-  const goToProfilePage = async () => {
-    history.push("/profile");
-  };
-
   return (
     <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top">
-      <Navbar.Brand href="/">Lagalt</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar.Brand as={Link} to="/">Lagalt</Navbar.Brand>
+      <Navbar.Collapse>
         <Nav className="me-auto"></Nav>
         <Nav>
           {/* Log In button */}
@@ -84,7 +73,7 @@ const NavbarComponent = (props) => {
             {/* Profile dropdown item*/}
             {isLoggedIn ? <NavDropdown.Divider /> : null}
             {isLoggedIn ? (
-              <NavDropdown.Item onClick={() => goToProfilePage()}>
+              <NavDropdown.Item as={Link}/*onClick={() => goToProfilePage()}*/ to="/profile"> 
                 {"My Profile"}
               </NavDropdown.Item>
             ) : null}
