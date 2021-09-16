@@ -34,13 +34,13 @@ const ProjectFilterComponent = (props) => {
         }}
       >
         <Row>
-          <Col sm="3">
+          <Col sm="4">
             <CategoriesDropdownComponent
               disableDefault={false}
               onChange={() => filterProjects()}
             />
           </Col>
-          <Col sm="7">
+          <Col sm="6">
             <Form.Control
               type="text"
               placeholder="Search..."

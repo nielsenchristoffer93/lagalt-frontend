@@ -61,6 +61,7 @@ const NavbarComponent = (props) => {
               <FontAwesomeIcon className="" icon={faUser}></FontAwesomeIcon>
             }
             align="end"
+            className="navbar-dropdown"
           >
             {/* Displays the signed in user. (fullname) */}
             {isLoggedIn ? (
