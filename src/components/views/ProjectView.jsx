@@ -1,9 +1,18 @@
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
-import {fetchAllProjects, setSelectedProject} from "../../redux/Project/projectSlice";
+import {
+  fetchAllProjects,
+  setSelectedProject,
+} from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
-import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
+import {
+  initialAddUser,
+  fetchUserData,
+  fetchUserSkills,
+  fetchUserPortfolio,
+  fetchUserAbout,
+} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import KeycloakService from "../../services/keycloakService";
@@ -39,7 +48,7 @@ const ProjectView = (props) => {
   }, [fetchAllProjects]);
 
   const tryPushUser = () => {
-    if(!userPosted){
+    if (!userPosted) {
       KeycloakService.postNewUser();
       initialAddUser();
       fetchUserData();
@@ -47,8 +56,7 @@ const ProjectView = (props) => {
       fetchUserSkills();
       fetchUserAbout();
     }
-  }
-
+  };
 
   const onOpenModal = (i) => {
     setSelectedProject(i);
@@ -66,11 +74,12 @@ const ProjectView = (props) => {
 
   return (
     <div className="projectList">
-      <ProjectRecomended />
+      {/*<ProjectRecomended />*/}
       <br />
-      <div>Filter projects</div>
-      <ProjectFilterComponent />
+      <h3>Filter projects</h3>
+      <ProjectFilterComponent></ProjectFilterComponent>
 
+      {/* THIS WILL BE MOVED TO A SEPARATE COMPONENT */}
       <div className="d-grid gap-2">
         <Button variant="primary" size="lg" onClick={handleShow}>
           Add new project
@@ -78,9 +87,10 @@ const ProjectView = (props) => {
       </div>
 
       {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal}/>
+        <AddProjectModal show={displayProjectModal} />
       ) : null}
 
+      <h3>Projects</h3>
       {projects &&
         projects.map((project, i) => (
           <div onClick={() => onOpenModal(project.id)}>

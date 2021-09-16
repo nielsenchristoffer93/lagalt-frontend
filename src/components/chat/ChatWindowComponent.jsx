@@ -179,7 +179,7 @@ const ChatWindowComponent = (props) => {
             size="lg"
             onClick={(event) => sendMessage(event)}
           >
-            <FontAwesomeIcon icon={faReply} />
+            <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
           </Button>
         </div>
       </Form>

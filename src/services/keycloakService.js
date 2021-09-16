@@ -55,9 +55,9 @@ const postNewUser = async() => {
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
 
-    console.log("firstName: " + firstname);
-    console.log("email: " + email);
-    console.log("lastname: " + lastname);
+    //console.log("firstName: " + firstname);
+    //console.log("email: " + email);
+    //console.log("lastname: " + lastname);
 
 
     return await fetch(`${BASE_API_URL}users`, {

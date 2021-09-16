@@ -1,9 +1,12 @@
 .projectList{
     width: 70%;
-    
     margin-left:auto;
     margin-right: auto;
     color: rgb(0, 0, 0);
+}
+
+.projectList h3 {
+    font-size: 130%;
 }
 
 .projectComponent{

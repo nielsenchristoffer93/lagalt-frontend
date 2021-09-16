@@ -1,57 +1,111 @@
 import React from "react";
-import {Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
+import { useState } from "react";
 import KeycloakService from "../../services/keycloakService";
-import {connect} from "react-redux";
-import {resetAddUser} from "../../redux/User/userSlice.js";
-import { useHistory } from 'react-router-dom';
-import './Navbar.css'
+import { connect } from "react-redux";
+import { resetAddUser } from "../../redux/User/userSlice.js";
+import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserCircle,
+  faSignInAlt,
+  faUser,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Navbar.css";
 
-const NavbarComponent = () => {
+const NavbarComponent = (props) => {
+  const { fullName } = props;
+  const [isLoggedIn, setIsLoggedIn] = useState(KeycloakService.isLoggedIn());
 
-    const history = useHistory();
+  const history = useHistory();
 
-    const handleLogout = () => {
-        resetAddUser();
-        KeycloakService.doLogout();
-    }
-    const handleTest = async () => {
-        history.push('/profile');
-    }
-    return (
-        <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top" >
-            
-                <Navbar.Brand href="/">Lagalt</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        
-                    </Nav>
-                    <Nav>
-                        {KeycloakService.isLoggedIn() && <Button className="danger" id="btn" onClick={() => handleLogout()}>Log-out</Button>}
-                        {!KeycloakService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => KeycloakService.doLogin()}>Log-in</Button>}
-                        {!KeycloakService.isLoggedIn() && <Button className="primary" id="btn" onClick={() => KeycloakService.doRegister()}>Sign Up</Button>}
-                        {KeycloakService.isLoggedIn() && <Nav.Link eventKey={2} onClick={() => handleTest()}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" fill="currentColor"
-                                 className="bi bi-person-circle" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                <path fillRule="evenodd"
-                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                            </svg>
-                            {KeycloakService.getUsername()}</Nav.Link>}
-                    </Nav>
-                </Navbar.Collapse>
-            
-        </Navbar>
+  const handleLogout = () => {
+    resetAddUser();
+    KeycloakService.doLogout();
+  };
 
-    );
-}
+  const goToProfilePage = async () => {
+    history.push("/profile");
+  };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        resetAddUser:() => dispatch(resetAddUser()),
-
-    }
+  return (
+    <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top">
+      <Navbar.Brand href="/">Lagalt</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="me-auto"></Nav>
+        <Nav>
+          {!isLoggedIn && (
+            <Button
+              variant="outline-primary"
+              id="btn"
+              onClick={() => KeycloakService.doLogin()}
+            >
+              Log In
+            </Button>
+          )}
+          {!isLoggedIn && (
+            <Button
+              variant="primary"
+              id="btn"
+              onClick={() => KeycloakService.doRegister()}
+            >
+              Sign Up
+            </Button>
+          )}
+          <NavDropdown
+            title={
+              <FontAwesomeIcon className="" icon={faUser}></FontAwesomeIcon>
+            }
+            align="end"
+          >
+            {isLoggedIn ? (
+              <NavDropdown.Item onClick={() => goToProfilePage()}>
+                <FontAwesomeIcon
+                  className="sign-in-icon"
+                  icon={faUserCircle}
+                ></FontAwesomeIcon>
+                {fullName}
+              </NavDropdown.Item>
+            ) : null}
+            {isLoggedIn ? <NavDropdown.Divider /> : null}
+            {isLoggedIn ? (
+              <NavDropdown.Item onClick={() => handleLogout()}>
+                <FontAwesomeIcon
+                  className="sign-out-icon"
+                  icon={faSignOutAlt}
+                ></FontAwesomeIcon>
+                {"Sign Out"}
+              </NavDropdown.Item>
+            ) : null}
+            {!isLoggedIn ? <NavDropdown.Divider /> : null}
+            {!isLoggedIn ? (
+              <NavDropdown.Item onClick={() => KeycloakService.doLogin()}>
+                <FontAwesomeIcon
+                  className="sign-in-icon"
+                  icon={faSignInAlt}
+                ></FontAwesomeIcon>
+                {"Log In / Sign Up"}
+              </NavDropdown.Item>
+            ) : null}
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    fullName: `${state.user.firstname} ${state.user.lastname}`,
+  };
+};
 
-export default connect(mapDispatchToProps)(NavbarComponent);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetAddUser: () => dispatch(resetAddUser()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarComponent);
