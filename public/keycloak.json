@@ -4,5 +4,6 @@
   "ssl-required": "external",
   "resource": "lagalt-react-client",
   "public-client": true,
-  "confidential-port": 0
+  "confidential-port": 0,
+  "keycloak.use-resource-role-mappings": false
 }

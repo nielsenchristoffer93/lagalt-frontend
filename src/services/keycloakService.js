@@ -11,6 +11,8 @@ const _kc = new Keycloak('/keycloak.json');
  * @param onAuthenticatedCallback
  */
 const initKeycloak = (onAuthenticatedCallback) => {
+    try {
+
     _kc.init({
         onLoad: 'check-sso',
         pkceMethod: 'S256',
@@ -27,6 +29,9 @@ const initKeycloak = (onAuthenticatedCallback) => {
             //   doLogin();
             // }
         })
+    }catch (e) {
+        console.log(e);
+    }
 };
 
 const doLogin = _kc.login;
@@ -58,6 +63,7 @@ const postNewUser = async() => {
         return await fetch(`${BASE_API_URL}users`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin' : 'https://lagalt-frontend-gbg.herokuapp.com',
             },
             method: "POST",
             body:JSON.stringify({
