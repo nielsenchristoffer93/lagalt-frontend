@@ -39,7 +39,9 @@ const ProjectView = (props) => {
   }, [fetchAllProjects]);
 
   const tryPushUser = () => {
+    //console.log(KeycloakService.getToken());
     if(!userPosted){
+      
       KeycloakService.postNewUser();
       initialAddUser();
       fetchUserData();
@@ -49,11 +51,8 @@ const ProjectView = (props) => {
     }
   }
 
-
   const onOpenModal = (id) => {
     fetchSelectedProjectData(id)
-    //setSelectedProject(i);
-    //console.log("i=?" + i);
     setOpen(true);
   };
 

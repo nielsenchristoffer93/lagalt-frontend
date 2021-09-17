@@ -60,14 +60,25 @@ const ChatWindowComponent = (props) => {
   }, []);
 
   const fetchData = async () => {
-    //console.log("chatboardUrl: " + chatboardUrl);
-    const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
+    console.log("chatboardUrl: " + chatboardUrl);
+    const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`, {
+      headers: {
+        'Authorization': 'Bearer ' + KeycloakService.getToken(),
+      },
+      method: "GET",
+    }).then(response => response.json());
     //console.log(chatMessages.chatMessages);
     const chatMessagesArray = chatMessages.chatMessages;
     console.log(chatMessagesArray)
 
     chatMessagesArray.forEach(async(chatMessageUrl) => {
-      const chatMessageData = await fetch(`${BASE_URL}${chatMessageUrl}`).then(response => response.json());
+      console.log(chatMessageUrl)
+      const chatMessageData = await fetch(`${BASE_URL}${chatMessageUrl}`, {
+        headers: {
+          'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "GET",
+      }).then(response => response.json());
       console.log(chatMessageData);
 
       const message = chatMessageData.message;

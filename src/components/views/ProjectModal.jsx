@@ -11,7 +11,7 @@ const ProjectModal = (props) => {
   function displayChatWindow() {
     return (
       <Col sm="4">
-        <ChatWindowComponent chatboardUrl={selectedProject.chatBoard}></ChatWindowComponent>
+        {selectedProject.chatBoard && <ChatWindowComponent chatboardUrl={selectedProject.chatBoard}></ChatWindowComponent>}
       </Col>
     );
   }
