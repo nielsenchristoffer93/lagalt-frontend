@@ -125,7 +125,7 @@ const ChatWindowComponent = (props) => {
       console.log(pair[0] + ": " + pair[1]);
     } */
 
-    await postNewChatMessage(formData);
+    await postNewChatMessage(formData).then(response => response.json());
   };
 
   const renderMessages = () => {
