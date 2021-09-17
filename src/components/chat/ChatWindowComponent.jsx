@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
-import KeycloakService from "../../services/keycloakService";
 import "./ChatWindowComponent.css";
 import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
@@ -30,6 +29,7 @@ const ChatWindowComponent = (props) => {
   const [dateCreated, setDateCreated] = useState("5 h");
 
   useEffect(() => {
+
     socket = io(ENDPOINT);
 
     /* console.log("name: " + name);
@@ -48,9 +48,12 @@ const ChatWindowComponent = (props) => {
   }, [ENDPOINT]);
 
   useEffect(() => {
+    if(chatboardUrl) {
+      fetchData();
+    }
+  }, [chatboardUrl])
 
-    fetchData();
-
+  useEffect(() => {
     socket.on("message", (message) => {
       //console.log("socket.on");
       //console.log("MESSAGE")
@@ -62,7 +65,7 @@ const ChatWindowComponent = (props) => {
 
   const fetchData = async () => {
 
-    const previousMessagesFetched = [];
+    //const previousMessagesFetched = [];
 
     //console.log("chatboardUrl: " + chatboardUrl);
     const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
@@ -129,8 +132,8 @@ const ChatWindowComponent = (props) => {
   };
 
   const renderMessages = () => {
-    console.log("RENDER MESSAGES");
-    console.log(messages);
+    //console.log("RENDER MESSAGES");
+    //console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
       <Row
         className={

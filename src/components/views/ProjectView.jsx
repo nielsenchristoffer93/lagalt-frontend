@@ -3,7 +3,7 @@ import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
 import {
   fetchAllProjects,
-  setSelectedProject,
+  fetchSelectedProjectData
 } from "../../redux/Project/projectSlice";
 import {
   initialAddUser,
@@ -129,7 +129,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
   };
 };
