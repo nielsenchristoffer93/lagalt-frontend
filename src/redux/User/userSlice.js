@@ -59,11 +59,12 @@ export const fetchUserData = () => async (dispatch) => {
         const response = await getUserData();
         const data = await response.json();
 
+
         dispatch(setEmail(data.keycloakEmail));
         dispatch(setFirstname(data.firstname));
         dispatch(setLastname(data.lastname));
     } catch (err) {
-        console.log(err);
+        console.log( err);
     }
 };
 export const fetchUserSkills = () => async (dispatch) => {
@@ -74,12 +75,14 @@ export const fetchUserSkills = () => async (dispatch) => {
         dispatch(setSkills(data));
     } catch (err) {
         console.log(err);
+
     }
 };
 export const fetchUserPortfolio = () => async (dispatch) => {
+    let data;
     try {
         const response = await getUserPortfolio();
-        const data = await response.json();
+        data = await response.json();
 
         dispatch(setPortfolio(data));
     } catch (err) {

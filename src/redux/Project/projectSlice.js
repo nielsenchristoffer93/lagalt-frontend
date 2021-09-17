@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-	getAllProjects, getAllProjectsWithCategory, filterProjects
+	getAllProjects, getAllProjectsWithCategory, filterProjects, getSelectedProjectData
 } from '../../services/projects';
 
 const initialState = {
-    selectedProject:0,
+	selectedProject:{},
     projects:[],
     loading: false,               		
 	error: ''
@@ -14,9 +14,18 @@ const projectSlice = createSlice({
     name:"projects",
     initialState: initialState,
     reducers:{
-        setSelectedProject: (state, action) => {
-            state.selectedProject = action.payload;
-        },
+		getSelectedProjectStarted: (state) => {
+			state.loading = true
+		},
+		getSelectedProjectSuccess: (state, action) => {
+			state.selectedProject = action.payload
+			state.loading = false
+			state.error = ''
+		},
+		getSelectedProjectFailed: (state, action) => {
+			state.loading = false
+			state.error = action.payload
+		},
         getAllProjectsStarted: (state) => {
 			state.loading = true
 		},
@@ -34,7 +43,9 @@ const projectSlice = createSlice({
 })
 
 export const {
-    setSelectedProject,
+    getSelectedProjectStarted,
+	getSelectedProjectSuccess,
+	getSelectedProjectFailed,
 	getAllProjectsStarted,
 	getAllProjectsSuccess,
 	getAllProjectsFailed,
@@ -84,5 +95,20 @@ export const fetchFilteredProjects = (title, categoryId) => async dispatch => {
 		dispatch(getAllProjectsFailed(err.toString()))
 	}
 }
+
+export const fetchSelectedProjectData = (id) => async dispatch => {
+	dispatch(getSelectedProjectStarted())
+	try {
+		const response = await getSelectedProjectData(id)
+		const data = await response.json()
+
+		dispatch(getSelectedProjectSuccess(data))
+	}
+	catch (err) {
+        console.log(err)
+		dispatch(getSelectedProjectFailed(err.toString()))
+	}
+}
+
 
 export default projectSlice.reducer;

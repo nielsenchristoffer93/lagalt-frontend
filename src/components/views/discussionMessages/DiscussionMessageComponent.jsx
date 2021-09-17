@@ -5,7 +5,7 @@ import moment from "moment";
 
 const DiscussionMessageComponent = ({ message, timestamp }) => {
 
-  const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution 
+  // const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
 
 
 
@@ -21,8 +21,7 @@ const DiscussionMessageComponent = ({ message, timestamp }) => {
           <div class="comment-info">
             <a href="#" class="comment-author">User1</a>
             <p class="m-0"> comment posted
-              &bull; {timestamp, dateTimeAgo}
-
+              {": " + timestamp}
             </p>
           </div>
         </summary>

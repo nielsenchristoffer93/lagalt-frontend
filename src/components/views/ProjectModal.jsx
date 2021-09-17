@@ -11,7 +11,7 @@ const ProjectModal = (props) => {
   function displayChatWindow() {
     return (
       <Col sm="4">
-        <ChatWindowComponent chatboardUrl={projects[selectedProject - 1].chatBoard}></ChatWindowComponent>
+        <ChatWindowComponent chatboardUrl={selectedProject.chatBoard}></ChatWindowComponent>
       </Col>
     );
   }
@@ -24,8 +24,8 @@ const ProjectModal = (props) => {
         <Col>
           <Card className="projectComponent" style={{ marginTop: "0px" }}>
             <Card.Body>
-              <Card.Title>{projects[selectedProject - 1].title}</Card.Title>
-              <Card.Text>{projects[selectedProject - 1].description}</Card.Text>
+              <Card.Title>{selectedProject.title}</Card.Title>
+              <Card.Text>{selectedProject.description}</Card.Text>
             </Card.Body>
             <img
               style={{ minHeight: "250px" }}
