@@ -1,5 +1,5 @@
 import {getEmail} from './keycloakService';
-import {BASE_API_URL} from "./index";
+import {BASE_API_URL, BASE_URL} from "./index";
 
 
 const getUserId = async() => {
@@ -52,6 +52,16 @@ export const getUserAbout = async() => {
         method: "GET",
     })
 }
+
+///////////////
+export const getUserById = async(id) => {
+    return await fetch(`${BASE_URL}${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "GET",
+    })
+}
 // const postNewUser = async() => {
 //     const email = getEmail();
 //     const firstname =  _kc.idTokenParsed?.given_name;
@@ -69,3 +79,4 @@ export const getUserAbout = async() => {
 //         })
 //     })
 // }
+

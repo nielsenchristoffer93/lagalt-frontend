@@ -2,6 +2,8 @@ import { Card, Col, Row, Button, Container } from 'react-bootstrap';
 import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
 import ChatWindowComponent from "../chat/ChatWindowComponent";
 import KeycloakService from '../../services/keycloakService';
+import {showModal} from "../../redux/joinProject/joinSlice";
+import JoinProject from "./joinProject/JoinProject";
 import { connect } from 'react-redux';
 import "./ProjectModal.css";
 
@@ -16,7 +18,9 @@ const ProjectModal = (props) => {
     );
   }
 
-  const { projects, selectedProject } = props;
+  const { projects, selectedProject,  showModal } = props;
+
+  const handleShowModal = () => showModal()
 
   return (
     <Container>
@@ -33,7 +37,7 @@ const ProjectModal = (props) => {
               alt=""
             />
             <Card.Body>
-              <DiscussionBoardComponent></DiscussionBoardComponent>
+              <DiscussionBoardComponent messageboardUrl={projects[selectedProject - 1].discussionBoard}></DiscussionBoardComponent>
             </Card.Body>
           </Card>
         </Col>
@@ -43,7 +47,8 @@ const ProjectModal = (props) => {
       <br />
       <Row>
         <Col xs={{ span: 2, offset: 5 }}>
-          <Button>Apply to project</Button>
+          <Button  onClick={handleShowModal}>Apply to project</Button>
+          <JoinProject />
         </Col>
       </Row>
       <br />
@@ -56,12 +61,14 @@ const mapStateToProps = state => {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
     messages: state.messages.messages,
+    show: state.join.show,
 
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    showModal:() => dispatch(showModal()),
 
   }
 };

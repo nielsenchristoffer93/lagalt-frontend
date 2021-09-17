@@ -54,21 +54,23 @@ const postNewUser = async() => {
     const email = _kc.idTokenParsed?.email;
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
-    try {
-        return await fetch(`${BASE_API_URL}users`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: "POST",
-            body:JSON.stringify({
-                keycloakEmail: email,
-                firstname: firstname,
-                lastname: lastname
-            })
+
+    console.log("firstName: " + firstname);
+    console.log("email: " + email);
+    console.log("lastname: " + lastname);
+
+
+    return await fetch(`${BASE_API_URL}users`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "POST",
+        body:JSON.stringify({
+            keycloakEmail: email,
+            firstname: firstname,
+            lastname: lastname
         })
-    }catch (e) {
-        console.log("Error: " + e);
-    }
+    })
 }
 
 const KeycloakService = {
