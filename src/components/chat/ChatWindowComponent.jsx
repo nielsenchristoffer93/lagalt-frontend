@@ -52,44 +52,55 @@ const ChatWindowComponent = (props) => {
     fetchData();
 
     socket.on("message", (message) => {
-      /* console.log("socket.on");
-      console.log(message); */
-      setMessages([...messages, message]);
-      addMessageToMessages(message);
+      //console.log("socket.on");
+      //console.log("MESSAGE")
+      //console.log(message);
+      setMessages(messages => [...messages, message]);
+      //addMessageToMessages(message);
     });
   }, []);
 
   const fetchData = async () => {
+
+    const previousMessagesFetched = [];
+
     //console.log("chatboardUrl: " + chatboardUrl);
     const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
     //console.log(chatMessages.chatMessages);
     const chatMessagesArray = chatMessages.chatMessages;
-    console.log(chatMessagesArray)
+    //console.log(chatMessagesArray)
 
     chatMessagesArray.forEach(async(chatMessageUrl) => {
       const chatMessageData = await fetch(`${BASE_URL}${chatMessageUrl}`).then(response => response.json());
-      console.log(chatMessageData);
+      //console.log(chatMessageData);
 
       const message = chatMessageData.message;
       const timestamp = chatMessageData.timestamp;
-      console.log("message: " + message);
-      console.log("timestamp: " + timestamp);
+      //console.log("message: " + message);
+      //console.log("timestamp: " + timestamp);
 
       const userUrl = chatMessageData.user;
-      console.log("userUrl: " + userUrl);
+      //console.log("userUrl: " + userUrl);
 
-      //const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json());
+      const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json()).catch(error => console.log(error));
       //console.log(userData);
+      const name = userData.firstname + " " + userData.lastname;
+      //console.log(name);
 
+      const previousMessage = {text: message, user: name, dateCreated: timestamp}
+      setMessages(messages => [...messages, previousMessage]);
+      //previousMessagesFetched.push(previousMessage);
+      //setPreviousMessages(previousMessages => [...previousMessages, previousMessage]);
+      //setPreviousMessages(previousMessages => previousMessages.concat(previousMessage));
+      //addMessageToMessages(previousMessage);
     });
-
   }
 
-  const addMessageToMessages = (message) => {
+  /*const addMessageToMessages = (message) => {
     const newArray = messages;
     newArray.push(message);
     setMessages(newArray);
-  };
+  };*/
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -114,10 +125,12 @@ const ChatWindowComponent = (props) => {
       console.log(pair[0] + ": " + pair[1]);
     } */
 
-    await postNewChatMessage(formData);
+    await postNewChatMessage(formData).then(response => response.json());
   };
 
   const renderMessages = () => {
+    console.log("RENDER MESSAGES");
+    console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
       <Row
         className={
@@ -166,7 +179,7 @@ const ChatWindowComponent = (props) => {
             size="lg"
             onClick={(event) => sendMessage(event)}
           >
-            <FontAwesomeIcon icon={faReply} />
+            <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
           </Button>
         </div>
       </Form>
