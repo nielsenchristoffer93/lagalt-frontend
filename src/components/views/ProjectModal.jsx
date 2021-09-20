@@ -1,12 +1,12 @@
-import {Modal, Card, Col, Row, Button, Container } from 'react-bootstrap';
-import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
+import { Modal, Card, Col, Row, Button, Container } from "react-bootstrap";
+import DiscussionBoardComponent from "./discussionBoard/DiscussionBoardComponent";
 import ChatWindowComponent from "../chat/ChatWindowComponent";
-import KeycloakService from '../../services/keycloakService';
-import {showModal} from "../../redux/joinProject/joinSlice";
+import KeycloakService from "../../services/keycloakService";
+import { showModal } from "../../redux/joinProject/joinSlice";
 import JoinProject from "./joinProject/JoinProject";
-import { hideProjectModal } from '../../redux/Project/projectSlice'
+import { hideProjectModal } from "../../redux/Project/projectSlice";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import "./ProjectModal.css";
 
 const ProjectModal = (props) => {
@@ -16,7 +16,7 @@ const ProjectModal = (props) => {
     loadingSelectedProject,
     displayProjectModal,
     hideProjectModal,
-    showModal
+    showModal,
   } = props;
 
   function displayChatWindow() {
@@ -30,7 +30,7 @@ const ProjectModal = (props) => {
       </Col>
     );
   }
-  
+
   /*
   function displayApply() {
     return (
@@ -41,7 +41,7 @@ const ProjectModal = (props) => {
     );
   }*/
 
-  const handleShowModal = () => showModal()
+  const handleShowModal = () => showModal();
 
   const handleCloseProjectModal = () => {
     hideProjectModal();
@@ -73,14 +73,20 @@ const ProjectModal = (props) => {
                   <Row>
                     <p>{selectedProject.description}</p>
                   </Row>
-                  <Row>
-                    <img src="https://source.unsplash.com/1600x900" alt="" />
-                  </Row>
+                  <Card.Img
+                    variant="bottom"
+                    src={`data:image/png;base64,${selectedProject.image}`}
+                    alt="no_image_in_database_associated_with_project."
+                  ></Card.Img>
                 </Row>
               </Card.Body>
             </Card>
             <Card>
-            {!loadingSelectedProject && <DiscussionBoardComponent messageboardUrl={selectedProject.discussionBoard}></DiscussionBoardComponent>}
+              {!loadingSelectedProject && (
+                <DiscussionBoardComponent
+                  messageboardUrl={selectedProject.discussionBoard}
+                ></DiscussionBoardComponent>
+              )}
             </Card>
           </Col>
           {/* if user is member of project*/}
@@ -93,7 +99,9 @@ const ProjectModal = (props) => {
           Close
         </Button>
 
-        <Button variant="success" onClick={handleShowModal}>Apply to project</Button>
+        <Button variant="success" onClick={handleShowModal}>
+          Apply to project
+        </Button>
       </Modal.Footer>
     </Modal>
   );
@@ -112,7 +120,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showModal:() => dispatch(showModal()),
+    showModal: () => dispatch(showModal()),
     hideProjectModal: () => dispatch(hideProjectModal()),
   };
 };
