@@ -17,7 +17,7 @@ const ProjectComponent = ({
   };
 
   return (
-    <Card className="projectComponent">
+    <Card className="project-component">
       <Card.Body>
         <Card.Text>
           {" "}

@@ -30,6 +30,7 @@ const NavbarComponent = (props) => {
   return (
     <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top">
       <Navbar.Brand as={Link} to="/">Lagalt</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse>
         <Nav className="me-auto"></Nav>
         <Nav>

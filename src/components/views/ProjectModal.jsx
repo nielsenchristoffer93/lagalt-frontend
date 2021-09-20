@@ -30,14 +30,16 @@ const ProjectModal = (props) => {
       </Col>
     );
   }
+  
+  /*
   function displayApply() {
     return (
       <Col xs={{ span: 2, offset: 5 }}>
-      <Button  onClick={handleShowModal}>Apply to project</Button>
+      <Button onClick={handleShowModal}>Apply to project</Button>
       <JoinProject />
     </Col>
     );
-  }
+  }*/
 
   const handleShowModal = () => showModal()
 
@@ -83,7 +85,7 @@ const ProjectModal = (props) => {
           </Col>
           {/* if user is member of project*/}
           {KeycloakService.isLoggedIn() ? displayChatWindow() : null}
-          {KeycloakService.isLoggedIn() ? displayApply() : null}
+          {KeycloakService.isLoggedIn() ? <JoinProject></JoinProject> : null}
         </Row>
       </Modal.Body>
       <Modal.Footer>
@@ -91,7 +93,7 @@ const ProjectModal = (props) => {
           Close
         </Button>
 
-        <Button variant="success">Apply to project</Button>
+        <Button variant="success" onClick={handleShowModal}>Apply to project</Button>
       </Modal.Footer>
     </Modal>
   );
