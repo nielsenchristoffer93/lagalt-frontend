@@ -57,6 +57,7 @@ export const getEmail = () => _kc.idTokenParsed?.email;
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
 const postNewUser = async() => {
+    console.log(getToken());
     const email = _kc.idTokenParsed?.email;
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;

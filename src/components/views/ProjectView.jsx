@@ -11,7 +11,6 @@ import ProjectModal from "./ProjectModal";
 import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";
 import UserProjectComponent from "../user-projects/UserProjectComponent";
-import { showProjectModal } from "../../redux/AddProject/AddProjectSlice";
 
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
@@ -82,14 +81,14 @@ const ProjectView = (props) => {
           ) : null}
         </Col>
         <Col sm="6">
-          {/*<ProjectRecomended />*/}
+          <ProjectRecomended />
           <h3>Filter projects</h3>
           <ProjectFilterComponent></ProjectFilterComponent>
 
           <h3>Projects</h3>
           {projects &&
             projects.map((project, i) => (
-              <div onClick={() => onOpenModal(project.id)}>
+              <div key={i} onClick={() => onOpenModal(project.id)}>
                 <ProjectComponent
                   title={project.title}
                   description={project.description}
@@ -145,7 +144,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
     fetchRecommendedProjects: () => dispatch(fetchRecommendedProjects()),
-
+    showAddProjectModal: () => dispatch(showAddProjectModal()),
     showProjectModal: () => dispatch(showProjectModal()),
   };
 };

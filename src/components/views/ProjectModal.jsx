@@ -78,7 +78,7 @@ const ProjectModal = (props) => {
               </Card.Body>
             </Card>
             <Card>
-              <DiscussionBoardComponent></DiscussionBoardComponent>
+            {!loadingSelectedProject && <DiscussionBoardComponent messageboardUrl={selectedProject.discussionBoard}></DiscussionBoardComponent>}
             </Card>
           </Col>
           {/* if user is member of project*/}

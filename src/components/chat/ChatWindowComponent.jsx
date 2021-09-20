@@ -10,6 +10,7 @@ import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
 import { BASE_URL } from "../../services/index"
 import { getTimeSinceCreation } from "../../services/timeFormatter"
+import KeycloakService from "../../services/keycloakService"
 
 let socket;
 let ENDPOINT = "localhost:5000";
@@ -88,6 +89,9 @@ const ChatWindowComponent = (props) => {
       },
       method: "GET",
     }).then(response => response.json());
+
+    console.log("CHATMESSAGES")
+    console.log(chatMessages)
 
     var previousMessagesFetched = [];
 

@@ -18,7 +18,7 @@ const ProjectRecomended = (props) => {
       Recommended projects
       <Row>
         {recommendedProjects && recommendedProjects.map((project, i) => (
-          <Col onClick={() => onOpenModal(project.id)} >
+          <Col key={i} onClick={() => onOpenModal(project.id)} >
             <Card>
               <Card.Body>
                 <Card.Title>{project.title}</Card.Title>
