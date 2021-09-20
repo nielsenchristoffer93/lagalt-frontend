@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getUserData, getUserSkills, getUserPortfolio, getUserAbout} from "../../services/user";
+import {getUserData, getUserSkills, getUserPortfolio, getUserAbout, getUserById} from "../../services/user";
 
 const initialState = {
 
@@ -97,6 +97,19 @@ export const fetchUserAbout = () => async (dispatch) => {
         dispatch(setAbout(data.about));
     } catch (err) {
         console.log(err);
+    }
+};
+
+///////////
+export const fetchUserById = (userId) => async (dispatch) => {
+    try {
+        const response = await getUserById(userId);
+        const data = await response.json();
+
+        dispatch(setFirstname(data.firstname));
+        dispatch(setLastname(data.lastname));
+    } catch (err) {
+        console.log( err);
     }
 };
 
