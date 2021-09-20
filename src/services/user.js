@@ -1,11 +1,12 @@
 import {getEmail} from './keycloakService';
 import {BASE_API_URL} from "./index";
-
+import KeycloakService from "./keycloakService";
 
 export const getUserId = async() => {
     const response = await fetch(`${BASE_API_URL}users/${getEmail()}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -19,6 +20,7 @@ export const getUserData = async() => {
     return await fetch(`${BASE_API_URL}users/i/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -29,6 +31,7 @@ export const getUserSkills = async() => {
     return await fetch(`${BASE_API_URL}users/skills/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -38,6 +41,7 @@ export const getUserPortfolio = async() => {
     return await fetch(`${BASE_API_URL}users/portfolio/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -48,6 +52,7 @@ export const getUserAbout = async() => {
     return await fetch(`${BASE_API_URL}userProfile/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
