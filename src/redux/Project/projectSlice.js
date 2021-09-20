@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-	getAllProjects, getAllProjectsWithCategory, filterProjects, getSelectedProjectData
+	getAllProjects, getAllProjectsWithCategory, filterProjects, 
+	getSelectedProjectData, getRecomendedProject
 } from '../../services/projects';
 
 const initialState = {
 	selectedProject:{},
+	recommendedProjects: [],
     projects:[],
     loading: false,               		
-	error: ''
+	error: '',
+	displayProjectModal: false,
 }
 
 const projectSlice = createSlice({
@@ -38,6 +41,24 @@ const projectSlice = createSlice({
 			state.loading = false
 			state.error = action.payload
 		},
+		getRecommendedProjectsStarted: (state) => {
+			state.loading = true
+		},
+		getRecommendedProjectsSuccess: (state, action) => {
+			state.recommendedProjects = action.payload
+			state.loading = false
+			state.error = ''
+		},
+		getRecommendedProjectsFailed: (state, action) => {
+			state.loading = false
+			state.error = action.payload
+		},
+		showProjectModal: (state) => {
+			state.displayProjectModal = true;
+		  },
+		hideProjectModal: (state) => {
+		state.displayProjectModal = false;
+		},
     }
 
 })
@@ -49,6 +70,11 @@ export const {
 	getAllProjectsStarted,
 	getAllProjectsSuccess,
 	getAllProjectsFailed,
+	getRecommendedProjectsStarted,
+	getRecommendedProjectsSuccess,
+	getRecommendedProjectsFailed,
+	showProjectModal,
+	hideProjectModal,
 } = projectSlice.actions;
 
 //Thunk
@@ -107,6 +133,20 @@ export const fetchSelectedProjectData = (id) => async dispatch => {
 	catch (err) {
         console.log(err)
 		dispatch(getSelectedProjectFailed(err.toString()))
+	}
+}
+
+export const fetchRecommendedProjects = () => async dispatch => {
+	dispatch(getRecommendedProjectsStarted())
+	try {
+		const response = await getRecomendedProject()
+		const data = await response.json()
+
+		dispatch(getRecommendedProjectsSuccess(data))
+	}
+	catch (err) {
+        console.log(err)
+		dispatch(getRecommendedProjectsFailed(err.toString()))
 	}
 }
 

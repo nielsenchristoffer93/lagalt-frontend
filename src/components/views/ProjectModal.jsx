@@ -1,10 +1,10 @@
-import { Card, Col, Row, Button, Container, Modal } from "react-bootstrap";
-import DiscussionBoardComponent from "./discussionBoard/DiscussionBoardComponent";
+import {Modal, Card, Col, Row, Button, Container } from 'react-bootstrap';
+import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
 import ChatWindowComponent from "../chat/ChatWindowComponent";
-import KeycloakService from "../../services/keycloakService";
-import { connect } from "react-redux";
+import KeycloakService from '../../services/keycloakService';
+import { hideProjectModal } from '../../redux/Project/projectSlice'
 import { getTimeSinceCreation } from "../../services/timeFormatter";
-import { hideProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { connect } from 'react-redux';
 import "./ProjectModal.css";
 
 const ProjectModal = (props) => {
@@ -28,14 +28,16 @@ const ProjectModal = (props) => {
     );
   }
 
-  const handleClose = () => {
+  const { projects, selectedProject, displayProjectModal, hideProjectModal} = props;
+
+  const handleCloseProjectModal = () => {
     hideProjectModal();
   };
 
   return (
     <Modal
       show={displayProjectModal}
-      onHide={handleClose}
+      onHide={handleCloseProjectModal}
       dialogClassName="modal-80w"
     >
       <Modal.Header closeButton>
@@ -96,8 +98,9 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
     messages: state.messages.messages,
+    displayProjectModal: state.projects.displayProjectModal,
     loadingSelectedProject: state.projects.loading,
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
+
   };
 };
 

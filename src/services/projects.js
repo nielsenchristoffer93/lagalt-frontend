@@ -51,3 +51,12 @@ export const getSelectedProjectData = async (id) => {
 		method: "GET",
   	})
 }
+
+export const getRecomendedProject = async () => {
+	return await fetch(`${BASE_API_URL}projects/recommended`, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: "GET",
+  	})
+}
