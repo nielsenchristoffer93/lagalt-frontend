@@ -3,7 +3,7 @@ import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
 import {
   fetchAllProjects,
-  fetchSelectedProjectData
+  fetchSelectedProjectData,
 } from "../../redux/Project/projectSlice";
 import {
   initialAddUser,
@@ -19,10 +19,10 @@ import ProjectModal from "./ProjectModal";
 import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";
 import UserProjectComponent from "../user-projects/UserProjectComponent";
+import { showProjectModal } from "../../redux/AddProject/AddProjectSlice";
 
 const ProjectView = (props) => {
-  const [open, setOpen] = useState(false);
-
+  
   const {
     fetchUserAbout,
     fetchUserSkills,
@@ -32,7 +32,7 @@ const ProjectView = (props) => {
     projects,
     fetchAllProjects,
     displayProjectModal,
-    showAddProjectModal,
+    showProjectModal,
     fetchSelectedProjectData,
   } = props;
 
@@ -53,61 +53,59 @@ const ProjectView = (props) => {
   };
 
   const onOpenModal = (id) => {
-    fetchSelectedProjectData(id)
+    fetchSelectedProjectData(id);
     //setSelectedProject(i);
     //console.log("i=?" + i);
-    setOpen(true);
-  };
-
-  const onCloseModal = () => {
-    setOpen(false);
-  };
-
-  const renderModal = () => {
-    return <ProjectModal></ProjectModal>;
+    //setOpen(true);
+    showProjectModal();
   };
 
   return (
     <div class="project-view">
       <Row>
         <Col sm="3">
-          {KeycloakService.isLoggedIn() ? <UserProjectComponent></UserProjectComponent> : null}
+          {KeycloakService.isLoggedIn() ? (
+            <UserProjectComponent></UserProjectComponent>
+          ) : null}
         </Col>
         <Col sm="6">
           {/*<ProjectRecomended />*/}
-      <h3>Filter projects</h3>
-      <ProjectFilterComponent></ProjectFilterComponent>
+          <h3>Filter projects</h3>
+          <ProjectFilterComponent></ProjectFilterComponent>
 
-      <h3>Projects</h3>
-      {projects &&
-        projects.map((project, i) => (
-          <div onClick={() => onOpenModal(project.id)}>
-            <ProjectComponent
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              projectTags={project.projectTags}
-              category={project.category}
-              skills={project.skills}
-              key={i}
-            />
-          </div>
-        ))}
+          <h3>Projects</h3>
+          {projects &&
+            projects.map((project, i) => (
+              <div onClick={() => onOpenModal(project.id)}>
+                <ProjectComponent
+                  title={project.title}
+                  description={project.description}
+                  image={project.image}
+                  projectTags={project.projectTags}
+                  category={project.category}
+                  skills={project.skills}
+                  key={i}
+                />
+              </div>
+            ))}
 
-      <Modal
-        show={open}
-        onHide={onCloseModal}
-        center
-        dialogClassName="custom-modal-80w"
-      >
-        {renderModal()}
-      </Modal>
+          {/*<Modal
+            show={open}
+            onHide={onCloseModal}
+            center
+            dialogClassName="custom-modal-80w"
+          >
+            {renderModal()}
+          </Modal>*/}
+          {displayProjectModal ? (
+            <ProjectModal></ProjectModal>
+          ) : null}
         </Col>
         <Col sm="3"></Col>
       </Row>
-      </div>
+    </div>
     //<div className="projectList">
-      
+
     //</div>
   );
 };
@@ -118,6 +116,7 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     loading: state.projects.loading,
     error: state.projects.error,
+    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
   };
 };
 
@@ -129,7 +128,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
+    fetchSelectedProjectData: (projectId) =>
+    dispatch(fetchSelectedProjectData(projectId)),
+    showProjectModal: () => dispatch(showProjectModal()),
   };
 };
 

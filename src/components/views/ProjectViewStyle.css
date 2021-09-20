@@ -14,7 +14,7 @@
     min-width: 100% !important;
 }
 
-.projectComponent{
+/* .projectComponent{
     border-radius: 15px;
     padding: 20px;
     margin-top: 15px;
@@ -27,7 +27,7 @@
 
 .projectComponent > img{
 width: 100%;
-}
+} */
 
 ul.horizontal-list {
 	min-width: 696px;

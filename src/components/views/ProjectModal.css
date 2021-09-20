@@ -6,3 +6,11 @@
     
   }
    */
+
+.project-modal-body {
+  background-color: rgb(230, 230, 230);
+}
+
+.project-card {
+  margin-bottom: 2vh;
+}

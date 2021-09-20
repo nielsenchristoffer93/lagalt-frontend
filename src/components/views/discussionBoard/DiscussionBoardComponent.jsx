@@ -1,10 +1,12 @@
 import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import KeycloakService from "../../../services/keycloakService";
 import {
   fetchMessagesBasedOnBoard,
   createMessages,
 } from "../../../redux/discussionMessage/messageSlice";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 
 const DiscussionBoardComponent = (props) => {
@@ -46,42 +48,83 @@ const DiscussionBoardComponent = (props) => {
     setTextMessage("");
   };
 
-  return (
-    <div id="scroll1">
-      {/* easy scroll */}
-      <a href="#scroll2">Add comments</a>
-      {messages &&
-        messages.length > 0 &&
-        messages.map((message) => (
-          <DiscussionMessageComponent
-            message={message.message}
-            timestamp={message.timestamp}
-          ></DiscussionMessageComponent>
-        ))}
+  const renderLoginButtons = () => {
+    if (KeycloakService.isLoggedIn()) {
+      return (
+        <Row>
+          <p>Log in or sign up to leave a comment</p>
+          <Button
+            variant="outline-primary"
+            id="btn"
+            onClick={() => KeycloakService.doLogin()}
+          >
+            Log In
+          </Button>
+          <Button
+            variant="primary"
+            id="btn"
+            onClick={() => KeycloakService.doRegister()}
+          >
+            Sign Up
+          </Button>
+        </Row>
+      );
+    }
+  };
 
-      <br />
-      <div class="custom-input" id="scroll2">
-        <input
-          type="text"
-          class="custom-input-input"
-          placeholder="Type your comment..."
-          value={textMessage}
-          onChange={handleTextMessage}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              handlePost(event);
-            }
-          }}
-        />
-        <button
-          type="submit"
-          class="custom-input-botton"
-          onClick={(event) => handlePost(event)}
-        >
-          Post
-        </button>
+  const renderForm = () => {
+    return (
+      <Row>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Control as="textarea" rows={3} />
+            <Button variant="primary" onClick={(event) => handlePost(event)}>
+              Post message
+            </Button>
+          </Form.Group>
+        </Form>
+      </Row>
+    );
+  };
+
+  return (
+    <Container>
+      <div id="scroll1">
+        {/* easy scroll */}
+        {messages &&
+          messages.length > 0 &&
+          messages.map((message) => (
+            <DiscussionMessageComponent
+              message={message.message}
+              timestamp={message.timestamp}
+            ></DiscussionMessageComponent>
+          ))}
+
+        {!KeycloakService.isLoggedIn ? renderLoginButtons() : renderForm()}
+
+        <div class="custom-input" id="scroll2">
+          <input
+            type="text"
+            class="custom-input-input"
+            placeholder="Type your comment..."
+            value={textMessage}
+            onChange={handleTextMessage}
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                handlePost(event);
+              }
+            }}
+          />
+          <button
+            type="submit"
+            class="custom-input-botton"
+            onClick={(event) => handlePost(event)}
+          >
+            Post
+          </button>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

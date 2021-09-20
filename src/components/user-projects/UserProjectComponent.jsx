@@ -7,7 +7,7 @@ import AddProjectModal from "../views/AddProjectModal";
 import "./UserProjectComponent.css";
 
 const UserProjectComponent = (props) => {
-  const { displayProjectModal, showAddProjectModal } = props;
+  const { displayAddProjectModal, showAddProjectModal } = props;
 
   const handleShow = () => {
     showAddProjectModal();
@@ -15,8 +15,8 @@ const UserProjectComponent = (props) => {
 
   return (
     <Card className="user-project-container">
-      {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal} />
+      {displayAddProjectModal ? (
+        <AddProjectModal show={displayAddProjectModal} />
       ) : null}
       {/*<div className="user-project-container">*/}
       <Row>
@@ -84,7 +84,7 @@ const UserProjectComponent = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
+    displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
   };
 };
 
