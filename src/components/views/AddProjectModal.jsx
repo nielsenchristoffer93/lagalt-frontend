@@ -11,7 +11,7 @@ import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 
 const AddProjectModal = (props) => {
   const {
-    displayProjectModal,
+    displayAddProjectModal,
     hideAddProjectModal,
     selectedCategory,
     selectedSkills,
@@ -61,7 +61,7 @@ const AddProjectModal = (props) => {
 
   return (
     <Modal
-      show={displayProjectModal}
+      show={displayAddProjectModal}
       onHide={handleClose}
       dialogClassName="modal-80w"
     >
@@ -117,7 +117,7 @@ const AddProjectModal = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
+    displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
     selectedSkills: state.skills.selectedSkills,
     selectedCategory: state.categories.selectedCategory,
   };

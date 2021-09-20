@@ -1,7 +1,8 @@
-import { Card, Col, Row, Button, Container } from 'react-bootstrap';
+import {Modal, Card, Col, Row, Button, Container } from 'react-bootstrap';
 import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
 import ChatWindowComponent from "../chat/ChatWindowComponent";
 import KeycloakService from '../../services/keycloakService';
+import { hideProjectModal } from '../../redux/Project/projectSlice'
 import { connect } from 'react-redux';
 import "./ProjectModal.css";
 
@@ -16,9 +17,19 @@ const ProjectModal = (props) => {
     );
   }
 
-  const { projects, selectedProject } = props;
+  const { projects, selectedProject, displayProjectModal, hideProjectModal} = props;
+
+  const handleCloseProjectModal = () => {
+    hideProjectModal();
+  };
 
   return (
+    <Modal
+        show={displayProjectModal}
+        onHide={handleCloseProjectModal}
+        center
+        dialogClassName="custom-modal-80w"
+      >
     <Container>
       <Row>
         <Col>
@@ -48,6 +59,7 @@ const ProjectModal = (props) => {
       </Row>
       <br />
     </Container>
+    </Modal>
   );
 };
 
@@ -56,13 +68,14 @@ const mapStateToProps = state => {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
     messages: state.messages.messages,
+    displayProjectModal: state.projects.displayProjectModal,
 
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    hideProjectModal: () => dispatch(hideProjectModal()),
   }
 };
 

@@ -1,7 +1,7 @@
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
-import {fetchAllProjects, fetchSelectedProjectData} from "../../redux/Project/projectSlice";
+import {fetchAllProjects, fetchSelectedProjectData, fetchRecommendedProjects, showProjectModal} from "../../redux/Project/projectSlice";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
@@ -14,10 +14,14 @@ import "./ProjectViewStyle.css";
 
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const handleShow = () => {
     showAddProjectModal();
+  };
+
+  const handleOpenProjectModal = (id) => {
+    fetchSelectedProjectData(id)
+    showProjectModal();
   };
 
   const {
@@ -28,10 +32,17 @@ const ProjectView = (props) => {
     userPosted,
     projects,
     fetchAllProjects,
-    displayProjectModal,
+    displayAddProjectModal,
     showAddProjectModal,
     fetchSelectedProjectData,
+    fetchRecommendedProjects,
+    displayProjectModal,
+    showProjectModal,
   } = props;
+
+  useEffect(() => {
+    fetchRecommendedProjects()
+  }, [])
 
   useEffect(() => {
     fetchAllProjects();
@@ -51,19 +62,6 @@ const ProjectView = (props) => {
     }
   }
 
-  const onOpenModal = (id) => {
-    fetchSelectedProjectData(id)
-    setOpen(true);
-  };
-
-  const onCloseModal = () => {
-    setOpen(false);
-  };
-
-  const renderModal = () => {
-    return <ProjectModal></ProjectModal>;
-  };
-
   return (
     <div className="projectList">
       <ProjectRecomended />
@@ -77,13 +75,17 @@ const ProjectView = (props) => {
         </Button>
       </div>
 
+      {displayAddProjectModal ? (
+        <AddProjectModal show={displayAddProjectModal}/>
+      ) : null}
+
       {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal}/>
+              <ProjectModal show={displayProjectModal}/>
       ) : null}
 
       {projects &&
         projects.map((project, i) => (
-          <div onClick={() => onOpenModal(project.id)}>
+          <div onClick={() => handleOpenProjectModal(project.id)}>
             <ProjectComponent
               title={project.title}
               description={project.description}
@@ -96,14 +98,6 @@ const ProjectView = (props) => {
           </div>
         ))}
 
-      <Modal
-        show={open}
-        onHide={onCloseModal}
-        center
-        dialogClassName="custom-modal-80w"
-      >
-        {renderModal()}
-      </Modal>
     </div>
   );
 };
@@ -114,7 +108,9 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     loading: state.projects.loading,
     error: state.projects.error,
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
+    displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
+    recommendedProjects: state.projects.recommendedProjects,
+    displayProjectModal: state.projects.displayProjectModal,
   };
 };
 
@@ -128,6 +124,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     showAddProjectModal: () => dispatch(showAddProjectModal()),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
+    fetchRecommendedProjects: () => dispatch(fetchRecommendedProjects()),
+    showProjectModal: () => dispatch(showProjectModal()),
   };
 };
 
