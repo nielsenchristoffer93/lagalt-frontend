@@ -13,6 +13,7 @@ import { getTimeSinceCreation } from "../../services/timeFormatter"
 
 let socket;
 let ENDPOINT = "localhost:5000";
+//let ENDPOINT = "https://lagalt-chat.herokuapp.com/";
 
 
 //create your forceUpdate hook
