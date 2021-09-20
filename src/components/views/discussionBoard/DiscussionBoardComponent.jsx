@@ -4,48 +4,107 @@ import { connect } from "react-redux";
 import KeycloakService from "../../../services/keycloakService";
 import {
   fetchMessagesBasedOnBoard,
-  createMessages,
 } from "../../../redux/discussionMessage/messageSlice";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
+import {postNewDiscussionBoard} from '../../../services/discussionboardService'
+import {postMessage} from '../../../services/discussionMessages'
+import { BASE_URL } from "../../../services/index";
 
 const DiscussionBoardComponent = (props) => {
   const {
-    messages,
+
+    // messages,
     selectedProject,
     fetchMessagesBasedOnBoard,
+    fullName,
     createMessages,
+    messageboardUrl
   } = props;
+  const [name, setName] = useState(fullName);
   const [newMessage, setnewMessage] = useState(true);
-  const [textMessage, setTextMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (newMessage) {
       setnewMessage(false);
       fetchMessagesBasedOnBoard(selectedProject.id);
+      fetchData(selectedProject.id);
+
     }
-  }, [messages]);
+
+
+
+  }, []);
+
+
+  const fetchData = async () => {
+
+
+    //console.log("messageboardUrl: " + messageboardUrl);
+
+    const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
+    //console.log(messageboardUrl)
+
+    const bordMessagesArray = boardMessages.discussionMessages;
+    //console.log(bordMessagesArray)
+
+
+    bordMessagesArray.forEach(async (messageboardUrl) => {
+      const boardMessageData = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
+     // console.log(boardMessageData);
+
+
+      const message = boardMessageData.message;
+      const timestamp = boardMessageData.timestamp;
+
+
+      const userUrl = boardMessageData.user;
+      console.log("userUrl: " + userUrl)
+
+
+      const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json()).catch(error => console.log(error));
+
+      console.log(userData);
+
+      const name = userData.firstname + " " + userData.lastname;
+      //console.log(name);
+
+      const oldMessage = { text: message, user: name }
+      setMessages(messages => [...messages, oldMessage]);
+
+    });
+  }
 
   const handleTextMessage = (e) => {
-    setTextMessage(e.target.value);
+    setMessage(e.target.value);
   };
 
-  const handlePost = (e) => {
+  const handlePost = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("message", textMessage);
+    formData.append("message", message);
     formData.append("timestamp", "2021-09-02 10:04:50");
     formData.append("user_id", 1);
     formData.append("discussion_board_id", selectedProject.id);
 
-    console.log("textMessage: " + textMessage);
+    console.log("Message: " + message);
 
-    createMessages(formData);
 
-    fetchMessagesBasedOnBoard(selectedProject.id);
+    //fetchMessagesBasedOnBoard(selectedProject.id);
+    //fetchData(selectedProject.id);
     setnewMessage(true);
-    setTextMessage("");
+    setMessage("");
+
+
+
+
+   await postMessage(formData);
+    //fetchMessagesBasedOnBoard(selectedProject.id);
+    setMessages([]);
+    fetchData(selectedProject.id);
   };
 
   const renderLoginButtons = () => {
@@ -88,6 +147,7 @@ const DiscussionBoardComponent = (props) => {
   };
 
   return (
+
     <Container>
       <div id="scroll1">
         {/* easy scroll */}
@@ -95,7 +155,8 @@ const DiscussionBoardComponent = (props) => {
           messages.length > 0 &&
           messages.map((message) => (
             <DiscussionMessageComponent
-              message={message.message}
+              message={message.text}
+              name={message.user}
               timestamp={message.timestamp}
             ></DiscussionMessageComponent>
           ))}
@@ -107,7 +168,7 @@ const DiscussionBoardComponent = (props) => {
             type="text"
             class="custom-input-input"
             placeholder="Type your comment..."
-            value={textMessage}
+            value={message}
             onChange={handleTextMessage}
             onKeyPress={(event) => {
               if (event.key === "Enter") {
@@ -132,6 +193,7 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
+    fullName: `${state.user.firstname} ${state.user.lastname}`,
     messages: state.messages.messages,
   };
 };
@@ -139,7 +201,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
-    createMessages: (data) => dispatch(createMessages(data)),
+    // fetchUserById: (id) => dispatch(fetchUserById(id)),
+    //createMessages: (data) => dispatch(createMessages(data)),
   };
 };
 

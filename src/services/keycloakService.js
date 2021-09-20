@@ -3,6 +3,7 @@ import {BASE_API_URL} from "./index";
 import {connect} from "react-redux";
 import {showModal} from "../redux/profile/profileSlice";
 import {fetchUserData} from "../redux/User/userSlice";
+
 const _kc = new Keycloak('/keycloak.json');
 
 /**

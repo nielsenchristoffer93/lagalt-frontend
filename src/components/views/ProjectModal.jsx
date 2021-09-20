@@ -2,6 +2,8 @@ import {Modal, Card, Col, Row, Button, Container } from 'react-bootstrap';
 import DiscussionBoardComponent from './discussionBoard/DiscussionBoardComponent'
 import ChatWindowComponent from "../chat/ChatWindowComponent";
 import KeycloakService from '../../services/keycloakService';
+import {showModal} from "../../redux/joinProject/joinSlice";
+import JoinProject from "./joinProject/JoinProject";
 import { hideProjectModal } from '../../redux/Project/projectSlice'
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { connect } from 'react-redux';
@@ -14,6 +16,7 @@ const ProjectModal = (props) => {
     loadingSelectedProject,
     displayProjectModal,
     hideProjectModal,
+    showModal
   } = props;
 
   function displayChatWindow() {
@@ -27,8 +30,16 @@ const ProjectModal = (props) => {
       </Col>
     );
   }
+  function displayApply() {
+    return (
+      <Col xs={{ span: 2, offset: 5 }}>
+      <Button  onClick={handleShowModal}>Apply to project</Button>
+      <JoinProject />
+    </Col>
+    );
+  }
 
-  const { projects, selectedProject, displayProjectModal, hideProjectModal} = props;
+  const handleShowModal = () => showModal()
 
   const handleCloseProjectModal = () => {
     hideProjectModal();
@@ -72,18 +83,11 @@ const ProjectModal = (props) => {
           </Col>
           {/* if user is member of project*/}
           {KeycloakService.isLoggedIn() ? displayChatWindow() : null}
+          {KeycloakService.isLoggedIn() ? displayApply() : null}
         </Row>
-
-        {/*<br />
-        <Row>
-          <Col xs={{ span: 2, offset: 5 }}>
-            <Button>Apply to project</Button>
-          </Col>
-        </Row>
-        <br />*/}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseProjectModal}>
           Close
         </Button>
 
@@ -98,14 +102,15 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
     messages: state.messages.messages,
+    show: state.join.show,
     displayProjectModal: state.projects.displayProjectModal,
     loadingSelectedProject: state.projects.loading,
-
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    showModal:() => dispatch(showModal()),
     hideProjectModal: () => dispatch(hideProjectModal()),
   };
 };

@@ -3,9 +3,9 @@ import "./DiscussionMessageComponent.css";
 import moment from "moment";
 
 
-const DiscussionMessageComponent = ({ message, timestamp }) => {
+const DiscussionMessageComponent = ({ name, message, timestamp }) => {
 
-  // const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
+  const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
 
 
 
@@ -19,9 +19,9 @@ const DiscussionMessageComponent = ({ message, timestamp }) => {
         <summary>
 
           <div class="comment-info">
-            <a href="#" class="comment-author">User1</a>
+            <a href="#" class="comment-author">{name}</a>
             <p class="m-0"> comment posted
-              {": " + timestamp}
+            &bull;  {": " + timestamp, dateTimeAgo}
             </p>
           </div>
         </summary>
