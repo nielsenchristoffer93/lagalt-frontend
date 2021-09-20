@@ -1,4 +1,4 @@
-import { Container, Form, Button, Row } from "react-bootstrap";
+import { Container, Form, Button, Row, Card } from "react-bootstrap";
 import ChatMessageLeftComponent from "./ChatMessageLeftComponent";
 import ChatMessageRightComponent from "./ChatMessageRightComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +9,18 @@ import "./ChatWindowComponent.css";
 import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
 import { BASE_URL } from "../../services/index"
+import { getTimeSinceCreation } from "../../services/timeFormatter"
 
 let socket;
 let ENDPOINT = "localhost:5000";
+
+
+//create your forceUpdate hook
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
+
 
 const ChatWindowComponent = (props) => {
 
@@ -19,16 +28,22 @@ const ChatWindowComponent = (props) => {
     selectedProject,
     fullName,
     keycloakEmail,
-    chatboardUrl
+    chatboardUrl,
+    selectedProjectId,
   } = props
 
+  const forceUpdate = useForceUpdate();
+
   const [name, setName] = useState(fullName);
-  const [room, setRoom] = useState(selectedProject.id);
+  const [room, setRoom] = useState(selectedProjectId);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [dateCreated, setDateCreated] = useState("5 h");
+  const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
+  //const [state, setstate] = useState([])
 
   useEffect(() => {
+
+    console.log("selectedProjectId: " + selectedProjectId)
 
     socket = io(ENDPOINT);
 
@@ -65,7 +80,7 @@ const ChatWindowComponent = (props) => {
 
   const fetchData = async () => {
 
-    //const previousMessagesFetched = [];
+    var previousMessagesFetched = [];
 
     //console.log("chatboardUrl: " + chatboardUrl);
     const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
@@ -77,10 +92,15 @@ const ChatWindowComponent = (props) => {
       const chatMessageData = await fetch(`${BASE_URL}${chatMessageUrl}`).then(response => response.json());
       //console.log(chatMessageData);
 
+      const chatMessageId = chatMessageData.id;
+      //console.log("chatMessageId: " + chatMessageId);
       const message = chatMessageData.message;
       const timestamp = chatMessageData.timestamp;
       //console.log("message: " + message);
       //console.log("timestamp: " + timestamp);
+
+      const timeFormatted = getTimeSinceCreation(timestamp);
+      //console.log("timeFormatted: " + timeFormatted)
 
       const userUrl = chatMessageData.user;
       //console.log("userUrl: " + userUrl);
@@ -90,52 +110,64 @@ const ChatWindowComponent = (props) => {
       const name = userData.firstname + " " + userData.lastname;
       //console.log(name);
 
-      const previousMessage = {text: message, user: name, dateCreated: timestamp}
-      setMessages(messages => [...messages, previousMessage]);
+      const previousMessage = {id: chatMessageId, text: message, user: name, dateCreated: timeFormatted}
+      previousMessagesFetched.push(previousMessage);
+      //setstate(state => [...state, previousMessage]);
+      previousMessagesFetched = previousMessagesFetched.sort((a, b) => a.id - b.id)
+      //setstate(state.sort((a, b) => a.id - b.id))
+      //console.log("PreviousMessagesFetched")
+      //console.log(previousMessagesFetched);
+      //setMessages(previousMessagesFetched => [...messages, previousMessagesFetched]);
+     
+
+      // CAN'T GET THIS ARRAY TO RENDER PROPERLY
+      setMessages(previousMessagesFetched);
+      forceUpdate()
+
+
+      //setMessages(messages => [...messages, previousMessage]);
+      
+      
+      //setMessages(state);
+      //console.log("messages")
+      //console.log(messages);
+      //setMessages(messages => [...messages, previousMessagesFetched]);
       //previousMessagesFetched.push(previousMessage);
       //setPreviousMessages(previousMessages => [...previousMessages, previousMessage]);
       //setPreviousMessages(previousMessages => previousMessages.concat(previousMessage));
       //addMessageToMessages(previousMessage);
     });
-  }
 
-  /*const addMessageToMessages = (message) => {
-    const newArray = messages;
-    newArray.push(message);
-    setMessages(newArray);
-  };*/
+    //console.log(previousMessagesFetched);
+    //previousMessagesFetched = previousMessagesFetched.sort((a, b) => a.id - b.id)
+  }
 
   const sendMessage = async (event) => {
     event.preventDefault();
+
+    let date = new Date();
+    setDateCreated(getTimeSinceCreation(date));
 
     if (message) {
       socket.emit("sendMessage", message, dateCreated, name, room, () => {
         setMessage("");
       });
     }
-
-    let date = new Date();
-
-    // Create a new chatboard if it doesn't exist and post message to chatboard.
+    
     const formData = new FormData();
-    formData.append("projectId", selectedProject);
+    formData.append("projectId", selectedProjectId);
     formData.append("message", message);
     formData.append("timestamp", date);
     formData.append("keycloakEmail", keycloakEmail);
 
-    // Display the key/value pairs
-    /* for (var pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    } */
-
-    await postNewChatMessage(formData).then(response => response.json());
+    await postNewChatMessage(formData)
   };
 
   const renderMessages = () => {
     //console.log("RENDER MESSAGES");
     //console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
-      <Row
+      <div
         className={
           user === fullName
             ? "message row-70w right"
@@ -156,13 +188,20 @@ const ChatWindowComponent = (props) => {
             date_created={dateCreated}
           ></ChatMessageLeftComponent>
         )}
-      </Row>
+      </div>
     ));
   };
 
   return (
-    <div>
-      <Container className="message-container">{renderMessages()}</Container>
+    <Card>
+      <Card.Header>
+        <p>Chat<span className="online-bullet">&#8226;</span></p>
+      </Card.Header>
+      <Card.Body>
+      <div className="message-container">{renderMessages()}</div>
+      
+      </Card.Body>
+      <Card.Footer>
       <Form>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Control
@@ -186,7 +225,8 @@ const ChatWindowComponent = (props) => {
           </Button>
         </div>
       </Form>
-    </div>
+      </Card.Footer>
+    </Card>
   );
 };
 
@@ -195,6 +235,7 @@ const mapStateToProps = (state) => {
     selectedProject: state.projects.selectedProject,
     fullName: `${state.user.firstname} ${state.user.lastname}`,
     keycloakEmail: state.user.email,
+    selectedProjectId: state.projects.selectedProject.id,
     //chatboardUrl: state.projects.
   };
 };

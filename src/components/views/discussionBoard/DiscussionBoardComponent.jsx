@@ -1,10 +1,12 @@
 import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import KeycloakService from "../../../services/keycloakService";
 import {
   fetchMessagesBasedOnBoard,
   createMessages,
 } from "../../../redux/discussionMessage/messageSlice";
+import { Row, Col, Button } from "react-bootstrap";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 
 const DiscussionBoardComponent = (props) => {
@@ -46,10 +48,33 @@ const DiscussionBoardComponent = (props) => {
     setTextMessage("");
   };
 
+  const isNotLoggedIn = () => {
+    if (KeycloakService.isLoggedIn()) {
+      return (
+        <Row>
+          <p>Log in or sign up to leave a comment</p>
+          <Button
+            variant="outline-primary"
+            id="btn"
+            onClick={() => KeycloakService.doLogin()}
+          >
+            Log In
+          </Button>
+          <Button
+            variant="primary"
+            id="btn"
+            onClick={() => KeycloakService.doRegister()}
+          >
+            Sign Up
+          </Button>
+        </Row>
+      );
+    }
+  };
+
   return (
     <div id="scroll1">
       {/* easy scroll */}
-      <a href="#scroll2">Add comments</a>
       {messages &&
         messages.length > 0 &&
         messages.map((message) => (
@@ -59,7 +84,7 @@ const DiscussionBoardComponent = (props) => {
           ></DiscussionMessageComponent>
         ))}
 
-      <br />
+      {isNotLoggedIn()}
       <div class="custom-input" id="scroll2">
         <input
           type="text"
