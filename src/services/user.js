@@ -48,6 +48,7 @@ export const getUserPortfolio = async() => {
     })
 }
 
+
 export const getUserAbout = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}userProfile/${id}`, {
@@ -59,7 +60,6 @@ export const getUserAbout = async() => {
     })
 }
 
-///////////////
 export const getUserById = async(id) => {
     return await fetch(`${BASE_URL}${id}`, {
         headers: {
@@ -68,21 +68,4 @@ export const getUserById = async(id) => {
         method: "GET",
     })
 }
-// const postNewUser = async() => {
-//     const email = getEmail();
-//     const firstname =  _kc.idTokenParsed?.given_name;
-//     const lastname = _kc.idTokenParsed?.family_name;
-//
-//     return await fetch(`${BASE_API_URL}users`, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         method: "POST",
-//         body:JSON.stringify({
-//             keycloak_email: email,
-//             firstname: firstname,
-//             lastname: lastname
-//         })
-//     })
-// }
 
