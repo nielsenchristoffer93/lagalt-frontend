@@ -2,25 +2,24 @@ import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import KeycloakService from "../../../services/keycloakService";
-import {
-  fetchMessagesBasedOnBoard,
-} from "../../../redux/discussionMessage/messageSlice";
+import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
-import {postNewDiscussionBoard} from '../../../services/discussionboardService'
-import {postMessage} from '../../../services/discussionMessages'
+import { postNewDiscussionBoard } from "../../../services/discussionboardService";
+import { postMessage } from "../../../services/discussionMessages";
 import { BASE_URL } from "../../../services/index";
+import { findByDisplayValue } from "@testing-library/dom";
 
 const DiscussionBoardComponent = (props) => {
   const {
-
     // messages,
     selectedProject,
     fetchMessagesBasedOnBoard,
     fullName,
     createMessages,
-    messageboardUrl
+    messageboardUrl,
   } = props;
+
   const [name, setName] = useState(fullName);
   const [newMessage, setnewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
@@ -31,51 +30,45 @@ const DiscussionBoardComponent = (props) => {
       setnewMessage(false);
       fetchMessagesBasedOnBoard(selectedProject.id);
       fetchData(selectedProject.id);
-
     }
-
-
-
   }, []);
 
-
   const fetchData = async () => {
-
-
     //console.log("messageboardUrl: " + messageboardUrl);
 
-    const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
+    const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
+      (response) => response.json()
+    );
     //console.log(messageboardUrl)
 
     const bordMessagesArray = boardMessages.discussionMessages;
     //console.log(bordMessagesArray)
 
-
     bordMessagesArray.forEach(async (messageboardUrl) => {
-      const boardMessageData = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
-     // console.log(boardMessageData);
-
+      const boardMessageData = await fetch(
+        `${BASE_URL}${messageboardUrl}`
+      ).then((response) => response.json());
+      // console.log(boardMessageData);
 
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
 
-
       const userUrl = boardMessageData.user;
-      console.log("userUrl: " + userUrl)
+      console.log("userUrl: " + userUrl);
 
-
-      const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json()).catch(error => console.log(error));
+      const userData = await fetch(`${BASE_URL}${userUrl}`)
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
 
       console.log(userData);
 
       const name = userData.firstname + " " + userData.lastname;
       //console.log(name);
 
-      const oldMessage = { text: message, user: name }
-      setMessages(messages => [...messages, oldMessage]);
-
+      const oldMessage = { text: message, user: name };
+      setMessages((messages) => [...messages, oldMessage]);
     });
-  }
+  };
 
   const handleTextMessage = (e) => {
     setMessage(e.target.value);
@@ -92,26 +85,23 @@ const DiscussionBoardComponent = (props) => {
 
     console.log("Message: " + message);
 
-
     //fetchMessagesBasedOnBoard(selectedProject.id);
     //fetchData(selectedProject.id);
     setnewMessage(true);
     setMessage("");
 
-
-
-
-   await postMessage(formData);
+    await postMessage(formData);
     //fetchMessagesBasedOnBoard(selectedProject.id);
     setMessages([]);
     fetchData(selectedProject.id);
   };
 
-  const renderLoginButtons = () => {
-    if (KeycloakService.isLoggedIn()) {
+  const renderLoginButtonsOrMessageForm = () => {
+    if (!KeycloakService.isLoggedIn()) {
       return (
         <Row>
-          <p>Log in or sign up to leave a comment</p>
+          <p className="login-paragraph">Log in or sign up to leave a comment</p>
+          
           <Button
             variant="outline-primary"
             id="btn"
@@ -128,26 +118,38 @@ const DiscussionBoardComponent = (props) => {
           </Button>
         </Row>
       );
+    } else {
+      // If user is logged in render form for posting a new message.
+      return (
+        <div className="message-form-container">
+          <Form>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Type your comment..."
+                value={message}
+                onChange={handleTextMessage}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    handlePost(event);
+                  }
+                }}
+              />
+              <Button variant="primary" onClick={(event) => handlePost(event)}>
+                Post message
+              </Button>
+            </Form.Group>
+          </Form>
+        </div>
+      );
     }
   };
 
-  const renderForm = () => {
-    return (
-      <Row>
-        <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Control as="textarea" rows={3} />
-            <Button variant="primary" onClick={(event) => handlePost(event)}>
-              Post message
-            </Button>
-          </Form.Group>
-        </Form>
-      </Row>
-    );
-  };
-
   return (
-
     <Container>
       <div id="scroll1">
         {/* easy scroll */}
@@ -160,10 +162,8 @@ const DiscussionBoardComponent = (props) => {
               timestamp={message.timestamp}
             ></DiscussionMessageComponent>
           ))}
-
-        {!KeycloakService.isLoggedIn ? renderLoginButtons() : renderForm()}
-
-        <div class="custom-input" id="scroll2">
+        {renderLoginButtonsOrMessageForm()}
+        {/*<div class="custom-input" id="scroll2">
           <input
             type="text"
             class="custom-input-input"
@@ -183,9 +183,9 @@ const DiscussionBoardComponent = (props) => {
           >
             Post
           </button>
-        </div>
+          </div>*/}
       </div>
-    </Container>
+      </Container>
   );
 };
 

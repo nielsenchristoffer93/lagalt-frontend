@@ -14,8 +14,8 @@ const ProjectRecomended = (props) => {
   };
 // onClick={() => onOpenModal(project.id)}
   return (
-    <div>
-      Recommended projects
+    <div className="project-recommended-container">
+      <h3>Recommended Projects</h3>
       <Row>
         {recommendedProjects && recommendedProjects.map((project, i) => (
           <Col key={i} onClick={() => onOpenModal(project.id)} >

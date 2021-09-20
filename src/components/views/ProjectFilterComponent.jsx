@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
-import { faSearch, faSlidersH, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { Button, Form, Col, Row, Card } from "react-bootstrap";
+import {
+  faSearch,
+  faSlidersH,
+  faFilter,
+} from "@fortawesome/free-solid-svg-icons";
 import "./ProjectFilterComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
@@ -27,44 +31,50 @@ const ProjectFilterComponent = (props) => {
   }, [selectedCategory]);
 
   return (
-    <div className="searchContainer">
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <Row>
-          <Col sm="4">
-            <CategoriesDropdownComponent
-              disableDefault={false}
-              onChange={() => filterProjects()}
-            />
-          </Col>
-          <Col sm="6">
-            <Form.Control
-              type="text"
-              placeholder="Search..."
-              onChange={(event) => setSearchQuery(event.target.value)}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  filterProjects();
-                }
-              }}
-            />
-          </Col>
-          <Col sm="1">
-            <Button onClick={() => filterProjects()}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></Button>
-          </Col>
-          {/*<Col sm="2"></Col>*/}
-          <Col sm="1">
-            <FontAwesomeIcon
-              className="filter-icon"
-              icon={faSlidersH}
-            ></FontAwesomeIcon>
-          </Col>
-        </Row>
-      </Form>
-    </div>
+    <Card>
+      {/*<div className="searchContainer">*/}
+      <Card.Body>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <Row>
+            <Col sm="4">
+              <CategoriesDropdownComponent
+                disableDefault={false}
+                onChange={() => filterProjects()}
+              />
+            </Col>
+            <Col sm="6">
+              <Form.Control
+                type="text"
+                placeholder="Search..."
+                onChange={(event) => setSearchQuery(event.target.value)}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    filterProjects();
+                  }
+                }}
+              />
+            </Col>
+            <Col sm="1">
+              <Button onClick={() => filterProjects()}>
+                <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+              </Button>
+            </Col>
+            {/*<Col sm="2"></Col>*/}
+            <Col sm="1">
+              <FontAwesomeIcon
+                className="filter-icon"
+                icon={faSlidersH}
+              ></FontAwesomeIcon>
+            </Col>
+          </Row>
+        </Form>
+        {/*</div>*/}
+      </Card.Body>
+    </Card>
   );
 };
 const mapStateToProps = (state) => {
