@@ -177,7 +177,7 @@ const ChatWindowComponent = (props) => {
     formData.append("message", message);
     formData.append("timestamp", date);
     formData.append("keycloakEmail", keycloakEmail);
-
+    console.log(formData)
     await postNewChatMessage(formData)
   };
 
