@@ -22,7 +22,6 @@ body {
     width: 100%;
     max-width: 100%;
     margin: auto;
-    padding: 0 1rem;
     background-color: #fff;
     border: 1px solid transparent; /* Removes margin collapse */
     
