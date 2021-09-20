@@ -98,6 +98,8 @@ const ProjectView = (props) => {
                   projectTags={project.projectTags}
                   category={project.category}
                   skills={project.skills}
+                  createdDate={project.createdDate}
+                  user={project.users[0]}
                   key={i}
                 />
               </div>
