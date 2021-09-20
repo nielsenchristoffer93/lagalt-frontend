@@ -66,7 +66,8 @@ const postNewUser = async() => {
         return await fetch(`${BASE_API_URL}users`, {
             headers: {
                 'Content-Type': 'application/json',
-                // 'Access-Control-Allow-Origin' : 'https://lagalt-frontend-gbg.herokuapp.com',
+                'Authorization': 'Bearer ' + KeycloakService.getToken(),
+                //'Access-Control-Allow-Origin' : 'https://lagalt-frontend-gbg.herokuapp.com',
             },
             method: "POST",
             body:JSON.stringify({

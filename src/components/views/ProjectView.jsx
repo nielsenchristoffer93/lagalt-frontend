@@ -52,12 +52,14 @@ const ProjectView = (props) => {
   const tryPushUser = () => {
 
     if (!userPosted) {
-      KeycloakService.postNewUser();
+      console.log("userPosted !")
+       KeycloakService.postNewUser();
+       //sets userPosted to true
       initialAddUser();
       fetchUserData();
       fetchUserPortfolio();
       fetchUserSkills();
-      fetchUserAbout();
+      fetchUserAbout(); 
     }
   };
 
