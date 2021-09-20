@@ -2,7 +2,7 @@ import {getEmail} from './keycloakService';
 import {BASE_API_URL} from "./index";
 
 
-const getUserId = async() => {
+export const getUserId = async() => {
     const response = await fetch(`${BASE_API_URL}users/${getEmail()}`, {
         headers: {
             'Content-Type': 'application/json',
@@ -43,6 +43,7 @@ export const getUserPortfolio = async() => {
     })
 }
 
+
 export const getUserAbout = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}userProfile/${id}`, {
@@ -52,20 +53,3 @@ export const getUserAbout = async() => {
         method: "GET",
     })
 }
-// const postNewUser = async() => {
-//     const email = getEmail();
-//     const firstname =  _kc.idTokenParsed?.given_name;
-//     const lastname = _kc.idTokenParsed?.family_name;
-//
-//     return await fetch(`${BASE_API_URL}users`, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         method: "POST",
-//         body:JSON.stringify({
-//             keycloak_email: email,
-//             firstname: firstname,
-//             lastname: lastname
-//         })
-//     })
-// }

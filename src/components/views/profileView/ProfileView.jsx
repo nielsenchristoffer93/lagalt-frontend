@@ -2,9 +2,10 @@ import {connect} from "react-redux";
 import {Form, Button, FormControl, FormLabel, Row, Col} from "react-bootstrap";
 import {useEffect} from "react";
 import {showModal} from "../../../redux/profile/profileSlice";
-import ProfileModal from "./profileModal/ProfileModal";
 import PortfolioItem from "./portfolioItem/PortfolioItem";
 import "./ProfileView.css"
+import ProfileModal from "./profileModal/ProfileModal";
+import ProfileSkills from "./profileSkills/ProfileSkills";
 
 const ProfileView = (props) => {
     const {
@@ -19,47 +20,45 @@ const ProfileView = (props) => {
 
     return (
         <div className="profile-container">
-            <Row className="mb-3">
-                <Col className="d-flex justify-content-end">
-                    <Button className="" >New Project</Button>
-                </Col>
-            </Row>
             <Form className="mb-3">
                 <Row className="mb-3">
                     <Col>
                         <FormLabel>First name</FormLabel>
-                        <FormControl disabled type="text" value={user.firstname} />
+                        <FormControl disabled type="text" value={user.firstname}/>
                     </Col>
                     <Col>
                         <FormLabel>Last name</FormLabel>
-                        <FormControl disabled type="text" value={user.lastname} />
+                        <FormControl disabled type="text" value={user.lastname}/>
                     </Col>
                 </Row>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl disabled type="text" className="mb-3" value={user.email}/>
+                <FormLabel>Email</FormLabel>
+                <FormControl disabled type="text" className="mb-3" value={user.email}/>
 
-                    <FormLabel>About</FormLabel>
+                <FormLabel>About</FormLabel>
                 {/*Check how to set height to auto*/}
-                    <FormControl disabled type="text" as="textarea" rows={"7"} className="height: 100%;" value={user.about}/>
+                <FormControl disabled type="text" as="textarea" rows={"7"} className="height: 100%;"
+                             value={user.about}/>
 
             </Form>
+            <ProfileSkills/>
 
             <div className="profile-portfolio">
                 <div className="profile-portfolio-header">
                     <h2>Portfolio</h2>
                     <Button onClick={handleShowModal}>Add portfolio entry</Button>
-                    <ProfileModal />
+                    <ProfileModal/>
                 </div>
+
                 <div>
-                 {user.portfolio.map(item => (
-                    <PortfolioItem
-                        id = {item.id}
-                        title = {item.title}
-                        company = {item.company}
-                        date = {item.date}
-                        description={item.description}
-                    />
-                      ))}
+                    {user.portfolio.map(item => (
+                        <PortfolioItem
+                            id={item.id}
+                            title={item.title}
+                            company={item.company}
+                            date={item.date}
+                            description={item.description}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
@@ -76,7 +75,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-    showModal:() => dispatch(showModal()),
+        showModal: () => dispatch(showModal()),
     }
 };
 
