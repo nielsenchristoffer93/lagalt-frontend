@@ -1,6 +1,6 @@
 .message-container {
     overflow-y: scroll;
-    margin-bottom: 2vh;
+    max-height: 70vh;
 }
 
 .message {
@@ -56,4 +56,10 @@
 .message-text-left {
     color: rgb(28, 41, 160);
     font-size: 90%;
+}
+
+.online-bullet {
+    color: greenyellow;
+    float: right;
+    font-size: 160%;
 }

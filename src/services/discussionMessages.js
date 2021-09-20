@@ -1,4 +1,5 @@
 import { BASE_API_URL } from "."
+import KeycloakService from "./keycloakService";
 
 export const getMessagesBasedOnDiscussionBoard = async (boardId) => {
 	return await fetch(`${BASE_API_URL}discussionBoard/boardMessages/${boardId}`, {
@@ -18,6 +19,9 @@ export const postMessage = async (data) => {
 		console.log(pair[0]+ ', ' + pair[1]); 
 	}
 	return await fetch(`${BASE_API_URL}discussionMessages`, {
+		headers: {
+			'Authorization': 'Bearer ' + KeycloakService.getToken(),
+		},
 		body: data,
 		method: 'POST'
 		
