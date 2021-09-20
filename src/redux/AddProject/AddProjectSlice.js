@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const addProjectSlice = createSlice({
-  name: "addProjectModal",
+  name: "displayModals",
   initialState: initialState,
   reducers: {
     showAddProjectModal: (state) => {
@@ -17,7 +17,9 @@ const addProjectSlice = createSlice({
   },
 });
 
-export const { showAddProjectModal, hideAddProjectModal } =
-  addProjectSlice.actions;
+export const {
+  showAddProjectModal,
+  hideAddProjectModal,
+} = addProjectSlice.actions;
 
 export default addProjectSlice.reducer;

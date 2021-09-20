@@ -1,12 +1,20 @@
-.projectList{
+/*.projectList{
     width: 70%;
-    
     margin-left:auto;
     margin-right: auto;
     color: rgb(0, 0, 0);
 }
+*/
 
-.projectComponent{
+.project-view h3 {
+    font-size: 130%;
+}
+
+.container {
+    min-width: 100% !important;
+}
+
+/* .projectComponent{
     border-radius: 15px;
     padding: 20px;
     margin-top: 15px;
@@ -19,7 +27,7 @@
 
 .projectComponent > img{
 width: 100%;
-}
+} */
 
 ul.horizontal-list {
 	min-width: 696px;

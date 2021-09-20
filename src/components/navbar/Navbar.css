@@ -1,8 +1,25 @@
 #btn{
-    border-radius: 30px;
+    border-radius: 50px;
+    padding: 0 30px !important;
     margin-right: 10px;
 }
 
 .navbar{
     padding: 10px;
+}
+
+.sign-in-icon,
+.sign-out-icon {
+    margin-right: 10px;
+}
+
+.navbar-dropdown {
+    border: white solid 1px;
+    border-radius: 5px;
+    padding: 0 10px;
+    transition: all 0.1s ease-in-out;
+}
+
+.navbar-dropdown:hover {
+    border: rgb(175, 175, 175) solid 1px;
 }

@@ -8,6 +8,10 @@ import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxCo
 import { postNewProject } from "../../services/projects";
 import { fetchAllProjects } from "../../redux/Project/projectSlice";
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
+import { getUserId } from "../../services/user"
+import { postNewProjectRole } from "../../services/projectRole" 
+import { postNewChatBoard } from "../../services/chatboardService";
+import { postNewDiscussionBoard } from "../../services/discussionboardService";
 
 const AddProjectModal = (props) => {
   const {
@@ -53,7 +57,26 @@ const AddProjectModal = (props) => {
       console.log(pair[0] + ": " + pair[1]);
     } */
     
-    await postNewProject(formData);
+    const newProject = await postNewProject(formData).then(response => response.json());
+    const projectId = newProject.id;
+    //console.log("projectId: " + projectId);
+
+    const userId = await getUserId();
+    //console.log("userId: " + userId);
+
+    const formDataProjectRole = new FormData();
+    formDataProjectRole.append("projectId", projectId);
+    formDataProjectRole.append("userId", userId);
+
+    const newProjectRole = await postNewProjectRole(formDataProjectRole).then(response => response.json());
+    //console.log(newProjectRole);
+
+    const formDataProjectId = new FormData();
+    formDataProjectId.append("projectId", projectId);
+
+    await postNewChatBoard(formDataProjectId);
+    await postNewDiscussionBoard(formDataProjectId);
+
     hideAddProjectModal();
     fetchAllProjects();
     resetSkillsStates();

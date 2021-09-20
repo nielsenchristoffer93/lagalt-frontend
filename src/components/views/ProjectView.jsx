@@ -5,12 +5,13 @@ import {fetchAllProjects, fetchSelectedProjectData, fetchRecommendedProjects, sh
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
-import KeycloakService from "../../services/keycloakService";
+import { Button, Modal, Row, Col } from "react-bootstrap";
 import ProjectFilterComponent from "./ProjectFilterComponent";
-import AddProjectModal from "./AddProjectModal";
 import ProjectModal from "./ProjectModal";
+import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";
+import UserProjectComponent from "../user-projects/UserProjectComponent";
+import { showProjectModal } from "../../redux/AddProject/AddProjectSlice";
 
 const ProjectView = (props) => {
   //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
@@ -50,9 +51,8 @@ const ProjectView = (props) => {
   }, [fetchAllProjects]);
 
   const tryPushUser = () => {
-    //console.log(KeycloakService.getToken());
-    if(!userPosted){
-      
+
+    if (!userPosted) {
       KeycloakService.postNewUser();
       initialAddUser();
       fetchUserData();
@@ -60,45 +60,66 @@ const ProjectView = (props) => {
       fetchUserSkills();
       fetchUserAbout();
     }
-  }
+  };
+
+  const onOpenModal = (id) => {
+    fetchSelectedProjectData(id);
+    //setSelectedProject(i);
+    //console.log("i=?" + i);
+    //setOpen(true);
+    showProjectModal();
+  };
 
   return (
-    <div className="projectList">
-      <ProjectRecomended />
-      <br />
-      <div>Filter projects</div>
-      <ProjectFilterComponent />
-
-      <div className="d-grid gap-2">
-        <Button variant="primary" size="lg" onClick={handleShow}>
-          Add new project
-        </Button>
-      </div>
-
-      {displayAddProjectModal ? (
-        <AddProjectModal show={displayAddProjectModal}/>
-      ) : null}
-
-      {displayProjectModal ? (
+    <div class="project-view">
+    {displayProjectModal ? (
               <ProjectModal show={displayProjectModal}/>
       ) : null}
+      <Row>
+        <Col sm="3">
+          {KeycloakService.isLoggedIn() ? (
+            <UserProjectComponent></UserProjectComponent>
+          ) : null}
+        </Col>
+        <Col sm="6">
+          {/*<ProjectRecomended />*/}
+          <h3>Filter projects</h3>
+          <ProjectFilterComponent></ProjectFilterComponent>
 
-      {projects &&
-        projects.map((project, i) => (
-          <div onClick={() => handleOpenProjectModal(project.id)}>
-            <ProjectComponent
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              projectTags={project.projectTags}
-              category={project.category}
-              skills={project.skills}
-              key={i}
-            />
-          </div>
-        ))}
+          <h3>Projects</h3>
+          {projects &&
+            projects.map((project, i) => (
+              <div onClick={() => onOpenModal(project.id)}>
+                <ProjectComponent
+                  title={project.title}
+                  description={project.description}
+                  image={project.image}
+                  projectTags={project.projectTags}
+                  category={project.category}
+                  skills={project.skills}
+                  key={i}
+                />
+              </div>
+            ))}
 
+          {/*<Modal
+            show={open}
+            onHide={onCloseModal}
+            center
+            dialogClassName="custom-modal-80w"
+          >
+            {renderModal()}
+          </Modal>*/}
+          {displayProjectModal ? (
+            <ProjectModal></ProjectModal>
+          ) : null}
+        </Col>
+        <Col sm="3"></Col>
+      </Row>
     </div>
+    //<div className="projectList">
+
+    //</div>
   );
 };
 
@@ -122,9 +143,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    showAddProjectModal: () => dispatch(showAddProjectModal()),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
     fetchRecommendedProjects: () => dispatch(fetchRecommendedProjects()),
+
     showProjectModal: () => dispatch(showProjectModal()),
   };
 };
