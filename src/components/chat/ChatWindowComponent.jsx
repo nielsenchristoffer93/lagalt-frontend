@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
-import KeycloakService from "../../services/keycloakService";
 import "./ChatWindowComponent.css";
 import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
@@ -17,19 +16,20 @@ let ENDPOINT = "localhost:5000";
 const ChatWindowComponent = (props) => {
 
   const {
-    selectedProjects,
+    selectedProject,
     fullName,
     keycloakEmail,
     chatboardUrl
   } = props
 
   const [name, setName] = useState(fullName);
-  const [room, setRoom] = useState(selectedProjects.toString());
+  const [room, setRoom] = useState(selectedProject.id);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [dateCreated, setDateCreated] = useState("5 h");
 
   useEffect(() => {
+
     socket = io(ENDPOINT);
 
     /* console.log("name: " + name);
@@ -48,9 +48,12 @@ const ChatWindowComponent = (props) => {
   }, [ENDPOINT]);
 
   useEffect(() => {
+    if(chatboardUrl) {
+      fetchData();
+    }
+  }, [chatboardUrl])
 
-    fetchData();
-
+  useEffect(() => {
     socket.on("message", (message) => {
       //console.log("socket.on");
       //console.log("MESSAGE")
@@ -62,7 +65,7 @@ const ChatWindowComponent = (props) => {
 
   const fetchData = async () => {
 
-    const previousMessagesFetched = [];
+    //const previousMessagesFetched = [];
 
     //console.log("chatboardUrl: " + chatboardUrl);
     const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`).then(response => response.json());
@@ -115,7 +118,7 @@ const ChatWindowComponent = (props) => {
 
     // Create a new chatboard if it doesn't exist and post message to chatboard.
     const formData = new FormData();
-    formData.append("projectId", selectedProjects);
+    formData.append("projectId", selectedProject);
     formData.append("message", message);
     formData.append("timestamp", date);
     formData.append("keycloakEmail", keycloakEmail);
@@ -125,12 +128,12 @@ const ChatWindowComponent = (props) => {
       console.log(pair[0] + ": " + pair[1]);
     } */
 
-    await postNewChatMessage(formData);
+    await postNewChatMessage(formData).then(response => response.json());
   };
 
   const renderMessages = () => {
-    console.log("RENDER MESSAGES");
-    console.log(messages);
+    //console.log("RENDER MESSAGES");
+    //console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
       <Row
         className={
@@ -179,7 +182,7 @@ const ChatWindowComponent = (props) => {
             size="lg"
             onClick={(event) => sendMessage(event)}
           >
-            <FontAwesomeIcon icon={faReply} />
+            <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
           </Button>
         </div>
       </Form>
@@ -189,7 +192,7 @@ const ChatWindowComponent = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    selectedProjects: state.projects.selectedProject,
+    selectedProject: state.projects.selectedProject,
     fullName: `${state.user.firstname} ${state.user.lastname}`,
     keycloakEmail: state.user.email,
     //chatboardUrl: state.projects.

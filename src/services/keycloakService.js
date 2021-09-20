@@ -3,6 +3,7 @@ import {BASE_API_URL} from "./index";
 import {connect} from "react-redux";
 import {showModal} from "../redux/profile/profileSlice";
 import {fetchUserData} from "../redux/User/userSlice";
+
 const _kc = new Keycloak('/keycloak.json');
 
 /**
@@ -55,22 +56,21 @@ const postNewUser = async() => {
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
 
-    console.log("firstName: " + firstname);
-    console.log("email: " + email);
-    console.log("lastname: " + lastname);
-
-
-    return await fetch(`${BASE_API_URL}users`, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        method: "POST",
-        body:JSON.stringify({
-            keycloakEmail: email,
-            firstname: firstname,
-            lastname: lastname
+    try {
+        return await fetch(`${BASE_API_URL}users`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+            body:JSON.stringify({
+                keycloakEmail: email,
+                firstname: firstname,
+                lastname: lastname
+            })
         })
-    })
+    }catch (e) {
+        console.log("Error: " + e);
+    }
 }
 
 const KeycloakService = {

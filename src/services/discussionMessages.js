@@ -10,7 +10,7 @@ export const getMessagesBasedOnDiscussionBoard = async (boardId) => {
 }
 
 
-export const postMessages = async (data) => {
+export const postMessage = async (data) => {
 	console.log("data")
 	console.log(data)
 

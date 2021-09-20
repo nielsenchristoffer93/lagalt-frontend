@@ -1,24 +1,27 @@
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect, useState } from "react";
-import {fetchAllProjects, setSelectedProject} from "../../redux/Project/projectSlice";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
-import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
+import {
+  fetchAllProjects,
+  fetchSelectedProjectData
+} from "../../redux/Project/projectSlice";
+import {
+  initialAddUser,
+  fetchUserData,
+  fetchUserSkills,
+  fetchUserPortfolio,
+  fetchUserAbout,
+} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
-import KeycloakService from "../../services/keycloakService";
+import { Button, Modal, Row, Col } from "react-bootstrap";
 import ProjectFilterComponent from "./ProjectFilterComponent";
-import AddProjectModal from "./AddProjectModal";
 import ProjectModal from "./ProjectModal";
+import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";
+import UserProjectComponent from "../user-projects/UserProjectComponent";
 
 const ProjectView = (props) => {
-  //const [showAddProjectModal, setShowAddProjectModal] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const handleShow = () => {
-    showAddProjectModal();
-  };
 
   const {
     fetchUserAbout,
@@ -30,7 +33,7 @@ const ProjectView = (props) => {
     fetchAllProjects,
     displayProjectModal,
     showAddProjectModal,
-    setSelectedProject,
+    fetchSelectedProjectData,
   } = props;
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const ProjectView = (props) => {
   }, [fetchAllProjects]);
 
   const tryPushUser = () => {
-    if(!userPosted){
+    if (!userPosted) {
       KeycloakService.postNewUser();
       initialAddUser();
       fetchUserData();
@@ -47,11 +50,11 @@ const ProjectView = (props) => {
       fetchUserSkills();
       fetchUserAbout();
     }
-  }
+  };
 
-
-  const onOpenModal = (i) => {
-    setSelectedProject(i);
+  const onOpenModal = (id) => {
+    fetchSelectedProjectData(id)
+    //setSelectedProject(i);
     //console.log("i=?" + i);
     setOpen(true);
   };
@@ -65,22 +68,17 @@ const ProjectView = (props) => {
   };
 
   return (
-    <div className="projectList">
-      <ProjectRecomended />
-      <br />
-      <div>Filter projects</div>
-      <ProjectFilterComponent />
+    <div class="project-view">
+      <Row>
+        <Col sm="3">
+          {KeycloakService.isLoggedIn() ? <UserProjectComponent></UserProjectComponent> : null}
+        </Col>
+        <Col sm="6">
+          {/*<ProjectRecomended />*/}
+      <h3>Filter projects</h3>
+      <ProjectFilterComponent></ProjectFilterComponent>
 
-      <div className="d-grid gap-2">
-        <Button variant="primary" size="lg" onClick={handleShow}>
-          Add new project
-        </Button>
-      </div>
-
-      {displayProjectModal ? (
-        <AddProjectModal show={displayProjectModal}/>
-      ) : null}
-
+      <h3>Projects</h3>
       {projects &&
         projects.map((project, i) => (
           <div onClick={() => onOpenModal(project.id)}>
@@ -104,7 +102,13 @@ const ProjectView = (props) => {
       >
         {renderModal()}
       </Modal>
-    </div>
+        </Col>
+        <Col sm="3"></Col>
+      </Row>
+      </div>
+    //<div className="projectList">
+      
+    //</div>
   );
 };
 
@@ -114,20 +118,18 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     loading: state.projects.loading,
     error: state.projects.error,
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserAbout: () => dispatch(fetchUserAbout),
+    fetchUserAbout: () => dispatch(fetchUserAbout()),
     fetchUserData: () => dispatch(fetchUserData()),
     fetchUserSkills: () => dispatch(fetchUserSkills()),
     fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     initialAddUser: () => dispatch(initialAddUser()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    showAddProjectModal: () => dispatch(showAddProjectModal()),
-    setSelectedProject: (projectId) => dispatch(setSelectedProject(projectId)),
+    fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
   };
 };
 

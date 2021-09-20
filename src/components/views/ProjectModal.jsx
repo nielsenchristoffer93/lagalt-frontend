@@ -13,8 +13,16 @@ const ProjectModal = (props) => {
   function displayChatWindow() {
     return (
       <Col sm="4">
-        <ChatWindowComponent chatboardUrl={projects[selectedProject - 1].chatBoard}></ChatWindowComponent>
+        <ChatWindowComponent chatboardUrl={selectedProject.chatBoard}></ChatWindowComponent>
       </Col>
+    );
+  }
+  function displayApply() {
+    return (
+      <Col xs={{ span: 2, offset: 5 }}>
+      <Button  onClick={handleShowModal}>Apply to project</Button>
+      <JoinProject />
+    </Col>
     );
   }
 
@@ -28,8 +36,8 @@ const ProjectModal = (props) => {
         <Col>
           <Card className="projectComponent" style={{ marginTop: "0px" }}>
             <Card.Body>
-              <Card.Title>{projects[selectedProject - 1].title}</Card.Title>
-              <Card.Text>{projects[selectedProject - 1].description}</Card.Text>
+              <Card.Title>{selectedProject.title}</Card.Title>
+              <Card.Text>{selectedProject.description}</Card.Text>
             </Card.Body>
             <img
               style={{ minHeight: "250px" }}
@@ -37,7 +45,7 @@ const ProjectModal = (props) => {
               alt=""
             />
             <Card.Body>
-              <DiscussionBoardComponent messageboardUrl={projects[selectedProject - 1].discussionBoard}></DiscussionBoardComponent>
+              {selectedProject.discussionBoard && <DiscussionBoardComponent messageboardUrl={selectedProject.discussionBoard}></DiscussionBoardComponent>}
             </Card.Body>
           </Card>
         </Col>
@@ -46,10 +54,8 @@ const ProjectModal = (props) => {
       </Row>
       <br />
       <Row>
-        <Col xs={{ span: 2, offset: 5 }}>
-          <Button  onClick={handleShowModal}>Apply to project</Button>
-          <JoinProject />
-        </Col>
+      {KeycloakService.isLoggedIn() ? displayApply() : null}
+        
       </Row>
       <br />
     </Container>

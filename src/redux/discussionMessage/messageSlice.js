@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {getMessagesBasedOnDiscussionBoard, postMessages } from '../../services/discussionMessages';
+import {getMessagesBasedOnDiscussionBoard, postMessage } from '../../services/discussionMessages';
 
 const initialState = {
     messages:[],
@@ -79,7 +79,7 @@ export const fetchMessagesBasedOnBoard = (discussionBoardId) => async (dispatch)
 	  console.log("text")
 	dispatch(postMessagesStarted());
 	try {
-	  const response = await postMessages(message);
+	  const response = await postMessage(message);
 	  const data = await response.json();
   
 	  dispatch(postMessagesSuccess(data));

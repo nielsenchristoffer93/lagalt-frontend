@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   fetchMessagesBasedOnBoard,
-  createMessages,
 } from "../../../redux/discussionMessage/messageSlice";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
-// import {fetchUserById} from '../../../redux/User/userSlice'
+import {postNewDiscussionBoard} from '../../../services/discussionboardService'
+import {postMessage} from '../../../services/discussionMessages'
 import { BASE_URL } from "../../../services/index";
 
 const DiscussionBoardComponent = (props) => {
@@ -27,86 +27,87 @@ const DiscussionBoardComponent = (props) => {
   useEffect(() => {
     if (newMessage) {
       setnewMessage(false);
-      fetchMessagesBasedOnBoard(selectedProject);
-      fetchData();
+      fetchMessagesBasedOnBoard(selectedProject.id);
+      fetchData(selectedProject.id);
+
     }
-    
-    
-  
+
+
+
   }, []);
 
- 
+
   const fetchData = async () => {
 
 
     //console.log("messageboardUrl: " + messageboardUrl);
-   
+
     const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
-    //console.log(boardMessages)
-  
+    //console.log(messageboardUrl)
+
     const bordMessagesArray = boardMessages.discussionMessages;
     //console.log(bordMessagesArray)
-    
 
-    bordMessagesArray.forEach(async(messageboardUrl) => {
+
+    bordMessagesArray.forEach(async (messageboardUrl) => {
       const boardMessageData = await fetch(`${BASE_URL}${messageboardUrl}`).then(response => response.json());
-      //console.log(boardMessageData);
-  
+     // console.log(boardMessageData);
+
 
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
-      
+
 
       const userUrl = boardMessageData.user;
-      //console.log("userUrl: " + userUrl)
-   
+      console.log("userUrl: " + userUrl)
+
 
       const userData = await fetch(`${BASE_URL}${userUrl}`).then(response => response.json()).catch(error => console.log(error));
- 
-        //console.log(userData);
-        const name = userData.firstname + " " + userData.lastname;
-        //console.log(name);
-        
-        const previousMessage = {text: message, user: name }
-        setMessages(messages => [...messages, previousMessage]);
-      
-  
-     
+
+      console.log(userData);
+
+      const name = userData.firstname + " " + userData.lastname;
+      //console.log(name);
+
+      const oldMessage = { text: message, user: name }
+      setMessages(messages => [...messages, oldMessage]);
 
     });
   }
 
-   
-
   const handleTextMessage = (e) => {
-    setMessages(e.target.value);
+    setMessage(e.target.value);
   };
 
-  const handlePost = (e) => {
+  const handlePost = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("message", message);
     formData.append("timestamp", "2021-09-02 10:04:50");
     formData.append("user_id", 1);
-    formData.append("discussion_board_id", selectedProject);
+    formData.append("discussion_board_id", selectedProject.id);
 
     console.log("Message: " + message);
 
-   
-    fetchMessagesBasedOnBoard(selectedProject);
-    fetchData(selectedProject);
-    setnewMessage(true);
-    setMessages("");
 
-    
-      //TODO
-      createMessages(formData);
+    //fetchMessagesBasedOnBoard(selectedProject.id);
+    //fetchData(selectedProject.id);
+    setnewMessage(true);
+    setMessage("");
+
+
+
+
+   await postMessage(formData);
+    //fetchMessagesBasedOnBoard(selectedProject.id);
+    setMessages([]);
+    fetchData(selectedProject.id);
   };
 
   return (
     <div >
-   
+
       {messages &&
         messages.length > 0 &&
         messages.map((message) => (
@@ -147,16 +148,16 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
-    // fullName: `${state.user.firstname} ${state.user.lastname}`,
-      messages: state.messages.messages,
+    fullName: `${state.user.firstname} ${state.user.lastname}`,
+    messages: state.messages.messages,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-     fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
+    fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
     // fetchUserById: (id) => dispatch(fetchUserById(id)),
-    createMessages: (data) => dispatch(createMessages(data)),
+    //createMessages: (data) => dispatch(createMessages(data)),
   };
 };
 
