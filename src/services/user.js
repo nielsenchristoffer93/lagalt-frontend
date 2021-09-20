@@ -2,7 +2,7 @@ import {getEmail} from './keycloakService';
 import {BASE_API_URL} from "./index";
 import KeycloakService from "./keycloakService";
 
-const getUserId = async() => {
+export const getUserId = async() => {
     const response = await fetch(`${BASE_API_URL}users/${getEmail()}`, {
         headers: {
             'Content-Type': 'application/json',
