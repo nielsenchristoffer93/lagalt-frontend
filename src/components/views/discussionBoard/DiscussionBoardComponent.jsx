@@ -16,12 +16,6 @@ function useForceUpdate(){
 }
 
 
-//create your forceUpdate hook
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue((value) => value + 1); // update the state to force render
-}
-
 const DiscussionBoardComponent = (props) => {
   const {
     // messages,
@@ -112,7 +106,6 @@ const DiscussionBoardComponent = (props) => {
   };
 
   const handlePost = async (e) => {
-    const date = new Date();
 
     e.preventDefault();
     let date = new Date();

@@ -12,17 +12,6 @@ export const getProjectRole = async () => {
     })
 }
 
-export const getProjectRoleByProjectRoleUrl = async(projectRoleUrl) => {
-    const response = await fetch(`${BASE_URL}${projectRoleUrl}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
-        },
-        method: "GET",
-    })
-    return await response.json();
-}
-
 export const postNewProjectRole = async (data) => {
 	return await fetch(`${BASE_API_URL}projectrole`, {
 		headers: {
