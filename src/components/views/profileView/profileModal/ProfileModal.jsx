@@ -1,5 +1,7 @@
 import {showModal} from "../../../../redux/profile/profileSlice";
 import {useState} from "react";
+import {fetchUserPortfolio} from "../../../../redux/User/userSlice";
+import { postNewPortfolioItem} from "../../../../services/user";
 import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -7,28 +9,37 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 
 const ProfileModal = (props) => {
 
-    const [company, setCompany] = useState("")
+    const {
+        show,
+        showModal,
+        fetchUserPortfolio
+    } = props
+
     const [title, setTitle] = useState("")
-    const [date, setDate] = useState()
+    const [company, setCompany] = useState("")
+    const [startDate, setStartDate] = useState("")
+    const [endDate, setEndDate] = useState("")
     const [description, setDescription] = useState("")
 
-    const {show, showModal} = props
-    const handleClose = () => showModal();
-
-
-    const handleSave = () => {
-        //Save form to db
-
-        let item = {
-            company: company,
-            title: title,
-            date: date,
-            description: description
-
-        }
-        // addPortfolioEntry(item);
+    const handleClose = () => {
         showModal();
     }
+
+
+    const handleSave = async () => {
+
+        const formData = new FormData();
+        formData.append("company", company);
+        formData.append("title", title);
+        formData.append("startDate", startDate);
+        formData.append("endDate", endDate);
+        formData.append("description", description);
+
+        await postNewPortfolioItem(formData)
+        fetchUserPortfolio();
+        showModal();
+    }
+
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -38,20 +49,22 @@ const ProfileModal = (props) => {
             <ModalBody>
                 <Form onSubmit={handleSave}>
                     <FormLabel>Company</FormLabel>
-                    <FormControl type="text" value={company} onChange={event => setCompany(event.target.value)}/>
+                    <FormControl type="text" onChange={event => setCompany(event.target.value)}/>
                     <FormLabel>Title</FormLabel>
                     <FormControl type="text" onChange={event => setTitle(event.target.value)}/>
-                    <FormLabel>Date</FormLabel>
-                    <FormControl type="date" onChange={event => setDate(event.target.value)}/>
+                    <FormLabel>Start date</FormLabel>
+                    <FormControl type="date" onChange={event => setStartDate(event.target.value)}/>
+                    <FormLabel>End date</FormLabel>
+                    <FormControl type="date" onChange={event => setEndDate(event.target.value)}/>
                     <FormLabel>Description</FormLabel>
                     <FormControl type="text" onChange={event => setDescription(event.target.value)}/>
                 </Form>
             </ModalBody>
             <ModalFooter>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={() => handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleSave}>
+                <Button variant="primary" onClick={() => handleSave()}>
                     Save
                 </Button>
             </ModalFooter>
@@ -68,8 +81,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showModal:() => dispatch(showModal()),
-        // addPortfolioEntry: (entry) => dispatch(addPortfolioEntry(entry))
-
+        fetchUserPortfolio: () => dispatch(fetchUserPortfolio())
     }
 };
 

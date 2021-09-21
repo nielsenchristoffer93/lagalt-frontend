@@ -1,4 +1,4 @@
-import { BASE_API_URL } from ".";
+import { BASE_API_URL, BASE_URL } from ".";
 import KeycloakService from './keycloakService'
 
 export const postNewProjectRole = async (data) => {
@@ -9,4 +9,15 @@ export const postNewProjectRole = async (data) => {
 		method: "POST",
 		body: data
   	})
+}
+
+export const getProjectRoleByProjectRoleUrl = async (projectRoleUrl) => {
+	const response = await fetch(`${BASE_URL}${projectRoleUrl}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "GET",
+    })
+    return await response.json();
 }

@@ -8,14 +8,24 @@ import ProfileModal from "./profileModal/ProfileModal";
 import ProfileSkills from "./profileSkills/ProfileSkills";
 import KeycloakService from "../../../services/keycloakService";
 import {Redirect} from "react-router-dom";
+import {fetchUserData, fetchUserPortfolio, fetchUserSkills} from "../../../redux/User/userSlice";
 
 const ProfileView = (props) => {
     const {
         showModal,
         user,
+        fetchUserData,
+        fetchUserPortfolio,
+        fetchUserSkills
     } = props
 
     const [shouldRedirect, setShouldRedirect] = useState(false)
+
+    useEffect(() => {
+        fetchUserData();
+        fetchUserPortfolio();
+        fetchUserSkills();
+    }, []);
 
     useEffect(() => {
 
@@ -24,18 +34,32 @@ const ProfileView = (props) => {
         }
 
     }, [user.portfolio])
+    useEffect(() => {
+        portfolio(user.portfolio);
+    },[user.portfolio])
 
     const handleShowModal = () => showModal()
+
+    const portfolio = (portfolio) => {
+        return (
+            <div>
+                {portfolio.map(item => (
+                    <PortfolioItem
+                        id={item.id}
+                        title={item.title}
+                        company={item.company}
+                        date={item.date}
+                        description={item.description}
+                    />
+                ))}
+            </div>
+        )
+    }
 
     return (
         <div className="profile-container">
             {/* If statement for checking if we should redirect or not */}
             {shouldRedirect ? <Redirect to="/"></Redirect> : null}
-            <Row className="mb-3">
-                <Col className="d-flex justify-content-end">
-                    <Button className="" >New Project</Button>
-                </Col>
-            </Row>
             <Form className="mb-3">
                 <Row className="mb-3">
                     <Col>
@@ -64,18 +88,7 @@ const ProfileView = (props) => {
                     <Button onClick={handleShowModal}>Add portfolio entry</Button>
                     <ProfileModal/>
                 </div>
-
-                <div>
-                    {user.portfolio.map(item => (
-                        <PortfolioItem
-                            id={item.id}
-                            title={item.title}
-                            company={item.company}
-                            date={item.date}
-                            description={item.description}
-                        />
-                    ))}
-                </div>
+                {portfolio(user.portfolio)}
             </div>
         </div>
     )
@@ -92,6 +105,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showModal: () => dispatch(showModal()),
+        fetchUserData: () => dispatch(fetchUserData()),
+        fetchUserSkills: () => dispatch(fetchUserSkills()),
+        fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     }
 };
 

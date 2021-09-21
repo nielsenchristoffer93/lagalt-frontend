@@ -84,12 +84,14 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
     background-clip: padding-box;
 }
-.comment-border-link:hover {
+
+/*.comment-border-link:hover {
     background-color: rgba(0, 0, 0, 0.3);
-}
+}*/
+
 .comment-body {
-    padding: 0 20px;
-    padding-left: 28px;
+    /*padding: 0 20px;*/
+    padding-left: 2rem;
     font-style: italic;
    
 }

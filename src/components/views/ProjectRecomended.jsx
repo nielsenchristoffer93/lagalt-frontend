@@ -14,8 +14,8 @@ const ProjectRecomended = (props) => {
   };
 // onClick={() => onOpenModal(project.id)}
   return (
-    <div>
-      Recommended projects
+    <div className="project-recommended-container">
+      <h3>Recommended Projects</h3>
       <Row>
         {recommendedProjects && recommendedProjects.map((project, i) => (
           <Col key={i} onClick={() => onOpenModal(project.id)} >
@@ -26,10 +26,12 @@ const ProjectRecomended = (props) => {
                 {project.description }
                 </Card.Text>
               </Card.Body>
+              {/* TO VIEW A BASE64 image (PNG/JPEG) */}
               <Card.Img
                 variant="bottom"
-                src="https://source.unsplash.com//180x180"
-              />
+                src={`data:image/png;base64,${project.image}`} alt="no_image_in_database_associated_with_project."
+              >
+              </Card.Img>   
             </Card>
           </Col>
         ))}
