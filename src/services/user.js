@@ -35,6 +35,7 @@ export const getUserSkills = async() => {
         method: "GET",
     })
 }
+
 export const getUserPortfolio = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/portfolio/${id}`, {
@@ -45,7 +46,6 @@ export const getUserPortfolio = async() => {
         method: "GET",
     })
 }
-
 
 export const getUserAbout = async() => {
     const id = await getUserId();
@@ -67,6 +67,17 @@ export const getUserById = async(id) => {
     })
 }
 
+export const postNewPortfolioItem = async (data) => {
+    const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/users/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "POST",
+        body: data
+    })
+}
+
 export const getUserByUserUrl = async (userUrl) => {
 	const response = await fetch(`${BASE_URL}${userUrl}`, {
         headers: {
@@ -78,3 +89,12 @@ export const getUserByUserUrl = async (userUrl) => {
     return await response.json();
 }
 
+export const deletePortfolioItem = async (id) => {
+    // const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "DELETE",
+    })
+}

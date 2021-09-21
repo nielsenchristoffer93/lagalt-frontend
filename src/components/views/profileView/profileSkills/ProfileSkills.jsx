@@ -32,19 +32,14 @@ const ProfileSkills = (props) => {
         if (!hasLoaded) {
             fetchAllCategories();
         }
-    }, []);
+    });
 
     useEffect(() => {
         setSkillsToEmptyArray();
         for (let index = 0; index < skillUrls.length; index++) {
             fetchSkillBasedOnSkillUrl(skillUrls[index]);
         }
-    }, [skillUrls]);
-
-    useEffect(() => {
-        fetchUserSkills()
-        displayUserSkills(userSkills)
-    }, [userSkills])
+    }, [fetchSkillBasedOnSkillUrl, setSkillsToEmptyArray, skillUrls]);
 
     const displayUserSkills = (skills) => {
         return (skills.map((skill) => (
@@ -53,17 +48,18 @@ const ProfileSkills = (props) => {
         )
     }
 
+    const handleCheckboxClicked = (e) => {
+        const id = e.target.value
+        if (e.target.checked === true) {
+            addUserSkill(id)
+                .finally(fetchUserSkills)
+        } else {
+            deleteUserSkill(id)
+                .finally(fetchUserSkills)
+        }
+    };
+
     const populateCheckBoxes = (skills, userSkills) => {
-        const handleCheckboxClicked = (e) => {
-            const id = e.target.value
-            if (e.target.checked === true) {
-                addUserSkill(id)
-                    .finally(fetchUserSkills())
-            } else {
-                deleteUserSkill(id)
-                    .finally(fetchUserSkills())
-            }
-        };
         const checkUserSkills = (skillId, userSkills) => {
             for (let i = 0; i < userSkills.length; i++) {
                 if (skillId === userSkills[i].id) {
@@ -99,7 +95,7 @@ const ProfileSkills = (props) => {
             setSelectedCategory(e.target.value);
             fetchSkillsBasedOnCategory(e.target.value);
         }
-        if (e.target.value == -1) {
+        if (e.target.value === -1) {
             setSelectedCategory(e.target.value);
         }
     };

@@ -52,7 +52,6 @@ const ProjectView = (props) => {
   const tryPushUser = () => {
 
     if (!userPosted) {
-      console.log("userPosted !")
        KeycloakService.postNewUser();
        //sets userPosted to true
       initialAddUser();
