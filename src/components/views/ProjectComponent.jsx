@@ -70,7 +70,7 @@ const ProjectComponent = (props) => {
     const name = `${userData.firstname} ${userData.lastname.charAt(0)}`;
     setUser(name);
 
-    console.log("SKILLS");
+    //console.log("SKILLS");
     //console.log(skills);
     skills.forEach(async (skillUrl) => {
       const skillData = await getSkillBySkillUrl(skillUrl).then((response) =>
@@ -79,10 +79,10 @@ const ProjectComponent = (props) => {
       //console.log("SkillData")
       //console.log(skillData);
       const skillTitle = skillData.title;
-      console.log("SkillTitle: " + skillTitle);
+      //console.log("SkillTitle: " + skillTitle);
       fetchedSkills.push(skillTitle);
       //setSkillTitles(skillTitles => [...skillTitles, skillTitle]);
-      console.log("SkillTitles");
+      //console.log("SkillTitles");
       setSkillTitles(fetchedSkills);
       forceUpdate();
     });
@@ -95,7 +95,7 @@ const ProjectComponent = (props) => {
   }, []);
 
   const populateListWithSkills = () => {
-    console.log(skillTitles);
+    //console.log(skillTitles);
     return skillTitles.map((skill, index) => <li key={index}>{skill}</li>);
   };
 
@@ -115,7 +115,7 @@ const ProjectComponent = (props) => {
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img
-      className="project-image"
+        className="project-image"
         variant="bottom"
         src={`data:image/png;base64,${image}`}
         alt="no_image_in_database_associated_with_project."

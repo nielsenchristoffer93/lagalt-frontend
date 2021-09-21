@@ -1,6 +1,5 @@
-import { Container, Form, Button, Row, Card } from "react-bootstrap";
-import ChatMessageLeftComponent from "./ChatMessageLeftComponent";
-import ChatMessageRightComponent from "./ChatMessageRightComponent";
+import { Form, Button, Card } from "react-bootstrap";
+import ChatMessageComponent from "./ChatMessageComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -27,7 +26,6 @@ function useForceUpdate(){
 const ChatWindowComponent = (props) => {
 
   const {
-    selectedProject,
     fullName,
     keycloakEmail,
     chatboardUrl,
@@ -37,7 +35,7 @@ const ChatWindowComponent = (props) => {
   const forceUpdate = useForceUpdate();
 
   const [name, setName] = useState(fullName);
-  const [room, setRoom] = useState(selectedProjectId);
+  const [chatRoom, setChatRoom] = useState(selectedProjectId);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
@@ -51,8 +49,8 @@ const ChatWindowComponent = (props) => {
 
     /* console.log("name: " + name);
     console.log("room: " + room); */
-    if (name !== undefined && room !== undefined) {
-      socket.emit("join", { name, room }, () => {});
+    if (name !== undefined && chatRoom !== undefined) {
+      socket.emit("join", { name, chatRoom }, () => {});
     }
 
     return () => {
@@ -154,7 +152,7 @@ const ChatWindowComponent = (props) => {
     setDateCreated(getTimeSinceCreation(date));
 
     if (message) {
-      socket.emit("sendMessage", message, dateCreated, name, room, () => {
+      socket.emit("sendMessage", message, dateCreated, name, chatRoom, () => {
         setMessage("");
       });
     }
@@ -181,17 +179,21 @@ const ChatWindowComponent = (props) => {
         key={index}
       >
         {user === fullName ? (
-          <ChatMessageRightComponent
+          <ChatMessageComponent
             name={user}
             message={text}
             date_created={dateCreated}
-          ></ChatMessageRightComponent>
+            divStyling={"chat-message-right"}
+            paragraphStyling={"message-text-right"}
+          ></ChatMessageComponent>
         ) : (
-          <ChatMessageLeftComponent
+          <ChatMessageComponent
             name={user}
             message={text}
             date_created={dateCreated}
-          ></ChatMessageLeftComponent>
+            divStyling={"chat-message-left"}
+            paragraphStyling={"message-text-left"}
+          ></ChatMessageComponent>
         )}
       </div>
     ));
