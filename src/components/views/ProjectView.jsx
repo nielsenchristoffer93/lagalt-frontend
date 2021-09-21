@@ -6,7 +6,7 @@ import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
 import { Button, Modal, Row, Col } from "react-bootstrap";
-import ProjectFilterComponent from "./ProjectFilterComponent";
+import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
 import ProjectModal from "./ProjectModal";
 import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";

@@ -1,4 +1,4 @@
-import { BASE_API_URL } from "."
+import { BASE_API_URL, BASE_URL } from "."
 import KeycloakService from "./keycloakService";
 
 export const getAllProjects = async () => {
@@ -60,3 +60,39 @@ export const getRecomendedProject = async () => {
 		method: "GET",
   	})
 }
+
+export const updateProject = async (data, id) => {
+	return await fetch(`${BASE_API_URL}projects/${id}`, {
+		headers: {
+			'Authorization': 'Bearer ' + KeycloakService.getToken(),
+		},
+		/*headers: {
+			'Content-Type': 'multipart/form-data',
+		},*/
+		method: "PUT",
+		body: data
+  	})
+}
+
+export const getAllProjectStatus = async () => {
+	return await fetch(`${BASE_API_URL}projectstatus`, {
+	
+		/*headers: {
+			'Content-Type': 'multipart/form-data',
+		},*/
+		method: "GET",
+  	})
+}
+
+export const fetchProjectStatus = async (url) => {
+	return await fetch(`${BASE_URL}${url}`, {
+		headers: {
+			'Authorization': 'Bearer ' + KeycloakService.getToken(),
+		},
+		/*headers: {
+			'Content-Type': 'multipart/form-data',
+		},*/
+		method: "GET",
+  	})
+}
+
