@@ -39,18 +39,22 @@ const ChatWindowComponent = (props) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
-  //const [state, setstate] = useState([])
+
 
   useEffect(() => {
+    if(chatboardUrl) {
+      fetchData();
+    }
+  }, [chatboardUrl])
 
-    console.log("selectedProjectId: " + selectedProjectId)
-
+  useEffect(() => {
+    //console.log("selectedProjectId: " + selectedProjectId)
     socket = io(ENDPOINT);
 
     /* console.log("name: " + name);
     console.log("room: " + room); */
     if (name !== undefined && chatRoom !== undefined) {
-      socket.emit("join", { name, chatRoom }, () => {});
+      socket.emit("join", { name, room: chatRoom }, () => {});
     }
 
     return () => {
@@ -62,19 +66,10 @@ const ChatWindowComponent = (props) => {
     };
   }, [ENDPOINT]);
 
-  useEffect(() => {
-    if(chatboardUrl) {
-      fetchData();
-    }
-  }, [chatboardUrl])
-
+  
   useEffect(() => {
     socket.on("message", (message) => {
-      //console.log("socket.on");
-      //console.log("MESSAGE")
-      //console.log(message);
       setMessages(messages => [...messages, message]);
-      //addMessageToMessages(message);
     });
   }, []);
 
@@ -137,7 +132,8 @@ const ChatWindowComponent = (props) => {
      
 
       // CAN'T GET THIS ARRAY TO RENDER PROPERLY
-      setMessages(previousMessagesFetched);
+      setMessages(messages => [...messages, previousMessage]);
+      //setMessages(previousMessagesFetched);
       forceUpdate()
     });
 
@@ -148,7 +144,7 @@ const ChatWindowComponent = (props) => {
   const sendMessage = async (event) => {
     event.preventDefault();
 
-    let date = new Date();
+    const date = new Date();
     setDateCreated(getTimeSinceCreation(date));
 
     if (message) {
@@ -166,6 +162,37 @@ const ChatWindowComponent = (props) => {
     await postNewChatMessage(formData)
   };
 
+  const renderChatmessage = (user, text, dateCreated) => {
+    if (user === "Admin") {
+      return (
+        <p className="admin-message">{user} &#8226; {text}</p>
+      )
+    } 
+    else if (user === fullName) {
+      return (
+        <ChatMessageComponent
+            name={user}
+            message={text}
+            date_created={dateCreated}
+            divStyling={"chat-message-right"}
+            paragraphStyling={"message-text-right"}
+          ></ChatMessageComponent>
+      )
+    } 
+    else {
+      return (
+        <ChatMessageComponent
+        name={user}
+        message={text}
+        date_created={dateCreated}
+        divStyling={"chat-message-left"}
+        paragraphStyling={"message-text-left"}
+      ></ChatMessageComponent>
+        )
+    }
+  }
+
+
   const renderMessages = () => {
     //console.log("RENDER MESSAGES");
     //console.log(messages);
@@ -178,7 +205,7 @@ const ChatWindowComponent = (props) => {
         }
         key={index}
       >
-        {user === fullName ? (
+        {/*user === fullName ? (
           <ChatMessageComponent
             name={user}
             message={text}
@@ -194,7 +221,8 @@ const ChatWindowComponent = (props) => {
             divStyling={"chat-message-left"}
             paragraphStyling={"message-text-left"}
           ></ChatMessageComponent>
-        )}
+        )*/}
+        {renderChatmessage(user, text, dateCreated)}
       </div>
     ));
   };
@@ -243,7 +271,6 @@ const mapStateToProps = (state) => {
     fullName: `${state.user.firstname} ${state.user.lastname}`,
     keycloakEmail: state.user.email,
     selectedProjectId: state.projects.selectedProject.id,
-    //chatboardUrl: state.projects.
   };
 };
 

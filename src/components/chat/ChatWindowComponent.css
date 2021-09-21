@@ -1,5 +1,6 @@
 .message-container {
     overflow-y: scroll;
+    min-height: 70vh;
     max-height: 70vh;
 }
 
@@ -13,9 +14,9 @@
     overflow-wrap: break-word; 
 }
 
-.row-70w {
+/* .row-70w {
     max-width: 70%;
-}
+} */
 
 .right {
     float: right;
@@ -37,6 +38,7 @@
     padding: 10px;
     background-color: rgb(93, 190, 132);
     color: rgb(27, 123, 60);
+    min-width: 70%;
 }
 
 .message-text-right {
@@ -51,6 +53,7 @@
     padding: 10px;
     background-color: rgb(131, 184, 246);
     color: rgb(79, 94, 231);
+    max-width: 70%;
 }
 
 .message-text-left {
@@ -62,4 +65,10 @@
     color: greenyellow;
     float: right;
     font-size: 160%;
+}
+
+.admin-message {
+    color: grey;
+    font-size: 70%;
+    font-style: italic;
 }

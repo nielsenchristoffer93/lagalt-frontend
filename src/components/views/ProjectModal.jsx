@@ -1,4 +1,4 @@
-import { Modal, Card, Col, Row, Button, Container } from "react-bootstrap";
+import { Modal, Card, Col, Row, Button } from "react-bootstrap";
 import DiscussionBoardComponent from "./discussionBoard/DiscussionBoardComponent";
 import ChatWindowComponent from "../chat/ChatWindowComponent";
 import KeycloakService from "../../services/keycloakService";
@@ -8,7 +8,6 @@ import {
   hideProjectModal,
   setSelectedProjectTab,
 } from "../../redux/Project/projectSlice";
-import { getTimeSinceCreation } from "../../services/timeFormatter";
 import ProjectComponent from "./ProjectComponent";
 import { connect } from "react-redux";
 import "./ProjectModal.css";
@@ -103,10 +102,10 @@ const ProjectModal = (props) => {
   };
 
   const handleSetSelectedProjectTab = (tabId) => {
-    if (selectedProjectTab != tabId) {
+    if (selectedProjectTab !== tabId) {
       setSelectedProjectTab(tabId);
     }
-    console.log(selectedProjectTab);
+    //console.log(selectedProjectTab);
   };
 
   return (
@@ -115,7 +114,6 @@ const ProjectModal = (props) => {
       onHide={handleCloseProjectModal}
       dialogClassName="modal-80w"
     >
-      {console.log(projectRoles)}
       <Modal.Header closeButton>
         <Modal.Title style={{ height: "100px" }}>
           {selectedProject.title}
@@ -186,7 +184,6 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
-    // getProjectRole: state.projects.getProjectRole,
     messages: state.messages.messages,
     displayProjectModal: state.projects.displayProjectModal,
     loadingSelectedProject: state.projects.loading,
