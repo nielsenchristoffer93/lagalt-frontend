@@ -15,7 +15,6 @@ export const getUserId = async() => {
 }
 
 
-
 export const getUserData = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/i/${id}`, {
@@ -67,5 +66,16 @@ export const getUserById = async(id) => {
         },
         method: "GET",
     })
+}
+
+export const getUserByUserUrl = async(userUrl) => {
+    const response = await fetch(`${BASE_URL}${userUrl}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "GET",
+    })
+    return await response.json();
 }
 

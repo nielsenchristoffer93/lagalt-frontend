@@ -5,10 +5,16 @@ import KeycloakService from "../../../services/keycloakService";
 import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
-import { postNewDiscussionBoard } from "../../../services/discussionboardService";
 import { postMessage } from "../../../services/discussionMessages";
+import { getTimeSinceCreation } from "../../../services/timeFormatter"
 import { BASE_URL } from "../../../services/index";
-import { findByDisplayValue } from "@testing-library/dom";
+
+
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
+
 
 const DiscussionBoardComponent = (props) => {
   const {
@@ -16,14 +22,16 @@ const DiscussionBoardComponent = (props) => {
     selectedProject,
     fetchMessagesBasedOnBoard,
     fullName,
-    createMessages,
     messageboardUrl,
   } = props;
+
+  const forceUpdate = useForceUpdate();
 
   const [name, setName] = useState(fullName);
   const [newMessage, setnewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
 
   useEffect(() => {
     if (newMessage) {
@@ -40,6 +48,8 @@ const DiscussionBoardComponent = (props) => {
       (response) => response.json()
     );
     //console.log(messageboardUrl)
+    
+    var previousMessagesFetched = [];
 
     const bordMessagesArray = boardMessages.discussionMessages;
     //console.log(bordMessagesArray)
@@ -50,23 +60,33 @@ const DiscussionBoardComponent = (props) => {
       ).then((response) => response.json());
       // console.log(boardMessageData);
 
+
+
+      const boardMessageId = boardMessageData.id;
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
+      
+      const timeFormatted = getTimeSinceCreation(timestamp);
 
       const userUrl = boardMessageData.user;
-      console.log("userUrl: " + userUrl);
+      //console.log("userUrl: " + userUrl);
 
       const userData = await fetch(`${BASE_URL}${userUrl}`)
         .then((response) => response.json())
         .catch((error) => console.log(error));
 
-      console.log(userData);
+      //console.log(userData);
 
       const name = userData.firstname + " " + userData.lastname;
       //console.log(name);
 
-      const oldMessage = { text: message, user: name };
-      setMessages((messages) => [...messages, oldMessage]);
+      const oldMessage = {id: boardMessageId, text: message, user: name, dateCreated: timeFormatted };
+      previousMessagesFetched.push(oldMessage);
+      previousMessagesFetched = previousMessagesFetched.sort((a, b) => a.id - b.id)
+      // setMessages((messages) => [...messages, oldMessage]);
+      setMessages(previousMessagesFetched);
+      forceUpdate()
+
     });
   };
 
@@ -76,19 +96,20 @@ const DiscussionBoardComponent = (props) => {
 
   const handlePost = async (e) => {
     e.preventDefault();
+    let date = new Date();
+    setDateCreated(getTimeSinceCreation(date));
+    
+    setnewMessage(true);
+    setMessage("");
 
     const formData = new FormData();
     formData.append("message", message);
-    formData.append("timestamp", "2021-09-02 10:04:50");
+    formData.append("timestamp", date);
     formData.append("user_id", 1);
     formData.append("discussion_board_id", selectedProject.id);
 
     console.log("Message: " + message);
 
-    //fetchMessagesBasedOnBoard(selectedProject.id);
-    //fetchData(selectedProject.id);
-    setnewMessage(true);
-    setMessage("");
 
     await postMessage(formData);
     //fetchMessagesBasedOnBoard(selectedProject.id);
@@ -159,7 +180,7 @@ const DiscussionBoardComponent = (props) => {
             <DiscussionMessageComponent
               message={message.text}
               name={message.user}
-              timestamp={message.timestamp}
+              timestamp={message.dateCreated}
             ></DiscussionMessageComponent>
           ))}
         {renderLoginButtonsOrMessageForm()}

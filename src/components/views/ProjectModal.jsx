@@ -8,16 +8,26 @@ import { hideProjectModal } from '../../redux/Project/projectSlice'
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { connect } from 'react-redux';
 import "./ProjectModal.css";
+import { useEffect, useState } from 'react';
+import { getProjectRoleByProjectRoleUrl } from '../../services/projectRole';
+import { getUserByUserUrl } from '../../services/user';
+import { getRoleByRoleUrl } from '../../services/roleService';
 
 const ProjectModal = (props) => {
   const {
     projects,
+    // getProjectRole,
     selectedProject,
     loadingSelectedProject,
     displayProjectModal,
     hideProjectModal,
     showModal
   } = props;
+
+  const [projectRoles, setProjectRoles] = useState([]);
+  const [isMemberOfProject, setIsMemberOfProject] = useState(false);
+  const [isUserAdminOfProject, setIsUserAdminOfProject] = useState(false);
+  //const [projcetRoles, setProjectRoles] = useState([]);
 
   function displayChatWindow() {
     return (
@@ -31,6 +41,49 @@ const ProjectModal = (props) => {
     );
   }
   
+  useEffect(() => {
+    if (!loadingSelectedProject) {
+      fetchProjectRoles();
+    }
+  }, [loadingSelectedProject])
+
+  const fetchProjectRoles = async () => {
+    //console.log("selecteProject.projectRoles: " + selectedProject.projectRoles);
+    const projectRoles = selectedProject.projectRoles;
+
+    projectRoles.forEach(async (projectRole) => {
+      //console.log("projectRole: " + projectRole);
+
+      const projectRoleData = await getProjectRoleByProjectRoleUrl(projectRole);
+      //console.log(projectRoleData);
+
+      const userUrl = projectRoleData.user;
+      const roleUrl = projectRoleData.role;
+
+      //console.log("userUrl: " + userUrl);
+      //console.log("roleUrl: " + roleUrl);
+
+      const userData = await getUserByUserUrl(userUrl);
+      //console.log(userData);
+      const email = userData.keycloakEmail;
+      console.log("emaiL: " + email)
+
+      const roleData = await getRoleByRoleUrl(roleUrl);
+      const role = roleData.title;
+      console.log("role: " + role);
+
+      const userProjectRole = {email: email, role: role};
+
+      setProjectRoles(projectRoles => [...projectRoles, userProjectRole]);
+
+      if (KeycloakService.getEmail() === email) {
+        setIsMemberOfProject(true);
+      }
+
+    });
+
+  }
+
   /*
   function displayApply() {
     return (
@@ -53,6 +106,7 @@ const ProjectModal = (props) => {
       onHide={handleCloseProjectModal}
       dialogClassName="modal-80w"
     >
+      {console.log(projectRoles)}
       <Modal.Header closeButton>
         <Modal.Title>{selectedProject.title}</Modal.Title>
       </Modal.Header>
@@ -93,7 +147,7 @@ const ProjectModal = (props) => {
           Close
         </Button>
 
-        <Button variant="success" onClick={handleShowModal}>Apply to project</Button>
+        {!isMemberOfProject ? <Button variant="success" onClick={handleShowModal}>Apply to project</Button> : null}
       </Modal.Footer>
     </Modal>
   );
@@ -103,6 +157,7 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
+    // getProjectRole: state.projects.getProjectRole,
     messages: state.messages.messages,
     show: state.join.show,
     displayProjectModal: state.projects.displayProjectModal,

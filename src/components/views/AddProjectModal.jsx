@@ -67,6 +67,7 @@ const AddProjectModal = (props) => {
     const formDataProjectRole = new FormData();
     formDataProjectRole.append("projectId", projectId);
     formDataProjectRole.append("userId", userId);
+    formDataProjectRole.append("roleId", 1);
 
     const newProjectRole = await postNewProjectRole(formDataProjectRole).then(response => response.json());
     //console.log(newProjectRole);
