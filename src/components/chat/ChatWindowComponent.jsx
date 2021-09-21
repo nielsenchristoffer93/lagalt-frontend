@@ -194,8 +194,6 @@ const ChatWindowComponent = (props) => {
 
 
   const renderMessages = () => {
-    //console.log("RENDER MESSAGES");
-    //console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
       <div
         className={
@@ -205,23 +203,6 @@ const ChatWindowComponent = (props) => {
         }
         key={index}
       >
-        {/*user === fullName ? (
-          <ChatMessageComponent
-            name={user}
-            message={text}
-            date_created={dateCreated}
-            divStyling={"chat-message-right"}
-            paragraphStyling={"message-text-right"}
-          ></ChatMessageComponent>
-        ) : (
-          <ChatMessageComponent
-            name={user}
-            message={text}
-            date_created={dateCreated}
-            divStyling={"chat-message-left"}
-            paragraphStyling={"message-text-left"}
-          ></ChatMessageComponent>
-        )*/}
         {renderChatmessage(user, text, dateCreated)}
       </div>
     ));
@@ -229,7 +210,7 @@ const ChatWindowComponent = (props) => {
 
   return (
     <Card>
-      <Card.Header>
+      <Card.Header className="card-header">
         <p>Chat<span className="online-bullet">&#8226;</span></p>
       </Card.Header>
       <Card.Body>
