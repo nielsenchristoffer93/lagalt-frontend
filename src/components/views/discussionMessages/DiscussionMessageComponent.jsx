@@ -7,7 +7,7 @@ import { getTimeSinceCreation } from "../../../services/timeFormatter"
 
 const DiscussionMessageComponent = ({ name, message, timestamp }) => {
 
-  //const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
+
 
   return (
 

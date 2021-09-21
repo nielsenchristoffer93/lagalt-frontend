@@ -3,7 +3,6 @@ import {useState} from "react";
 import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import { getUserId } from "../../../services/user"
-// import {getSelectedProjectData} from '../../../services/projects'
 import { postNewProjectRole } from "../../../services/projectRole" 
 import ModalHeader from "react-bootstrap/ModalHeader";
 
@@ -12,7 +11,7 @@ const JoinProject = (props) => {
 
    
 
-    const [motivation, setMotivation] = useState("")
+   // const [motivation, setMotivation] = useState("")
 
     const {show, showModal, selectedProject} = props
     const handleClose = () => showModal();
@@ -27,6 +26,8 @@ const JoinProject = (props) => {
         const formDataProjectRole = new FormData();
         formDataProjectRole.append("projectId", selectedProject.id);
         formDataProjectRole.append("userId", userId);
+        // roleId 1 is administrator and roleId 2 is user.
+        formDataProjectRole.append("roleId", 2);
         console.log(selectedProject.id)
         console.log(userId)
     
@@ -44,12 +45,8 @@ const JoinProject = (props) => {
             </ModalHeader>
             <ModalBody>
                 <Form onSubmit={handleJoin}>
-                <FormControl disabled type="text" rows={"7"} className="height: 100%;" placeholder="*This will allow the project admins to
-            acess your profile."/>
+                <FormControl disabled type="text" rows={"7"} className="height: 100%;" placeholder="*This will allow the project admins to acess your profile."/>
                 <br />
-                    {/* <FormLabel>Motivation</FormLabel> */}
-                {/*Check how to set height to auto*/}
-                    {/* <FormControl type="text" as="textarea" rows={"7"} className="height: 100%;" onChange={event => setMotivation(event.target.value)}/> */}
                 </Form>
             </ModalBody>
             <ModalFooter>
