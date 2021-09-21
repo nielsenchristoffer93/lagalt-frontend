@@ -1,44 +1,46 @@
 import React from "react";
 import "./DiscussionMessageComponent.css";
 import moment from "moment";
+import { Row } from "react-bootstrap";
+import { getTimeSinceCreation } from "../../../services/timeFormatter"
 
 
 const DiscussionMessageComponent = ({ name, message, timestamp }) => {
 
-  const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
-
-
+  //const dateTimeAgo = moment("2021-09-02 10:04:50").fromNow(); //temporary solution
 
   return (
 
-    <div class="comment-thread">
-      <details open class="comment" id="comment-1">
-        <a href="#comment-1" class="comment-border-link">
-          <span class="sr-only"></span>
-        </a>
+    <div className="comment-thread">
+      <details open className="comment">
+        <div className="comment-border-link">
+          <span className="sr-only"></span>
+        </div>
         <summary>
-
-          <div class="comment-info">
-            <a href="#" class="comment-author">{name}</a>
-            <p class="m-0"> comment posted
-            &bull;  {": " + timestamp, dateTimeAgo}
+          <Row>
+            <Row>
+              <p>{name} &bull; <span>{getTimeSinceCreation(timestamp)}</span></p>
+            </Row>
+          </Row>
+          {/*<div className="comment-info">
+            <a href="#" className="comment-author">{name}</a>
+            <p className="m-0"> comment posted
+            &bull;  {getTimeSinceCreation(timestamp)}
             </p>
-          </div>
+  </div>*/}
         </summary>
 
-        <div class="comment-body">
+        <div className="comment-body">
           <p>
             {message}
           </p>
           <hr />
-
         </div>
 
       </details>
 
-    </div>
-
-  );
+  </div>
+  )
 };
 
 

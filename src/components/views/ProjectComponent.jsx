@@ -115,6 +115,7 @@ const ProjectComponent = (props) => {
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img
+      className="project-image"
         variant="bottom"
         src={`data:image/png;base64,${image}`}
         alt="no_image_in_database_associated_with_project."

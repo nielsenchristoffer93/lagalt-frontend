@@ -10,6 +10,12 @@ import { postMessage } from "../../../services/discussionMessages";
 import { BASE_URL } from "../../../services/index";
 import { findByDisplayValue } from "@testing-library/dom";
 
+//create your forceUpdate hook
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update the state to force render
+}
+
 const DiscussionBoardComponent = (props) => {
   const {
     // messages,
@@ -19,6 +25,8 @@ const DiscussionBoardComponent = (props) => {
     createMessages,
     messageboardUrl,
   } = props;
+
+  const forceUpdate = useForceUpdate();
 
   const [name, setName] = useState(fullName);
   const [newMessage, setnewMessage] = useState(true);
@@ -35,6 +43,7 @@ const DiscussionBoardComponent = (props) => {
 
   const fetchData = async () => {
     //console.log("messageboardUrl: " + messageboardUrl);
+    var previousMessagesFetched = [];
 
     const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
       (response) => response.json()
@@ -49,6 +58,8 @@ const DiscussionBoardComponent = (props) => {
         `${BASE_URL}${messageboardUrl}`
       ).then((response) => response.json());
       // console.log(boardMessageData);
+
+      const discussionMessageId = boardMessageData.id;
 
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
@@ -65,8 +76,23 @@ const DiscussionBoardComponent = (props) => {
       const name = userData.firstname + " " + userData.lastname;
       //console.log(name);
 
-      const oldMessage = { text: message, user: name };
-      setMessages((messages) => [...messages, oldMessage]);
+      const oldMessage = {
+        id: discussionMessageId,
+        text: message,
+        user: name,
+        timestamp: timestamp,
+      };
+      //setMessages((messages) => [...messages, oldMessage]);
+
+      previousMessagesFetched.push(oldMessage);
+      //setstate(state => [...state, previousMessage]);
+      previousMessagesFetched = previousMessagesFetched.sort(
+        (a, b) => a.id - b.id
+      );
+
+      // CAN'T GET THIS ARRAY TO RENDER PROPERLY
+      setMessages(previousMessagesFetched);
+      forceUpdate();
     });
   };
 
@@ -75,11 +101,13 @@ const DiscussionBoardComponent = (props) => {
   };
 
   const handlePost = async (e) => {
+    const date = new Date();
+
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("message", message);
-    formData.append("timestamp", "2021-09-02 10:04:50");
+    formData.append("timestamp", date);
     formData.append("user_id", 1);
     formData.append("discussion_board_id", selectedProject.id);
 
@@ -100,8 +128,10 @@ const DiscussionBoardComponent = (props) => {
     if (!KeycloakService.isLoggedIn()) {
       return (
         <Row>
-          <p className="login-paragraph">Log in or sign up to leave a comment</p>
-          
+          <p className="login-paragraph">
+            Log in or sign up to leave a comment
+          </p>
+
           <Button
             variant="outline-primary"
             id="btn"
@@ -153,15 +183,17 @@ const DiscussionBoardComponent = (props) => {
     <Container>
       <div id="scroll1">
         {/* easy scroll */}
-        {messages &&
-          messages.length > 0 &&
-          messages.map((message) => (
-            <DiscussionMessageComponent
-              message={message.text}
-              name={message.user}
-              timestamp={message.timestamp}
-            ></DiscussionMessageComponent>
-          ))}
+        <div className="discussion-messages-container">
+          {messages &&
+            messages.length > 0 &&
+            messages.map((message) => (
+              <DiscussionMessageComponent
+                message={message.text}
+                name={message.user}
+                timestamp={message.timestamp}
+              ></DiscussionMessageComponent>
+            ))}
+        </div>
         {renderLoginButtonsOrMessageForm()}
         {/*<div class="custom-input" id="scroll2">
           <input
@@ -185,7 +217,7 @@ const DiscussionBoardComponent = (props) => {
           </button>
           </div>*/}
       </div>
-      </Container>
+    </Container>
   );
 };
 
