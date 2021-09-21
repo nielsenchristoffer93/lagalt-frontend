@@ -7,12 +7,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./ProjectFilterComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
+import CategoriesDropdownComponent from "../../higher-order-components/CategoriesDropdownComponent";
 import { connect } from "react-redux";
 import {
   fetchAllProjectsWithCategory,
   fetchFilteredProjects,
-} from "../../redux/Project/projectSlice";
+} from "../../../redux/Project/projectSlice";
 const ProjectFilterComponent = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
