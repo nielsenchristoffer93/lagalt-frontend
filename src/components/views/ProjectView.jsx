@@ -41,6 +41,9 @@ const ProjectView = (props) => {
   } = props;
 
   useEffect(() => {
+ /*    setInterval(() => {
+      fetchAllProjects()
+    }, 10000) */
     fetchRecommendedProjects()
   }, [])
 
