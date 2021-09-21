@@ -8,14 +8,24 @@ import ProfileModal from "./profileModal/ProfileModal";
 import ProfileSkills from "./profileSkills/ProfileSkills";
 import KeycloakService from "../../../services/keycloakService";
 import {Redirect} from "react-router-dom";
+import {fetchUserData, fetchUserPortfolio, fetchUserSkills} from "../../../redux/User/userSlice";
 
 const ProfileView = (props) => {
     const {
         showModal,
         user,
+        fetchUserData,
+        fetchUserPortfolio,
+        fetchUserSkills
     } = props
 
     const [shouldRedirect, setShouldRedirect] = useState(false)
+
+    useEffect(() => {
+        fetchUserData();
+        fetchUserPortfolio();
+        fetchUserSkills();
+    }, []);
 
     useEffect(() => {
 
@@ -95,6 +105,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showModal: () => dispatch(showModal()),
+        fetchUserData: () => dispatch(fetchUserData()),
+        fetchUserSkills: () => dispatch(fetchUserSkills()),
+        fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
     }
 };
 
