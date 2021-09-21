@@ -68,4 +68,23 @@ export const getUserById = async(id) => {
         method: "GET",
     })
 }
+export const postNewPortfolioItem = async (data) => {
+    const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/users/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "POST",
+        body: data
+    })
+}
 
+export const deletePortfolioItem = async (id) => {
+    // const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "DELETE",
+    })
+}
