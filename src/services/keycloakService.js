@@ -1,9 +1,5 @@
 import Keycloak from "keycloak-js";
 import {BASE_API_URL} from "./index";
-import {connect} from "react-redux";
-import {showModal} from "../redux/profile/profileSlice";
-import {fetchUserData} from "../redux/User/userSlice";
-
 const _kc = new Keycloak('/keycloak.json');
 
 /**
@@ -17,18 +13,9 @@ const initKeycloak = (onAuthenticatedCallback) => {
     _kc.init({
         onLoad: 'check-sso',
         pkceMethod: 'S256',
-
-        //Breaks everything after login
-        //silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
     })
         .then((authenticated) => {
-             //setUserData();
-            // if (authenticated) {
             onAuthenticatedCallback();
-            //fetchUserData();
-            // } else {
-            //   doLogin();
-            // }
         })
     }catch (e) {
         console.log(e);
@@ -57,7 +44,6 @@ export const getEmail = () => _kc.idTokenParsed?.email;
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
 const postNewUser = async() => {
-    console.log(getToken());
     const email = _kc.idTokenParsed?.email;
     const firstname =  _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
@@ -67,7 +53,6 @@ const postNewUser = async() => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + KeycloakService.getToken(),
-                //'Access-Control-Allow-Origin' : 'https://lagalt-frontend-gbg.herokuapp.com',
             },
             method: "POST",
             body:JSON.stringify({
@@ -94,18 +79,4 @@ const KeycloakService = {
     getEmail,
     postNewUser
 };
-// const mapStateToProps = state => {
-//     return {
-//         user: state.user.user,
-//     };
-// };
-//
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         fetchUserData:() => dispatch(fetchUserData()),
-//
-//     }
-// };
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(KeycloakService);
 export default KeycloakService;

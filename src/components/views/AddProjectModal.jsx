@@ -34,6 +34,8 @@ const AddProjectModal = (props) => {
   const handleSubmit = async () => {
     var date = new Date();
 
+    const userId = await getUserId();
+
     /* let skills = []
     selectedSkills.forEach(selectedSkill => {
       skills.push({"id": selectedSkill});
@@ -61,7 +63,7 @@ const AddProjectModal = (props) => {
     const projectId = newProject.id;
     //console.log("projectId: " + projectId);
 
-    const userId = await getUserId();
+    
     //console.log("userId: " + userId);
 
     const formDataProjectRole = new FormData();
@@ -70,7 +72,8 @@ const AddProjectModal = (props) => {
     formDataProjectRole.append("roleId", 1);
 
     const newProjectRole = await postNewProjectRole(formDataProjectRole).then(response => response.json());
-    //console.log(newProjectRole);
+    console.log("NEW PROJECT ROLE")
+    console.log(newProjectRole);
 
     const formDataProjectId = new FormData();
     formDataProjectId.append("projectId", projectId);

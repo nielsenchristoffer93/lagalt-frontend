@@ -64,18 +64,18 @@ export const fetchUserData = () => async (dispatch) => {
         dispatch(setFirstname(data.firstname));
         dispatch(setLastname(data.lastname));
     } catch (err) {
-        console.log( err);
+        console.log(err);
     }
 };
 export const fetchUserSkills = () => async (dispatch) => {
+    let data;
     try {
         const response = await getUserSkills();
-        const data = await response.json();
+        data = await response.json();
 
         dispatch(setSkills(data));
     } catch (err) {
         console.log(err);
-
     }
 };
 export const fetchUserPortfolio = () => async (dispatch) => {

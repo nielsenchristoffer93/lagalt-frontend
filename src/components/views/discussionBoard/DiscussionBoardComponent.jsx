@@ -16,6 +16,12 @@ function useForceUpdate(){
 }
 
 
+//create your forceUpdate hook
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update the state to force render
+}
+
 const DiscussionBoardComponent = (props) => {
   const {
     // messages,
@@ -43,6 +49,7 @@ const DiscussionBoardComponent = (props) => {
 
   const fetchData = async () => {
     //console.log("messageboardUrl: " + messageboardUrl);
+    var previousMessagesFetched = [];
 
     const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
       (response) => response.json()
@@ -61,8 +68,8 @@ const DiscussionBoardComponent = (props) => {
       // console.log(boardMessageData);
 
 
+      const discussionMessageId = boardMessageData.id;
 
-      const boardMessageId = boardMessageData.id;
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
       
@@ -80,13 +87,23 @@ const DiscussionBoardComponent = (props) => {
       const name = userData.firstname + " " + userData.lastname;
       //console.log(name);
 
-      const oldMessage = {id: boardMessageId, text: message, user: name, dateCreated: timeFormatted };
-      previousMessagesFetched.push(oldMessage);
-      previousMessagesFetched = previousMessagesFetched.sort((a, b) => a.id - b.id)
-      // setMessages((messages) => [...messages, oldMessage]);
-      setMessages(previousMessagesFetched);
-      forceUpdate()
+      const oldMessage = {
+        id: discussionMessageId,
+        text: message,
+        user: name,
+        timestamp: timestamp,
+      };
+      //setMessages((messages) => [...messages, oldMessage]);
 
+      previousMessagesFetched.push(oldMessage);
+      //setstate(state => [...state, previousMessage]);
+      previousMessagesFetched = previousMessagesFetched.sort(
+        (a, b) => a.id - b.id
+      );
+
+      // CAN'T GET THIS ARRAY TO RENDER PROPERLY
+      setMessages(previousMessagesFetched);
+      forceUpdate();
     });
   };
 
@@ -95,6 +112,8 @@ const DiscussionBoardComponent = (props) => {
   };
 
   const handlePost = async (e) => {
+    const date = new Date();
+
     e.preventDefault();
     let date = new Date();
     setDateCreated(getTimeSinceCreation(date));
@@ -121,8 +140,10 @@ const DiscussionBoardComponent = (props) => {
     if (!KeycloakService.isLoggedIn()) {
       return (
         <Row>
-          <p className="login-paragraph">Log in or sign up to leave a comment</p>
-          
+          <p className="login-paragraph">
+            Log in or sign up to leave a comment
+          </p>
+
           <Button
             variant="outline-primary"
             id="btn"
@@ -174,15 +195,17 @@ const DiscussionBoardComponent = (props) => {
     <Container>
       <div id="scroll1">
         {/* easy scroll */}
-        {messages &&
-          messages.length > 0 &&
-          messages.map((message) => (
-            <DiscussionMessageComponent
-              message={message.text}
-              name={message.user}
-              timestamp={message.dateCreated}
-            ></DiscussionMessageComponent>
-          ))}
+        <div className="discussion-messages-container">
+          {messages &&
+            messages.length > 0 &&
+            messages.map((message) => (
+              <DiscussionMessageComponent
+                message={message.text}
+                name={message.user}
+                timestamp={message.timestamp}
+              ></DiscussionMessageComponent>
+            ))}
+        </div>
         {renderLoginButtonsOrMessageForm()}
         {/*<div class="custom-input" id="scroll2">
           <input
@@ -206,7 +229,7 @@ const DiscussionBoardComponent = (props) => {
           </button>
           </div>*/}
       </div>
-      </Container>
+    </Container>
   );
 };
 

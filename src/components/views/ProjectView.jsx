@@ -6,7 +6,7 @@ import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {initialAddUser, fetchUserData, fetchUserSkills, fetchUserPortfolio, fetchUserAbout} from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
 import { Button, Modal, Row, Col } from "react-bootstrap";
-import ProjectFilterComponent from "./ProjectFilterComponent";
+import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
 import ProjectModal from "./ProjectModal";
 import KeycloakService from "../../services/keycloakService";
 import "./ProjectViewStyle.css";
@@ -52,7 +52,6 @@ const ProjectView = (props) => {
   const tryPushUser = () => {
 
     if (!userPosted) {
-      console.log("userPosted !")
        KeycloakService.postNewUser();
        //sets userPosted to true
       initialAddUser();
@@ -63,8 +62,8 @@ const ProjectView = (props) => {
     }
   };
 
-  const onOpenModal = (id) => {
-    fetchSelectedProjectData(id);
+  const onOpenModal = async (id) => {
+    await fetchSelectedProjectData(id);
     //setSelectedProject(i);
     //console.log("i=?" + i);
     //setOpen(true);
@@ -96,21 +95,18 @@ const ProjectView = (props) => {
                   description={project.description}
                   image={project.image}
                   projectTags={project.projectTags}
-                  category={project.category}
+                  categoryUrl={project.category}
                   skills={project.skills}
+                  createdDate={project.createdDate}
+                  //userUrl={project.users[0]}
+                  projectStatusUrl={project.projectStatus}
+                  // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
+                  projectRoleUrl={project.projectRoles[0]}
                   key={i}
                 />
               </div>
             ))}
 
-          {/*<Modal
-            show={open}
-            onHide={onCloseModal}
-            center
-            dialogClassName="custom-modal-80w"
-          >
-            {renderModal()}
-          </Modal>*/}
           {displayProjectModal ? (
             <ProjectModal></ProjectModal>
           ) : null}
@@ -118,9 +114,6 @@ const ProjectView = (props) => {
         <Col sm="3"></Col>
       </Row>
     </div>
-    //<div className="projectList">
-
-    //</div>
   );
 };
 

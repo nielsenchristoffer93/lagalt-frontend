@@ -141,19 +141,6 @@ const ChatWindowComponent = (props) => {
       // CAN'T GET THIS ARRAY TO RENDER PROPERLY
       setMessages(previousMessagesFetched);
       forceUpdate()
-
-
-      //setMessages(messages => [...messages, previousMessage]);
-      
-      
-      //setMessages(state);
-      //console.log("messages")
-      //console.log(messages);
-      //setMessages(messages => [...messages, previousMessagesFetched]);
-      //previousMessagesFetched.push(previousMessage);
-      //setPreviousMessages(previousMessages => [...previousMessages, previousMessage]);
-      //setPreviousMessages(previousMessages => previousMessages.concat(previousMessage));
-      //addMessageToMessages(previousMessage);
     });
 
     //console.log(previousMessagesFetched);

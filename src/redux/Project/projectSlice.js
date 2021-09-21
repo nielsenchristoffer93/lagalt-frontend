@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
 	getAllProjects, getAllProjectsWithCategory, filterProjects, 
-	getSelectedProjectData, getRecomendedProject
+	getSelectedProjectData, getRecomendedProject, getAllProjectStatus
 } from '../../services/projects';
 
 const initialState = {
@@ -11,12 +11,18 @@ const initialState = {
     loading: false,               		
 	error: '',
 	displayProjectModal: false,
+	selectedProjectTab: 0,
+	projectStatus: [], 
+	projectsStatusHasLoaded: false,
 }
 
 const projectSlice = createSlice({
     name:"projects",
     initialState: initialState,
     reducers:{
+		setSelectedProjectTab: (state, action) => {
+			state.selectedProjectTab = action.payload
+		},
 		getSelectedProjectStarted: (state) => {
 			state.loading = true
 		},
@@ -53,17 +59,33 @@ const projectSlice = createSlice({
 			state.loading = false
 			state.error = action.payload
 		},
+		getAllProjectStatusStarted: (state) => {
+			state.loading = true
+		},
+		getAllProjectStatusSuccess: (state, action) => {
+			state.projectStatus = action.payload
+			state.loading = false
+			state.error = ''
+		},
+		getAllProjectStatusFailed: (state, action) => {
+			state.loading = false
+			state.error = action.payload
+		},
 		showProjectModal: (state) => {
 			state.displayProjectModal = true;
 		  },
 		hideProjectModal: (state) => {
 		state.displayProjectModal = false;
 		},
+		setProjectsStatusHasLoaded: (state, action) => {
+			state.projectsStatusHasLoaded = action.payload;
+		},
     }
 
 })
 
 export const {
+	setSelectedProjectTab,
     getSelectedProjectStarted,
 	getSelectedProjectSuccess,
 	getSelectedProjectFailed,
@@ -73,8 +95,12 @@ export const {
 	getRecommendedProjectsStarted,
 	getRecommendedProjectsSuccess,
 	getRecommendedProjectsFailed,
+	getAllProjectStatusStarted,
+	getAllProjectStatusSuccess,
+	getAllProjectStatusFailed,
 	showProjectModal,
 	hideProjectModal,
+	setProjectsStatusHasLoaded,
 } = projectSlice.actions;
 
 //Thunk
@@ -150,5 +176,18 @@ export const fetchRecommendedProjects = () => async dispatch => {
 	}
 }
 
+export const fetchAllProjectstatus = () => async (dispatch) => {
+	dispatch(getAllProjectStatusStarted())
+	try {
+	  const response = await getAllProjectStatus();
+	  const data = await response.json();
+  
+	  dispatch(getAllProjectStatusSuccess(data))
+	  dispatch(setProjectsStatusHasLoaded(true))
+	} catch (err) {
+	  console.log(err);
+	  dispatch(getAllProjectStatusFailed(err.toString()))
+	}
+  };
 
 export default projectSlice.reducer;
