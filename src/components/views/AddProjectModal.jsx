@@ -50,7 +50,6 @@ const AddProjectModal = (props) => {
     formData.append("createdDate", date);
     formData.append("category", selectedCategory);
     formData.append("skills", selectedSkills)
-    formData.append("userId", userId)
 
     //console.log(selectedSkills)
 
@@ -72,7 +71,8 @@ const AddProjectModal = (props) => {
     formDataProjectRole.append("userId", userId);
 
     const newProjectRole = await postNewProjectRole(formDataProjectRole).then(response => response.json());
-    //console.log(newProjectRole);
+    console.log("NEW PROJECT ROLE")
+    console.log(newProjectRole);
 
     const formDataProjectId = new FormData();
     formDataProjectId.append("projectId", projectId);

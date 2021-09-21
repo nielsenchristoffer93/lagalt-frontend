@@ -15,24 +15,11 @@
     margin-bottom: 2rem;
 }
 
-ul.horizontal-list {
-	min-width: 696px;
-	list-style: none;
-	padding-top: 20px;
-	}
 
-ul.horizontal-list li {
-    display: inline;
-    margin-right: 20px;
-}
 
 .searchContainer{
     border: solid black 1px;
     padding: 20px;
     margin: 15px 0px;
     border-radius: 10px;
-}
-
-.custom-modal-80w{
-    max-width: 80% !important;
 }

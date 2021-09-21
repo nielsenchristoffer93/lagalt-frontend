@@ -6,6 +6,7 @@ import { showModal } from "../../redux/joinProject/joinSlice";
 import JoinProject from "./joinProject/JoinProject";
 import { hideProjectModal } from "../../redux/Project/projectSlice";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
+import ProjectComponent from "./ProjectComponent";
 import { connect } from "react-redux";
 import "./ProjectModal.css";
 
@@ -59,12 +60,10 @@ const ProjectModal = (props) => {
       <Modal.Body className="project-modal-body">
         <Row>
           <Col>
-            <Card className="project-card">
+            {/*<Card className="project-card">
               <Card.Body>
                 <Row>
-                  <p>{`category: ${selectedProject.category} *posted by ${
-                    selectedProject.user
-                  }, ${getTimeSinceCreation(selectedProject.createdDate)}`}</p>
+                <p>category: {selectedProject.category} &#8226; posted by {selectedProject.user}, {getTimeSinceCreation(selectedProject.createdDate)}<span className="project-status">{selectedProject.projectStatus}</span></p>
                 </Row>
                 <Row>
                   <Row>
@@ -80,7 +79,20 @@ const ProjectModal = (props) => {
                   ></Card.Img>
                 </Row>
               </Card.Body>
-            </Card>
+  </Card>*/}
+            <ProjectComponent
+                  title={selectedProject.title}
+                  description={selectedProject.description}
+                  image={selectedProject.image}
+                  projectTags={selectedProject.projectTags}
+                  categoryUrl={selectedProject.category}
+                  skills={selectedProject.skills}
+                  createdDate={selectedProject.createdDate}
+                  //userUrl={"/api/v1/users/i/1"}
+                  projectStatusUrl={selectedProject.projectStatus}
+                  // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
+                  projectRoleUrl={selectedProject.projectRoles[0]}
+              ></ProjectComponent>
             <Card>
               {!loadingSelectedProject && (
                 <DiscussionBoardComponent
