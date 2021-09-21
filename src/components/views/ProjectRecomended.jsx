@@ -26,10 +26,12 @@ const ProjectRecomended = (props) => {
                 {project.description }
                 </Card.Text>
               </Card.Body>
+              {/* TO VIEW A BASE64 image (PNG/JPEG) */}
               <Card.Img
                 variant="bottom"
-                src="https://source.unsplash.com//180x180"
-              />
+                src={`data:image/png;base64,${project.image}`} alt="no_image_in_database_associated_with_project."
+              >
+              </Card.Img>   
             </Card>
           </Col>
         ))}

@@ -14,8 +14,6 @@ export const getUserId = async() => {
     return await response.json();
 }
 
-
-
 export const getUserData = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/i/${id}`, {
@@ -37,6 +35,7 @@ export const getUserSkills = async() => {
         method: "GET",
     })
 }
+
 export const getUserPortfolio = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/portfolio/${id}`, {
@@ -47,7 +46,6 @@ export const getUserPortfolio = async() => {
         method: "GET",
     })
 }
-
 
 export const getUserAbout = async() => {
     const id = await getUserId();
@@ -68,6 +66,7 @@ export const getUserById = async(id) => {
         method: "GET",
     })
 }
+
 export const postNewPortfolioItem = async (data) => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}portfolio/users/${id}`, {
@@ -77,6 +76,17 @@ export const postNewPortfolioItem = async (data) => {
         method: "POST",
         body: data
     })
+}
+
+export const getUserByUserUrl = async (userUrl) => {
+	const response = await fetch(`${BASE_URL}${userUrl}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "GET",
+    })
+    return await response.json();
 }
 
 export const deletePortfolioItem = async (id) => {
