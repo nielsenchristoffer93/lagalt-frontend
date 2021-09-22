@@ -115,11 +115,11 @@ const ProjectModal = (props) => {
       dialogClassName="modal-80w"
     >
       <Modal.Header closeButton>
-        <Modal.Title style={{ height: "100px" }}>
+        <Modal.Title style={{ height: isUserAdminOfProject ? "100px" : "auto" }}>
           {selectedProject.title}
         </Modal.Title>
 
-        <div style={{ position: "absolute", display: "flex", top: "80px" }}>
+        {isUserAdminOfProject && <div style={{ position: "absolute", display: "flex", top: "80px" }}>
           <div
             className={`tabs ${selectedProjectTab == 0 ? "active" : ""}`}
             onClick={() => handleSetSelectedProjectTab(0)}
@@ -132,7 +132,7 @@ const ProjectModal = (props) => {
           >
             <h6 className="">Admin</h6>
           </div>
-        </div>
+        </div>}
       </Modal.Header>
       <Modal.Body className="project-modal-body">
         {selectedProjectTab == 0 && (

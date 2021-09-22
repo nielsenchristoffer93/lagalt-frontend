@@ -10,8 +10,8 @@ const ProjectRecomended = (props) => {
   } = props;
 
 
-  const onOpenModal = (id) => {
-    fetchSelectedProjectData(id)
+  const onOpenModal = async (id) => {
+    await fetchSelectedProjectData(id)
     showProjectModal()
   };
 // onClick={() => onOpenModal(project.id)}

@@ -15,13 +15,11 @@ let socket;
 let ENDPOINT = "localhost:5000";
 //let ENDPOINT = "https://lagalt-chat.herokuapp.com/";
 
-
 //create your forceUpdate hook
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
   return () => setValue(value => value + 1); // update the state to force render
 }
-
 
 const ChatWindowComponent = (props) => {
 
