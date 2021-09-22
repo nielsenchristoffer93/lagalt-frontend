@@ -12,8 +12,8 @@ import { getTimeSinceCreation } from "../../services/timeFormatter"
 import KeycloakService from "../../services/keycloakService"
 
 let socket;
-let ENDPOINT = "localhost:5000";
-//let ENDPOINT = "https://lagalt-chat.herokuapp.com/";
+// let ENDPOINT = "localhost:5000";
+let ENDPOINT = "https://lagalt-chat.herokuapp.com/";
 
 //create your forceUpdate hook
 function useForceUpdate(){
