@@ -4,13 +4,28 @@ import { faEdit, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import AddProjectModal from "../views/AddProjectModal";
+import { getUserProjects } from '../../services/projects'
 import "./UserProjectComponent.css";
+import { useEffect, useState } from "react";
+import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
 
 const UserProjectComponent = (props) => {
-  const { displayAddProjectModal, showAddProjectModal } = props;
+  const [userProjects, setUserProjects] = useState([]);
+
+  const { displayAddProjectModal, showAddProjectModal, showProjectModal, fetchSelectedProjectData } = props;
+  
+  useEffect(async () => {
+    const data = await getUserProjects()
+    setUserProjects(data)
+  }, []);
 
   const handleShow = () => {
     showAddProjectModal();
+  };
+
+  const onOpenModal = async (id) => {
+    await fetchSelectedProjectData(id)
+    showProjectModal()
   };
 
   return (
@@ -38,46 +53,17 @@ const UserProjectComponent = (props) => {
         </Col>
       </Row>
       <hr></hr>
-      <Row>
-        <a href="#project1">
-          <FontAwesomeIcon
-            className="project-icon"
-            icon={faFileAlt}
-          ></FontAwesomeIcon>
-          Link to project 1
-        </a>
-      </Row>
-      <Row>
-        <a href="#project1">
-          <FontAwesomeIcon
-            className="project-icon"
-            icon={faFileAlt}
-          ></FontAwesomeIcon>
-          Link to project 1
-        </a>
-      </Row>
-      <Row>
-        <a href="#project1">
-          <FontAwesomeIcon
-            className="project-icon"
-            icon={faFileAlt}
-          ></FontAwesomeIcon>
-          Link to project 1
-        </a>
-      </Row>
-      <Row>
-        <a href="#project1">
-          <FontAwesomeIcon
-            className="project-icon"
-            icon={faFileAlt}
-          ></FontAwesomeIcon>
-          Link to project 1
-        </a>
-      </Row>
-      <Row>
-        <a href="#project1">Show more...</a>
-      </Row>
-      {/*</div>*/}
+      <ul>
+  
+
+      {userProjects && userProjects.length > 0 &&
+        userProjects.map((project, i) => (
+          <li onClick={() => onOpenModal(project.id)}>
+              <p style={{fontWeight:"bold"}}>{project.title}</p>
+          </li>
+        ))}
+        {userProjects.length == 0 && <li>No project yet</li>}
+        </ul>
     </Card>
   );
 };
@@ -91,6 +77,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showAddProjectModal: () => dispatch(showAddProjectModal()),
+    showProjectModal: () => dispatch(showProjectModal()),
+    fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
   };
 };
 
