@@ -50,7 +50,8 @@ const ProfileView = (props) => {
                         id={item.id}
                         title={item.title}
                         company={item.company}
-                        date={item.date}
+                        startDate={item.startDate}
+                        endDate={item.endDate}
                         description={item.description}
                     />
                 ))}
