@@ -103,7 +103,7 @@ const AddProjectModal = (props) => {
             <Form.Label>Project Title</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Project 1"
+              placeholder="Add a title..."
               onChange={(event) => setprojectTitle(event.target.value)}
             />
           </Form.Group>
@@ -120,7 +120,7 @@ const AddProjectModal = (props) => {
             <Form.Control
               as="textarea"
               rows={5}
-              placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              placeholder="Add description..."
               onChange={(event) => setProjectDescription(event.target.value)}
             />
           </Form.Group>

@@ -6,3 +6,12 @@
 .project-icon {
     margin-right: 10px;
 }
+.user-project {
+    display: inline-block;
+}
+
+.user-project:hover {
+    transition: transform .2s;
+    transform: scale(1.1);
+    cursor: pointer;
+}
