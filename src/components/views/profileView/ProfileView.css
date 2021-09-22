@@ -8,6 +8,11 @@
     border: 2px solid grey;
     border-radius: 10px;
 }
+
+.profile-container h4 {
+    font-size: 120%;
+}
+
 .name-container {
     margin-top: 10px;
 
@@ -15,12 +20,14 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
 .profile-portfolio {
     margin-top: 20px;
 
     display: flex;
     flex-direction: column;
 }
+
 .profile-portfolio-header {
     display: flex;
     flex-direction: row;

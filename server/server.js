@@ -2,7 +2,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
 
-const { addUser, removeUser, removeUserByNameAndRoom, getUser, getUserByNameAndRoom, getUsersInRoom } = require("./users");
+const { addUser, removeUser, getUserByNameAndRoom, getUsersInRoom } = require("./users");
 
 const PORT = process.env.PORT || 5000;
 
@@ -36,19 +36,19 @@ io.on("connection", (socket) => {
 
     if (existingUser) {
       socket.emit("message", {
-        user: "admin",
-        text: ` Welcome back to room ${user.room},  ${user.name}.`,
+        user: "Admin",
+        text: `Welcome back to chatroom ${user.room}, ${user.name}.`,
       });
     } else {
       socket.emit("message", {
-        user: "admin",
-        text: `${user.name}, welcome to room ${user.room}.`,
+        user: "Admin",
+        text: `Welcome to chatroom ${user.room}, ${user.name}.`,
       });
     }
 
     socket.broadcast
       .to(user.room)
-      .emit("message", { user: "admin", text: `${user.name} has joined!` });
+      .emit("message", { user: "Admin", text: `${user.name} has joined!` });
 
     io.to(user.room).emit("roomData", {
       room: user.room,

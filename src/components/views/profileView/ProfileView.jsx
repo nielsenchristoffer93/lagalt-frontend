@@ -9,6 +9,8 @@ import ProfileSkills from "./profileSkills/ProfileSkills";
 import KeycloakService from "../../../services/keycloakService";
 import {Redirect} from "react-router-dom";
 import {fetchUserData, fetchUserPortfolio, fetchUserSkills} from "../../../redux/User/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileView = (props) => {
     const {
@@ -48,7 +50,8 @@ const ProfileView = (props) => {
                         id={item.id}
                         title={item.title}
                         company={item.company}
-                        date={item.date}
+                        startDate={item.startDate}
+                        endDate={item.endDate}
                         description={item.description}
                     />
                 ))}
@@ -84,8 +87,8 @@ const ProfileView = (props) => {
 
             <div className="profile-portfolio">
                 <div className="profile-portfolio-header">
-                    <h2>Portfolio</h2>
-                    <Button onClick={handleShowModal}>Add portfolio entry</Button>
+                    <h3>Portfolio</h3>
+                    <Button onClick={handleShowModal}><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon> Add portfolio entry</Button>
                     <ProfileModal/>
                 </div>
                 {portfolio(user.portfolio)}

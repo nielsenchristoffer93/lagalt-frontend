@@ -1,6 +1,5 @@
-import { Container, Form, Button, Row, Card } from "react-bootstrap";
-import ChatMessageLeftComponent from "./ChatMessageLeftComponent";
-import ChatMessageRightComponent from "./ChatMessageRightComponent";
+import { Form, Button, Card } from "react-bootstrap";
+import ChatMessageComponent from "./ChatMessageComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -27,7 +26,6 @@ function useForceUpdate(){
 const ChatWindowComponent = (props) => {
 
   const {
-    selectedProject,
     fullName,
     keycloakEmail,
     chatboardUrl,
@@ -37,22 +35,26 @@ const ChatWindowComponent = (props) => {
   const forceUpdate = useForceUpdate();
 
   const [name, setName] = useState(fullName);
-  const [room, setRoom] = useState(selectedProjectId);
+  const [chatRoom, setChatRoom] = useState(selectedProjectId);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
-  //const [state, setstate] = useState([])
+
 
   useEffect(() => {
+    if(chatboardUrl) {
+      fetchData();
+    }
+  }, [chatboardUrl])
 
-    console.log("selectedProjectId: " + selectedProjectId)
-
+  useEffect(() => {
+    //console.log("selectedProjectId: " + selectedProjectId)
     socket = io(ENDPOINT);
 
     /* console.log("name: " + name);
     console.log("room: " + room); */
-    if (name !== undefined && room !== undefined) {
-      socket.emit("join", { name, room }, () => {});
+    if (name !== undefined && chatRoom !== undefined) {
+      socket.emit("join", { name, room: chatRoom }, () => {});
     }
 
     return () => {
@@ -64,19 +66,10 @@ const ChatWindowComponent = (props) => {
     };
   }, [ENDPOINT]);
 
-  useEffect(() => {
-    if(chatboardUrl) {
-      fetchData();
-    }
-  }, [chatboardUrl])
-
+  
   useEffect(() => {
     socket.on("message", (message) => {
-      //console.log("socket.on");
-      //console.log("MESSAGE")
-      //console.log(message);
       setMessages(messages => [...messages, message]);
-      //addMessageToMessages(message);
     });
   }, []);
 
@@ -139,7 +132,8 @@ const ChatWindowComponent = (props) => {
      
 
       // CAN'T GET THIS ARRAY TO RENDER PROPERLY
-      setMessages(previousMessagesFetched);
+      setMessages(messages => [...messages, previousMessage]);
+      //setMessages(previousMessagesFetched);
       forceUpdate()
     });
 
@@ -150,11 +144,11 @@ const ChatWindowComponent = (props) => {
   const sendMessage = async (event) => {
     event.preventDefault();
 
-    let date = new Date();
+    const date = new Date();
     setDateCreated(getTimeSinceCreation(date));
 
     if (message) {
-      socket.emit("sendMessage", message, dateCreated, name, room, () => {
+      socket.emit("sendMessage", message, dateCreated, name, chatRoom, () => {
         setMessage("");
       });
     }
@@ -168,9 +162,38 @@ const ChatWindowComponent = (props) => {
     await postNewChatMessage(formData)
   };
 
+  const renderChatmessage = (user, text, dateCreated) => {
+    if (user === "Admin") {
+      return (
+        <p className="admin-message">{user} &#8226; {text}</p>
+      )
+    } 
+    else if (user === fullName) {
+      return (
+        <ChatMessageComponent
+            name={user}
+            message={text}
+            date_created={dateCreated}
+            divStyling={"chat-message-right"}
+            paragraphStyling={"message-text-right"}
+          ></ChatMessageComponent>
+      )
+    } 
+    else {
+      return (
+        <ChatMessageComponent
+        name={user}
+        message={text}
+        date_created={dateCreated}
+        divStyling={"chat-message-left"}
+        paragraphStyling={"message-text-left"}
+      ></ChatMessageComponent>
+        )
+    }
+  }
+
+
   const renderMessages = () => {
-    //console.log("RENDER MESSAGES");
-    //console.log(messages);
     return messages.map(({ user, text, dateCreated }, index) => (
       <div
         className={
@@ -180,26 +203,14 @@ const ChatWindowComponent = (props) => {
         }
         key={index}
       >
-        {user === fullName ? (
-          <ChatMessageRightComponent
-            name={user}
-            message={text}
-            date_created={dateCreated}
-          ></ChatMessageRightComponent>
-        ) : (
-          <ChatMessageLeftComponent
-            name={user}
-            message={text}
-            date_created={dateCreated}
-          ></ChatMessageLeftComponent>
-        )}
+        {renderChatmessage(user, text, dateCreated)}
       </div>
     ));
   };
 
   return (
     <Card>
-      <Card.Header>
+      <Card.Header className="card-header">
         <p>Chat<span className="online-bullet">&#8226;</span></p>
       </Card.Header>
       <Card.Body>
@@ -241,7 +252,6 @@ const mapStateToProps = (state) => {
     fullName: `${state.user.firstname} ${state.user.lastname}`,
     keycloakEmail: state.user.email,
     selectedProjectId: state.projects.selectedProject.id,
-    //chatboardUrl: state.projects.
   };
 };
 

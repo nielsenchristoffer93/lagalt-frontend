@@ -10,6 +10,7 @@ import {
 } from "../../../../redux/Skill/SkillSlice";
 import {addUserSkill, deleteUserSkill} from "../../../../services/skills";
 import {fetchUserSkills} from "../../../../redux/User/userSlice";
+import "./ProfileSkills.css"
 
 const ProfileSkills = (props) => {
     const {
@@ -26,6 +27,7 @@ const ProfileSkills = (props) => {
         setSelectedSkillsToEmptyArray,
         fetchSkillBasedOnSkillUrl,
         setSkillsToEmptyArray,
+        selectedCategory
     } = props;
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const ProfileSkills = (props) => {
 
     const displayUserSkills = (skills) => {
         return (skills.map((skill) => (
-                <Card className="m-1">{skill.title}</Card>
+                <Card className="skill-card">{skill.title}</Card>
             ))
         )
     }
@@ -102,6 +104,7 @@ const ProfileSkills = (props) => {
 
     return (
         <div>
+            <Form.Label>Interested In</Form.Label>
             <Form.Select
                 aria-label="Default select example"
                 onChange={handleCategoryChange}
@@ -113,10 +116,11 @@ const ProfileSkills = (props) => {
                 </option>
                 {categories && populateOptions(categories)}
             </Form.Select>
+            {selectedCategory > 0 ? <p className="skills-description">Select your skills below.</p> : null}
             {categories && populateCheckBoxes(skills, userSkills)}
 
             <div className="skills">
-                <h4 className="mt-2">My skills</h4>
+                <h4>My Skills</h4>
                 <Col className="d-flex mr-3">
                     {displayUserSkills(userSkills)}
                 </Col>

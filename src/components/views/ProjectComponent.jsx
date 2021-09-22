@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { getCategoryBasedOnCategoryId } from "../../services/categories";
 import { getProjectStatusBasedOnProjectStatusId } from "../../services/projectStatus";
@@ -70,7 +70,7 @@ const ProjectComponent = (props) => {
     const name = `${userData.firstname} ${userData.lastname.charAt(0)}`;
     setUser(name);
 
-    console.log("SKILLS");
+    //console.log("SKILLS");
     //console.log(skills);
     skills.forEach(async (skillUrl) => {
       const skillData = await getSkillBySkillUrl(skillUrl).then((response) =>
@@ -79,10 +79,10 @@ const ProjectComponent = (props) => {
       //console.log("SkillData")
       //console.log(skillData);
       const skillTitle = skillData.title;
-      console.log("SkillTitle: " + skillTitle);
+      //console.log("SkillTitle: " + skillTitle);
       fetchedSkills.push(skillTitle);
       //setSkillTitles(skillTitles => [...skillTitles, skillTitle]);
-      console.log("SkillTitles");
+      //console.log("SkillTitles");
       setSkillTitles(fetchedSkills);
       forceUpdate();
     });
@@ -95,8 +95,8 @@ const ProjectComponent = (props) => {
   }, []);
 
   const populateListWithSkills = () => {
-    console.log(skillTitles);
-    return skillTitles.map((skill, index) => <li key={index}>{skill}</li>);
+    //console.log(skillTitles);
+    return skillTitles.map((skill, index) => <Card className="skill-card">{skill}</Card>);
   };
 
   return (
@@ -111,11 +111,11 @@ const ProjectComponent = (props) => {
         </Card.Text>
         <Card.Title>{title}</Card.Title>
         <p>{description}</p>
-        <ul className="horizontal-list">{populateListWithSkills()}</ul>
+          <Col className="d-flex mr-3">{populateListWithSkills()}</Col>
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img
-      className="project-image"
+        className="project-image"
         variant="bottom"
         src={`data:image/png;base64,${image}`}
         alt="no_image_in_database_associated_with_project."
