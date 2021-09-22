@@ -111,7 +111,7 @@ const ProjectComponent = (props) => {
         </Card.Text>
         <Card.Title>{title}</Card.Title>
         <p>{description}</p>
-          <Col className="d-flex mr-3">{populateListWithSkills()}</Col>
+          <Col style={{height:"30px"}} className="d-flex mr-3">{populateListWithSkills()}</Col>
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img
