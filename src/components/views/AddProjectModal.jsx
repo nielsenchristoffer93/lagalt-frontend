@@ -6,7 +6,7 @@ import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
-import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { fetchAllProjects, fetchAllUserProjects } from "../../redux/Project/projectSlice";
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 import { getUserId } from "../../services/user"
 import { postNewProjectRole } from "../../services/projectRole" 
@@ -20,7 +20,8 @@ const AddProjectModal = (props) => {
     selectedCategory,
     selectedSkills,
     fetchAllProjects,
-    resetSkillsStates
+    resetSkillsStates,
+    fetchAllUserProjects
   } = props;
 
   const [projectTitle, setprojectTitle] = useState("");
@@ -84,6 +85,7 @@ const AddProjectModal = (props) => {
     hideAddProjectModal();
     fetchAllProjects();
     resetSkillsStates();
+    fetchAllUserProjects();
   };
 
   return (
@@ -155,6 +157,7 @@ const mapDispatchToProps = (dispatch) => {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     resetSkillsStates: () => dispatch(resetSkillsStates()),
+    fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
   };
 };
 

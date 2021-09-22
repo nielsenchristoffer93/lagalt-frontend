@@ -7,16 +7,22 @@ import AddProjectModal from "../views/AddProjectModal";
 import { getUserProjects } from '../../services/projects'
 import "./UserProjectComponent.css";
 import { useEffect, useState } from "react";
-import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
+import { showProjectModal, fetchSelectedProjectData, fetchAllUserProjects } from '../../redux/Project/projectSlice'
+
 
 const UserProjectComponent = (props) => {
-  const [userProjects, setUserProjects] = useState([]);
+  //const [userProjects, setUserProjects] = useState([]);
 
-  const { displayAddProjectModal, showAddProjectModal, showProjectModal, fetchSelectedProjectData } = props;
+  const { displayAddProjectModal,
+     showAddProjectModal,
+      showProjectModal,
+       fetchSelectedProjectData,
+       userProjects,
+       fetchAllUserProjects
+       } = props;
   
   useEffect(async () => {
-    const data = await getUserProjects()
-    setUserProjects(data)
+    fetchAllUserProjects()
   }, []);
 
   const handleShow = () => {
@@ -71,6 +77,7 @@ const UserProjectComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
+    userProjects: state.projects.userProjects, 
   };
 };
 
@@ -79,6 +86,7 @@ const mapDispatchToProps = (dispatch) => {
     showAddProjectModal: () => dispatch(showAddProjectModal()),
     showProjectModal: () => dispatch(showProjectModal()),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
+    fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
   };
 };
 
