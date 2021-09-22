@@ -28,6 +28,14 @@ const AdminView = (props) => {
   };
 
   const handleUpdateProject = async () => {
+    if(projectTitle.length < 1){
+      alert("Title to short")
+      return;
+    }
+    if(projectDescription.length < 1){
+      alert("Description to short")
+      return;
+    }
     const formData = new FormData();
     formData.append("title", projectTitle);
     formData.append("description", projectDescription);
