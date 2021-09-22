@@ -3,7 +3,7 @@ import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { fetchProjectStatus } from "../../services/projects";
 import { updateProject, getProjectsStatuses } from "../../services/projects";
-import { fetchAllProjectstatus } from "../../redux/Project/projectSlice";
+import { fetchSelectedProjectData, fetchAllProjectstatus } from "../../redux/Project/projectSlice";
 
 const AdminView = (props) => {
   const {
@@ -11,6 +11,7 @@ const AdminView = (props) => {
     fetchAllProjectstatus,
     projectStatus,
     projectsStatusHasLoaded,
+    fetchSelectedProjectData,
   } = props;
 
   const [projectTitle, setprojectTitle] = useState("");
@@ -38,6 +39,8 @@ const AdminView = (props) => {
       selectedProject.id
     ).then((response) => response.json());
 
+    await fetchSelectedProjectData(selectedProject.id);
+
     //Alerts the user when making a update
     setpostSuccessful(true);
     setTimeout(() => {
@@ -49,9 +52,14 @@ const AdminView = (props) => {
     setprojectTitle(selectedProject.title);
     setProjectDescription(selectedProject.description);
     fetchProjectStatusWithUrl(selectedProject.projectStatus);
-    if (!projectsStatusHasLoaded) {
+    console.log(projectStatus)
+    console.log("projectsStatusHasLoaded")
+    
+    console.log(projectsStatusHasLoaded)
+    //if (!projectsStatusHasLoaded) {
       fetchAllProjectstatus();
-    }
+      console.log(projectStatus)
+    //}
   }, []);
 
   const handleProjectStatusChange = (e) => {
@@ -78,7 +86,7 @@ const AdminView = (props) => {
             onChange={(event) => setProjectDescription(event.target.value)}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group style={{height:"70px"}}>
           <Form.Label>Project Status</Form.Label>
           {selectedProjectStatus != -1 && (
             <Form.Select
@@ -126,6 +134,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllProjectstatus: () => dispatch(fetchAllProjectstatus()),
+    fetchSelectedProjectData: (id) => dispatch(fetchSelectedProjectData(id)),
   };
 };
 
