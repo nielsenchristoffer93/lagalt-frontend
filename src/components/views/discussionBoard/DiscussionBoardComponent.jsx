@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import KeycloakService from "../../../services/keycloakService";
 import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { getUserId } from "../../../services/user";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 import { postMessage } from "../../../services/discussionMessages";
 import { getTimeSinceCreation } from "../../../services/timeFormatter"
 import { BASE_URL } from "../../../services/index";
+
 
 
 function useForceUpdate(){
@@ -109,6 +111,7 @@ const DiscussionBoardComponent = (props) => {
 
     e.preventDefault();
     let date = new Date();
+    const userId = await getUserId();
     setDateCreated(getTimeSinceCreation(date));
     
     setnewMessage(true);
@@ -117,14 +120,13 @@ const DiscussionBoardComponent = (props) => {
     const formData = new FormData();
     formData.append("message", message);
     formData.append("timestamp", date);
-    formData.append("user_id", 1);
+    formData.append("user_id", userId);
     formData.append("discussion_board_id", selectedProject.id);
 
     console.log("Message: " + message);
 
 
     await postMessage(formData);
-    //fetchMessagesBasedOnBoard(selectedProject.id);
     setMessages([]);
     fetchData(selectedProject.id);
   };
@@ -238,8 +240,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
-    // fetchUserById: (id) => dispatch(fetchUserById(id)),
-    //createMessages: (data) => dispatch(createMessages(data)),
   };
 };
 
