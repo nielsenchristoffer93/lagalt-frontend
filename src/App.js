@@ -7,7 +7,9 @@ import ProfileView from "./components/views/profileView/ProfileView";
 import './App.css';
 
 class App extends Component {
-
+  componentDidMount(){
+    document.title = "Lagalt"
+  }
 
   render() {
     return (
