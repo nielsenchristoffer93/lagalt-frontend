@@ -160,7 +160,7 @@ const ProjectModal = (props) => {
               </Card>
             </Col>
             {/* if user is member of project*/}
-            {KeycloakService.isLoggedIn() ? displayChatWindow() : null}
+            {(isMemberOfProject && KeycloakService.isLoggedIn()) ? displayChatWindow() : null}
             {KeycloakService.isLoggedIn() ? <JoinProject></JoinProject> : null}
           </Row>
         )}
