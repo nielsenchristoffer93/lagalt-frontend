@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getUserData, getUserSkills, getUserPortfolio, getUserAbout} from "../../services/user";
+import {getUserData, getUserSkills, getUserPortfolio, getUserAbout, getUserById} from "../../services/user";
 
 const initialState = {
 
@@ -64,18 +64,18 @@ export const fetchUserData = () => async (dispatch) => {
         dispatch(setFirstname(data.firstname));
         dispatch(setLastname(data.lastname));
     } catch (err) {
-        console.log( err);
+        console.log(err);
     }
 };
 export const fetchUserSkills = () => async (dispatch) => {
+    let data;
     try {
         const response = await getUserSkills();
-        const data = await response.json();
+        data = await response.json();
 
         dispatch(setSkills(data));
     } catch (err) {
         console.log(err);
-
     }
 };
 export const fetchUserPortfolio = () => async (dispatch) => {
@@ -97,6 +97,19 @@ export const fetchUserAbout = () => async (dispatch) => {
         dispatch(setAbout(data.about));
     } catch (err) {
         console.log(err);
+    }
+};
+
+///////////
+export const fetchUserById = (userId) => async (dispatch) => {
+    try {
+        const response = await getUserById(userId);
+        const data = await response.json();
+
+        dispatch(setFirstname(data.firstname));
+        dispatch(setLastname(data.lastname));
+    } catch (err) {
+        console.log( err);
     }
 };
 

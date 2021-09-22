@@ -6,3 +6,22 @@
     
   }
    */
+
+.project-modal-body {
+  background-color: rgb(230, 230, 230);
+}
+
+.project-card {
+  margin-bottom: 2vh;
+}
+
+.tabs {
+  margin: 2px 5px 0px 5px;
+  padding-bottom: 10px;
+  cursor: pointer
+}
+
+.tabs:hover,
+.tabs.active {
+  border-bottom: 1px solid #2196F3
+}

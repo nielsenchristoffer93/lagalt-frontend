@@ -1,25 +1,37 @@
 import { Card, Col, Row } from "react-bootstrap";
-const ProjectRecomended = () => {
-  const ProjectRecomended = ["asd", "qwe", "lol", "kalle"];
+import { connect } from "react-redux";
+import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
+const ProjectRecomended = (props) => {
 
+  const {
+    recommendedProjects, showProjectModal, fetchSelectedProjectData
+  } = props;
+
+
+  const onOpenModal = async (id) => {
+    await fetchSelectedProjectData(id)
+    showProjectModal()
+  };
+// onClick={() => onOpenModal(project.id)}
   return (
-    <div>
-      We recomend a bag Mac
+    <div className="project-recommended-container">
+      <h3>Recommended Projects</h3>
       <Row>
-        {ProjectRecomended.map((item, i) => (
-          <Col>
+        {recommendedProjects && recommendedProjects.map((project, i) => (
+          <Col key={i} onClick={() => onOpenModal(project.id)} >
             <Card>
               <Card.Body>
-                <Card.Title>{item}</Card.Title>
+                <Card.Title>{project.title}</Card.Title>
                 <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                {project.description }
                 </Card.Text>
               </Card.Body>
+              {/* TO VIEW A BASE64 image (PNG/JPEG) */}
               <Card.Img
                 variant="bottom"
-                src="https://source.unsplash.com//180x180"
-              />
+                src={`data:image/png;base64,${project.image}`} alt="no_image_in_database_associated_with_project."
+              >
+              </Card.Img>   
             </Card>
           </Col>
         ))}
@@ -28,4 +40,17 @@ const ProjectRecomended = () => {
   );
 };
 
-export default ProjectRecomended;
+const mapStateToProps = (state) => {
+  return {
+    recommendedProjects: state.projects.recommendedProjects,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showProjectModal: () => dispatch(showProjectModal()),
+    fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectRecomended);

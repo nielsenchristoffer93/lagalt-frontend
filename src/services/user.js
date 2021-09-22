@@ -1,24 +1,25 @@
 import {getEmail} from './keycloakService';
-import {BASE_API_URL} from "./index";
 
+import {BASE_API_URL, BASE_URL} from "./index";
+import KeycloakService from "./keycloakService";
 
-const getUserId = async() => {
+export const getUserId = async() => {
     const response = await fetch(`${BASE_API_URL}users/${getEmail()}`, {
         headers: {
             'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
     return await response.json();
 }
 
-
-
 export const getUserData = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/i/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -29,15 +30,18 @@ export const getUserSkills = async() => {
     return await fetch(`${BASE_API_URL}users/skills/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
 }
+
 export const getUserPortfolio = async() => {
     const id = await getUserId();
     return await fetch(`${BASE_API_URL}users/portfolio/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
@@ -48,24 +52,50 @@ export const getUserAbout = async() => {
     return await fetch(`${BASE_API_URL}userProfile/${id}`, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
         },
         method: "GET",
     })
 }
-// const postNewUser = async() => {
-//     const email = getEmail();
-//     const firstname =  _kc.idTokenParsed?.given_name;
-//     const lastname = _kc.idTokenParsed?.family_name;
-//
-//     return await fetch(`${BASE_API_URL}users`, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         method: "POST",
-//         body:JSON.stringify({
-//             keycloak_email: email,
-//             firstname: firstname,
-//             lastname: lastname
-//         })
-//     })
-// }
+
+export const getUserById = async(id) => {
+    return await fetch(`${BASE_URL}${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "GET",
+    })
+}
+
+export const postNewPortfolioItem = async (data) => {
+    const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/users/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "POST",
+        body: data
+    })
+}
+
+export const getUserByUserUrl = async (userUrl) => {
+	const response = await fetch(`${BASE_URL}${userUrl}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "GET",
+    })
+    return await response.json();
+}
+
+export const deletePortfolioItem = async (id) => {
+    // const id = await getUserId();
+    return await fetch(`${BASE_API_URL}portfolio/${id}`, {
+        headers: {
+            'Authorization': 'Bearer ' + KeycloakService.getToken(),
+        },
+        method: "DELETE",
+    })
+}
+

@@ -1,23 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  displayProjectModal: false,
+  displayAddProjectModal: false,
 };
 
 const addProjectSlice = createSlice({
-  name: "addProjectModal",
+  name: "displayModals",
   initialState: initialState,
   reducers: {
     showAddProjectModal: (state) => {
-      state.displayProjectModal = true;
+      state.displayAddProjectModal = true;
     },
     hideAddProjectModal: (state) => {
-      state.displayProjectModal = false;
+      state.displayAddProjectModal = false;
     },
   },
 });
 
-export const { showAddProjectModal, hideAddProjectModal } =
-  addProjectSlice.actions;
+export const {
+  showAddProjectModal,
+  hideAddProjectModal,
+} = addProjectSlice.actions;
 
 export default addProjectSlice.reducer;

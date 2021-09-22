@@ -8,10 +8,14 @@ import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxCo
 import { postNewProject } from "../../services/projects";
 import { fetchAllProjects } from "../../redux/Project/projectSlice";
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
+import { getUserId } from "../../services/user"
+import { postNewProjectRole } from "../../services/projectRole" 
+import { postNewChatBoard } from "../../services/chatboardService";
+import { postNewDiscussionBoard } from "../../services/discussionboardService";
 
 const AddProjectModal = (props) => {
   const {
-    displayProjectModal,
+    displayAddProjectModal,
     hideAddProjectModal,
     selectedCategory,
     selectedSkills,
@@ -29,6 +33,8 @@ const AddProjectModal = (props) => {
 
   const handleSubmit = async () => {
     var date = new Date();
+
+    const userId = await getUserId();
 
     /* let skills = []
     selectedSkills.forEach(selectedSkill => {
@@ -53,7 +59,28 @@ const AddProjectModal = (props) => {
       console.log(pair[0] + ": " + pair[1]);
     } */
     
-    await postNewProject(formData);
+    const newProject = await postNewProject(formData).then(response => response.json());
+    const projectId = newProject.id;
+    //console.log("projectId: " + projectId);
+
+    
+    //console.log("userId: " + userId);
+
+    const formDataProjectRole = new FormData();
+    formDataProjectRole.append("projectId", projectId);
+    formDataProjectRole.append("userId", userId);
+    formDataProjectRole.append("roleId", 1);
+
+    const newProjectRole = await postNewProjectRole(formDataProjectRole).then(response => response.json());
+    console.log("NEW PROJECT ROLE")
+    console.log(newProjectRole);
+
+    const formDataProjectId = new FormData();
+    formDataProjectId.append("projectId", projectId);
+
+    await postNewChatBoard(formDataProjectId);
+    await postNewDiscussionBoard(formDataProjectId);
+
     hideAddProjectModal();
     fetchAllProjects();
     resetSkillsStates();
@@ -61,7 +88,7 @@ const AddProjectModal = (props) => {
 
   return (
     <Modal
-      show={displayProjectModal}
+      show={displayAddProjectModal}
       onHide={handleClose}
       dialogClassName="modal-80w"
     >
@@ -117,7 +144,7 @@ const AddProjectModal = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    displayProjectModal: state.displayAddProjectModal.displayProjectModal,
+    displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
     selectedSkills: state.skills.selectedSkills,
     selectedCategory: state.categories.selectedCategory,
   };

@@ -1,16 +1,21 @@
 import {Card, Button, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
+import {deletePortfolioItem} from "../../../../services/user";
+import {fetchUserPortfolio} from "../../../../redux/User/userSlice";
+import {dateFormatter} from "../../../../services/timeFormatter";
 
 
 const PortfolioItem = (props) => {
 
     const {
+        id,
         title,
         company,
-        date,
-        description
+        startDate,
+        endDate,
+        description,
+        fetchUserPortfolio
     } = props;
-
 
     return (
         <Card className="mb-3">
@@ -23,7 +28,8 @@ const PortfolioItem = (props) => {
                         <Button variant="danger" onClick={() => {
                             const confirmBox = window.confirm("Are you sure?")
                             if(confirmBox === true) {
-                                // deletePortfolioEntry(id)
+                                deletePortfolioItem(id)
+                                    .then(fetchUserPortfolio);
                             }
                         }} >Remove</Button>
 
@@ -32,23 +38,21 @@ const PortfolioItem = (props) => {
             </Card.Header>
                 <Card.Body>
                     <Card.Text>Title: {title}</Card.Text>
-                    <Card.Text>{date}</Card.Text>
+                    <Card.Text>{dateFormatter(startDate)} -- {dateFormatter(endDate)}</Card.Text>
                     <Card.Text>{description}</Card.Text>
                 </Card.Body>
         </Card>
     )
 }
-// const mapStateToProps = state => {
-//     return {
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+    };
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchUserPortfolio: () => dispatch(fetchUserPortfolio())
+    }
+};
 //
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         // deletePortfolioEntry: (id) => dispatch(deletePortfolioEntry(id))
-//
-//     }
-// };
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(PortfolioItem);
-export default PortfolioItem;
+export default connect(mapStateToProps, mapDispatchToProps)(PortfolioItem);
+// export default PortfolioItem;

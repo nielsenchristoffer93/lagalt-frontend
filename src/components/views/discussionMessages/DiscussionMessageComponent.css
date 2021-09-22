@@ -19,10 +19,9 @@ body {
 }
 
 .comment-thread {
-    width: 700px;
+    width: 100%;
     max-width: 100%;
     margin: auto;
-    padding: 0 30px;
     background-color: #fff;
     border: 1px solid transparent; /* Removes margin collapse */
     
@@ -85,12 +84,14 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
     background-clip: padding-box;
 }
-.comment-border-link:hover {
+
+/*.comment-border-link:hover {
     background-color: rgba(0, 0, 0, 0.3);
-}
+}*/
+
 .comment-body {
-    padding: 0 20px;
-    padding-left: 28px;
+    /*padding: 0 20px;*/
+    padding-left: 2rem;
     font-style: italic;
    
 }

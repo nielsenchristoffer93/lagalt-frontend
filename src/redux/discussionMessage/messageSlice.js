@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {getMessagesBasedOnDiscussionBoard, postMessages } from '../../services/discussionMessages';
+import {getMessagesBasedOnDiscussionBoard, postMessage } from '../../services/discussionMessages';
 
 const initialState = {
     messages:[],
-	selectedMessages: [],
+	// selectedMessages: [],
     loading: false,               		
 	error: ''
 }
@@ -36,14 +36,14 @@ const messageSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload;
 		  },
-		  setSelectedMessages: (state, action) => {
-			if (!state.selectedMessages.includes(action.payload)) {
-			  state.selectedMessages.push(action.payload);
-			} else {
-			  const index = state.selectedMessages.indexOf(action.payload);
-			  state.selectedMessages.splice(index, 1);
-			}   
-		  },
+		//   setSelectedMessages: (state, action) => {
+		// 	if (!state.selectedMessages.includes(action.payload)) {
+		// 	  state.selectedMessages.push(action.payload);
+		// 	} else {
+		// 	  const index = state.selectedMessages.indexOf(action.payload);
+		// 	  state.selectedMessages.splice(index, 1);
+		// 	}   
+		//   },
 		  
   
     },
@@ -57,7 +57,7 @@ export const {
 	postMessagesStarted,
 	postMessagesSuccess,
 	postMessagesFailed,
-	setSelectedMessages,
+	// setSelectedMessages,
 } = messageSlice.actions;
 
 //Thunk
@@ -79,7 +79,7 @@ export const fetchMessagesBasedOnBoard = (discussionBoardId) => async (dispatch)
 	  console.log("text")
 	dispatch(postMessagesStarted());
 	try {
-	  const response = await postMessages(message);
+	  const response = await postMessage(message);
 	  const data = await response.json();
   
 	  dispatch(postMessagesSuccess(data));
