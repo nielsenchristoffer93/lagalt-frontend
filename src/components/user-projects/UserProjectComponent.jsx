@@ -39,15 +39,11 @@ const UserProjectComponent = (props) => {
       {displayAddProjectModal ? (
         <AddProjectModal show={displayAddProjectModal} />
       ) : null}
-      {/*<div className="user-project-container">*/}
-      <Row>
-        <Col>
+      <div className="user-project-header">
           <h3>My projects</h3>
-        </Col>
-        <Col md="auto">
           <Button
             variant="outline-success"
-            className="new-user-project-button"
+            className="user-project-button"
             onClick={handleShow}
           >
             <FontAwesomeIcon
@@ -56,8 +52,7 @@ const UserProjectComponent = (props) => {
             ></FontAwesomeIcon>
             New
           </Button>
-        </Col>
-      </Row>
+      </div>
       <hr></hr>
       <ul>
   
