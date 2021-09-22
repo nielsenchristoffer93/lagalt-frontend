@@ -1,6 +1,8 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
+import "./ProjectRecommended.css";
+
 const ProjectRecomended = (props) => {
 
   const {
@@ -22,12 +24,13 @@ const ProjectRecomended = (props) => {
             <Card>
               <Card.Body>
                 <Card.Title>{project.title}</Card.Title>
-                <Card.Text>
+                <Card.Text className="recommended-project-description">
                 {project.description }
                 </Card.Text>
               </Card.Body>
               {/* TO VIEW A BASE64 image (PNG/JPEG) */}
               <Card.Img
+              className="recommended-project-image"
                 variant="bottom"
                 src={`data:image/png;base64,${project.image}`} alt="no_image_in_database_associated_with_project."
               >

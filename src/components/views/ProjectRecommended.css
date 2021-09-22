@@ -1,0 +1,11 @@
+.recommended-project-description {
+    height: 120px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.recommended-project-image {
+    height: 18vh;
+}
