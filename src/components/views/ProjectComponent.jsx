@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { getCategoryBasedOnCategoryId } from "../../services/categories";
 import { getProjectStatusBasedOnProjectStatusId } from "../../services/projectStatus";
@@ -96,7 +96,7 @@ const ProjectComponent = (props) => {
 
   const populateListWithSkills = () => {
     //console.log(skillTitles);
-    return skillTitles.map((skill, index) => <li key={index}>{skill}</li>);
+    return skillTitles.map((skill, index) => <Card className="skill-card">{skill}</Card>);
   };
 
   return (
@@ -111,7 +111,7 @@ const ProjectComponent = (props) => {
         </Card.Text>
         <Card.Title>{title}</Card.Title>
         <p>{description}</p>
-        <ul className="horizontal-list">{populateListWithSkills()}</ul>
+          <Col className="d-flex mr-3">{populateListWithSkills()}</Col>
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img
