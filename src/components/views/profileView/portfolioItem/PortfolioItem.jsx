@@ -2,6 +2,7 @@ import {Card, Button, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {deletePortfolioItem} from "../../../../services/user";
 import {fetchUserPortfolio} from "../../../../redux/User/userSlice";
+import {dateFormatter} from "../../../../services/timeFormatter";
 
 
 const PortfolioItem = (props) => {
@@ -10,11 +11,11 @@ const PortfolioItem = (props) => {
         id,
         title,
         company,
-        date,
+        startDate,
+        endDate,
         description,
         fetchUserPortfolio
     } = props;
-
 
     return (
         <Card className="mb-3">
@@ -37,7 +38,7 @@ const PortfolioItem = (props) => {
             </Card.Header>
                 <Card.Body>
                     <Card.Text>Title: {title}</Card.Text>
-                    <Card.Text>{date}</Card.Text>
+                    <Card.Text>{dateFormatter(startDate)} -- {dateFormatter(endDate)}</Card.Text>
                     <Card.Text>{description}</Card.Text>
                 </Card.Body>
         </Card>
