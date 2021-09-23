@@ -11,7 +11,7 @@ import { getTimeSinceCreation } from "../../../services/timeFormatter";
 import { BASE_URL } from "../../../services/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
-import { useForceUpdate } from "../../../hooks/useForceUpdate"
+import { useForceUpdate } from "../../../hooks/useForceUpdate";
 
 const DiscussionBoardComponent = (props) => {
   const {
@@ -66,7 +66,6 @@ const DiscussionBoardComponent = (props) => {
         .then((response) => response.json())
         .catch((error) => console.log(error));
 
-
       const name = userData.firstname + " " + userData.lastname;
       const oldMessage = {
         id: discussionMessageId,
@@ -116,24 +115,24 @@ const DiscussionBoardComponent = (props) => {
       return (
         <Card className="discussion-board-login">
           <Col>
-          <p className="login-paragraph">
-            Log in or sign up to leave a comment
-          </p>
+            <p className="login-paragraph">
+              Log in or sign up to leave a comment
+            </p>
 
-          <Button
-            variant="outline-primary"
-            id="btn"
-            onClick={() => KeycloakService.doLogin()}
-          >
-            Log In
-          </Button>
-          <Button
-            variant="primary"
-            id="btn"
-            onClick={() => KeycloakService.doRegister()}
-          >
-            Sign Up
-          </Button>
+            <Button
+              variant="outline-primary"
+              id="btn"
+              onClick={() => KeycloakService.doLogin()}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="primary"
+              id="btn"
+              onClick={() => KeycloakService.doRegister()}
+            >
+              Sign Up
+            </Button>
           </Col>
         </Card>
       );

@@ -13,7 +13,6 @@ const AdminView = (props) => {
     selectedProject,
     fetchAllProjectstatus,
     projectStatus,
-    projectsStatusHasLoaded,
     fetchSelectedProjectData,
   } = props;
 
@@ -125,7 +124,6 @@ const mapStateToProps = (state) => {
   return {
     selectedProject: state.projects.selectedProject,
     projectStatus: state.projects.projectStatus,
-    projectsStatusHasLoaded: state.projects.projectsStatusHasLoaded,
   };
 };
 

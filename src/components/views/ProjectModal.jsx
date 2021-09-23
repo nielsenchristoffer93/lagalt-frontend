@@ -51,29 +51,20 @@ const ProjectModal = (props) => {
   }, [loadingSelectedProject]);
 
   const fetchProjectRoles = async () => {
-    //console.log("selecteProject.projectRoles: " + selectedProject.projectRoles);
     const projectRoles = selectedProject.projectRoles;
 
     projectRoles.forEach(async (projectRole) => {
-      //console.log("projectRole: " + projectRole);
 
       const projectRoleData = await getProjectRoleByProjectRoleUrl(projectRole);
-      //console.log(projectRoleData);
 
       const userUrl = projectRoleData.user;
       const roleUrl = projectRoleData.role;
 
-      //console.log("userUrl: " + userUrl);
-      //console.log("roleUrl: " + roleUrl);
-
       const userData = await getUserByUserUrl(userUrl);
-      //console.log(userData);
       const email = userData.keycloakEmail;
-      //console.log("emaiL: " + email);
 
       const roleData = await getRoleByRoleUrl(roleUrl);
       const role = roleData.title;
-      //console.log("role: " + role);
 
       const userProjectRole = { email: email, role: role };
 
@@ -102,7 +93,6 @@ const ProjectModal = (props) => {
     if (selectedProjectTab !== tabId) {
       setSelectedProjectTab(tabId);
     }
-    //console.log(selectedProjectTab);
   };
 
   return (
@@ -112,24 +102,28 @@ const ProjectModal = (props) => {
       dialogClassName="modal-80w"
     >
       <Modal.Header closeButton>
-        <Modal.Title style={{ height: isUserAdminOfProject ? "100px" : "auto" }}>
+        <Modal.Title
+          style={{ height: isUserAdminOfProject ? "100px" : "auto" }}
+        >
           {selectedProject.title}
         </Modal.Title>
 
-        {isUserAdminOfProject && <div style={{ position: "absolute", display: "flex", top: "80px" }}>
-          <div
-            className={`tabs ${selectedProjectTab === 0 ? "active" : ""}`}
-            onClick={() => handleSetSelectedProjectTab(0)}
-          >
-            <h6 className="font-weight-bold">Project</h6>
+        {isUserAdminOfProject && (
+          <div style={{ position: "absolute", display: "flex", top: "80px" }}>
+            <div
+              className={`tabs ${selectedProjectTab === 0 ? "active" : ""}`}
+              onClick={() => handleSetSelectedProjectTab(0)}
+            >
+              <h6 className="font-weight-bold">Project</h6>
+            </div>
+            <div
+              className={`tabs ${selectedProjectTab === 1 ? "active" : ""}`}
+              onClick={() => handleSetSelectedProjectTab(1)}
+            >
+              <h6 className="">Admin</h6>
+            </div>
           </div>
-          <div
-            className={`tabs ${selectedProjectTab === 1 ? "active" : ""}`}
-            onClick={() => handleSetSelectedProjectTab(1)}
-          >
-            <h6 className="">Admin</h6>
-          </div>
-        </div>}
+        )}
       </Modal.Header>
       <Modal.Body className="project-modal-body">
         {selectedProjectTab === 0 && (
@@ -156,23 +150,26 @@ const ProjectModal = (props) => {
               </Card>
             </Col>
             {/* if user is member of project*/}
-            {(isMemberOfProject && KeycloakService.isLoggedIn()) ? displayChatWindow() : null}
+            {isMemberOfProject && KeycloakService.isLoggedIn()
+              ? displayChatWindow()
+              : null}
             {KeycloakService.isLoggedIn() ? <JoinProject></JoinProject> : null}
           </Row>
         )}
         {selectedProjectTab === 1 && <AdminView />}
       </Modal.Body>
       <Modal.Footer>
-      {(!KeycloakService.isLoggedIn()) ? <p>Log in or sign up to join this project</p> : null}
+        {!KeycloakService.isLoggedIn() ? (
+          <p>Log in or sign up to join this project</p>
+        ) : null}
         <Button variant="secondary" onClick={handleCloseProjectModal}>
           Close
         </Button>
-        {(!isMemberOfProject && KeycloakService.isLoggedIn()) ? (
+        {!isMemberOfProject && KeycloakService.isLoggedIn() ? (
           <Button variant="success" onClick={handleShowJoinProjectModal}>
             Apply to project
           </Button>
         ) : null}
-        
       </Modal.Footer>
     </Modal>
   );

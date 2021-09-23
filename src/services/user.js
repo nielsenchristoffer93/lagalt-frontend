@@ -5,7 +5,7 @@ import KeycloakService from "./keycloak";
 
 /**
  * Fetches the user data based on email for the logged in user (which we got from keycloak).
- * 
+ *
  * @returns user data in json format.
  */
 export const getUserId = async () => {
@@ -20,7 +20,7 @@ export const getUserId = async () => {
 
 /**
  * Fetches the data associated to the logged in user.
- * 
+ *
  * @returns Promise
  */
 export const getUserData = async () => {
@@ -35,7 +35,7 @@ export const getUserData = async () => {
 
 /**
  * Fetches the skills related to the logged in user.
- * 
+ *
  * @returns Promise
  */
 export const getUserSkills = async () => {
@@ -51,7 +51,7 @@ export const getUserSkills = async () => {
 
 /**
  * Fetches the logged in users userportfolio.
- * 
+ *
  * @returns Promise
  */
 export const getUserPortfolio = async () => {
@@ -67,7 +67,7 @@ export const getUserPortfolio = async () => {
 
 /**
  * Get "about" data from the logged in users userprofile.
- * 
+ *
  * @returns Promise
  */
 export const getUserAbout = async () => {
@@ -83,7 +83,7 @@ export const getUserAbout = async () => {
 
 /**
  * Get user from database by id.
- * 
+ *
  * @param {*} id Id to get user by.
  * @returns Promise
  */
@@ -98,7 +98,7 @@ export const getUserById = async (id) => {
 
 /**
  * Method for posting a new PortfolioItem to the database.
- * 
+ *
  * @param {*} data FormData to post to database.
  * @returns Promise
  */
@@ -115,7 +115,7 @@ export const postNewPortfolioItem = async (data) => {
 
 /**
  * Get the user by user url (which we can get by fetching from a table related to user.)
- * 
+ *
  * @param {*} userUrl The user url to fetch data from.
  * @returns user data in json format.
  */
@@ -131,7 +131,7 @@ export const getUserByUserUrl = async (userUrl) => {
 
 /**
  * Deletes a portfolio item on id.
- * 
+ *
  * @param {*} id PortfolioItemId to delete.
  * @returns Promise
  */
@@ -145,8 +145,8 @@ export const deletePortfolioItem = async (id) => {
 };
 
 /**
- * Post "about" for a users userprofile. 
- * 
+ * Post "about" for a users userprofile.
+ *
  * @param {*} data FormData to post to database.
  * @returns Promise
  */

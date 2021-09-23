@@ -3,7 +3,7 @@ import KeycloakService from "./keycloak";
 
 /**
  * Fetches all projectRoles.
- * 
+ *
  * @returns Promise
  */
 export const getProjectRole = async () => {
@@ -18,7 +18,7 @@ export const getProjectRole = async () => {
 
 /**
  * Adds/creates a project role in a project.
- * 
+ *
  * @param {*} data FormData to post to the database.
  * @returns Promise
  */
@@ -34,7 +34,7 @@ export const postNewProjectRole = async (data) => {
 
 /**
  * Fetches the project roles based on the projectRoleUrl.
- * 
+ *
  * @param {*} projectRoleUrl the projectRoleUrl to fetch data by.
  * @returns projectRole data as json data.
  */

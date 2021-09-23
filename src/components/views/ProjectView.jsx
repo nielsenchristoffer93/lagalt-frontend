@@ -24,7 +24,6 @@ import "./ProjectViewStyle.css";
 import UserProjectComponent from "../user-projects/UserProjectComponent";
 
 const ProjectView = (props) => {
-
   const {
     fetchUserAbout,
     fetchUserSkills,
@@ -51,7 +50,6 @@ const ProjectView = (props) => {
   const tryPushUser = () => {
     if (!userPosted) {
       KeycloakService.postNewUser();
-      //sets userPosted to true
       initialAddUser();
       fetchUserData();
       fetchUserPortfolio();
@@ -62,9 +60,6 @@ const ProjectView = (props) => {
 
   const onOpenModal = async (id) => {
     await fetchSelectedProjectData(id);
-    //setSelectedProject(i);
-    //console.log("i=?" + i);
-    //setOpen(true);
     showProjectModal();
   };
 
@@ -85,7 +80,11 @@ const ProjectView = (props) => {
           <h3>Projects</h3>
           {projects &&
             projects.map((project, i) => (
-              <div key={i} onClick={() => onOpenModal(project.id)} className="hover-shadow"> 
+              <div
+                key={i}
+                onClick={() => onOpenModal(project.id)}
+                className="hover-shadow"
+              >
                 <ProjectComponent
                   title={project.title}
                   description={project.description}
@@ -94,7 +93,6 @@ const ProjectView = (props) => {
                   categoryUrl={project.category}
                   skills={project.skills}
                   createdDate={project.createdDate}
-                  //userUrl={project.users[0]}
                   projectStatusUrl={project.projectStatus}
                   // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
                   projectRoleUrl={project.projectRoles[0]}

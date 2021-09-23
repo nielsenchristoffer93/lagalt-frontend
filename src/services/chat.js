@@ -3,7 +3,7 @@ import KeycloakService from "./keycloak";
 
 /**
  * Post a new chatMessage to the database.
- * 
+ *
  * @param {*} data formdata for posting a new chatMessage to the database.
  * @returns Promise
  */

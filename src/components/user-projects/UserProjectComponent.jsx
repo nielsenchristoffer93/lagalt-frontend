@@ -38,7 +38,7 @@ const UserProjectComponent = (props) => {
 
   /**
    * Opens a new project modal window based the supplied projectId.
-   * 
+   *
    * @param {*} id of the project to open in a new project modal.
    */
   const onOpenModal = async (id) => {
@@ -53,7 +53,7 @@ const UserProjectComponent = (props) => {
         <AddProjectModal show={displayAddProjectModal} />
       ) : null}
       <div className="user-project-header">
-        <h3>My projects</h3> 
+        <h3>My projects</h3>
         {/* Button for opening the AddProjectModal (changing the state in redux) */}
         <Button
           variant="outline-success"

@@ -17,9 +17,7 @@ const addProjectSlice = createSlice({
   },
 });
 
-export const {
-  showAddProjectModal,
-  hideAddProjectModal,
-} = addProjectSlice.actions;
+export const { showAddProjectModal, hideAddProjectModal } =
+  addProjectSlice.actions;
 
 export default addProjectSlice.reducer;
