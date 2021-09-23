@@ -1,9 +1,9 @@
 import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import KeycloakService from "../../../services/keycloakService";
+import KeycloakService from "../../../services/keycloak";
 import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { Col, Button, Form, Card } from "react-bootstrap";
 import { getUserId } from "../../../services/user";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 import { postMessage } from "../../../services/discussionMessages";

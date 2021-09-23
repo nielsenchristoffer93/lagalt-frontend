@@ -1,5 +1,5 @@
 import { BASE_API_URL } from ".";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Post a new chatMessage to the database.

@@ -1,7 +1,7 @@
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import store from './redux/store';
-import KeycloakService from "./services/keycloakService";
+import KeycloakService from "./services/keycloak";
 import { Provider } from 'react-redux';
 import App from './App';
 import ReactDOM from 'react-dom';

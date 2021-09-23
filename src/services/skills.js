@@ -1,6 +1,6 @@
 import { BASE_URL, BASE_API_URL } from ".";
 import { getUserId } from "./user";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Fetches the skill data based on the supplied skillUrl.

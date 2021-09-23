@@ -1,5 +1,5 @@
 import { BASE_API_URL, BASE_URL } from ".";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Fetches all projectRoles.

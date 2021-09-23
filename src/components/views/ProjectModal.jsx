@@ -1,7 +1,7 @@
 import { Modal, Card, Col, Row, Button } from "react-bootstrap";
 import DiscussionBoardComponent from "./discussionBoard/DiscussionBoardComponent";
 import ChatWindowComponent from "../chat/ChatWindowComponent";
-import KeycloakService from "../../services/keycloakService";
+import KeycloakService from "../../services/keycloak";
 import { showJoinProjectModal } from "../../redux/joinProject/joinSlice";
 import JoinProject from "./joinProject/JoinProject";
 import {
@@ -14,13 +14,11 @@ import "./ProjectModal.css";
 import { useEffect, useState } from "react";
 import { getProjectRoleByProjectRoleUrl } from "../../services/projectRole";
 import { getUserByUserUrl } from "../../services/user";
-import { getRoleByRoleUrl } from "../../services/roleService";
+import { getRoleByRoleUrl } from "../../services/role";
 import AdminView from "./AdminView";
 
 const ProjectModal = (props) => {
   const {
-    projects,
-    // getProjectRole,
     selectedProject,
     loadingSelectedProject,
     displayProjectModal,
@@ -33,7 +31,6 @@ const ProjectModal = (props) => {
   const [projectRoles, setProjectRoles] = useState([]);
   const [isMemberOfProject, setIsMemberOfProject] = useState(false);
   const [isUserAdminOfProject, setIsUserAdminOfProject] = useState(false);
-  //const [projcetRoles, setProjectRoles] = useState([]);
 
   function displayChatWindow() {
     return (
@@ -121,13 +118,13 @@ const ProjectModal = (props) => {
 
         {isUserAdminOfProject && <div style={{ position: "absolute", display: "flex", top: "80px" }}>
           <div
-            className={`tabs ${selectedProjectTab == 0 ? "active" : ""}`}
+            className={`tabs ${selectedProjectTab === 0 ? "active" : ""}`}
             onClick={() => handleSetSelectedProjectTab(0)}
           >
             <h6 className="font-weight-bold">Project</h6>
           </div>
           <div
-            className={`tabs ${selectedProjectTab == 1 ? "active" : ""}`}
+            className={`tabs ${selectedProjectTab === 1 ? "active" : ""}`}
             onClick={() => handleSetSelectedProjectTab(1)}
           >
             <h6 className="">Admin</h6>
@@ -135,7 +132,7 @@ const ProjectModal = (props) => {
         </div>}
       </Modal.Header>
       <Modal.Body className="project-modal-body">
-        {selectedProjectTab == 0 && (
+        {selectedProjectTab === 0 && (
           <Row>
             <Col>
               <ProjectComponent
@@ -146,7 +143,6 @@ const ProjectModal = (props) => {
                 categoryUrl={selectedProject.category}
                 skills={selectedProject.skills}
                 createdDate={selectedProject.createdDate}
-                //userUrl={"/api/v1/users/i/1"}
                 projectStatusUrl={selectedProject.projectStatus}
                 // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
                 projectRoleUrl={selectedProject.projectRoles[0]}
@@ -164,7 +160,7 @@ const ProjectModal = (props) => {
             {KeycloakService.isLoggedIn() ? <JoinProject></JoinProject> : null}
           </Row>
         )}
-        {selectedProjectTab == 1 && <AdminView />}
+        {selectedProjectTab === 1 && <AdminView />}
       </Modal.Body>
       <Modal.Footer>
       {(!KeycloakService.isLoggedIn()) ? <p>Log in or sign up to join this project</p> : null}

@@ -2,8 +2,11 @@ import { connect } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { fetchProjectStatus } from "../../services/projects";
-import { updateProject, getProjectsStatuses } from "../../services/projects";
-import { fetchSelectedProjectData, fetchAllProjectstatus } from "../../redux/Project/projectSlice";
+import { updateProject } from "../../services/projects";
+import {
+  fetchSelectedProjectData,
+  fetchAllProjectstatus,
+} from "../../redux/Project/projectSlice";
 
 const AdminView = (props) => {
   const {
@@ -28,12 +31,12 @@ const AdminView = (props) => {
   };
 
   const handleUpdateProject = async () => {
-    if(projectTitle.length < 1){
-      alert("Title to short")
+    if (projectTitle.length < 1) {
+      alert("Title to short");
       return;
     }
-    if(projectDescription.length < 1){
-      alert("Description to short")
+    if (projectDescription.length < 1) {
+      alert("Description to short");
       return;
     }
     const formData = new FormData();
@@ -60,14 +63,7 @@ const AdminView = (props) => {
     setprojectTitle(selectedProject.title);
     setProjectDescription(selectedProject.description);
     fetchProjectStatusWithUrl(selectedProject.projectStatus);
-    console.log(projectStatus)
-    console.log("projectsStatusHasLoaded")
-    
-    console.log(projectsStatusHasLoaded)
-    //if (!projectsStatusHasLoaded) {
-      fetchAllProjectstatus();
-      console.log(projectStatus)
-    //}
+    fetchAllProjectstatus();
   }, []);
 
   const handleProjectStatusChange = (e) => {
@@ -94,9 +90,9 @@ const AdminView = (props) => {
             onChange={(event) => setProjectDescription(event.target.value)}
           />
         </Form.Group>
-        <Form.Group style={{height:"70px"}}>
+        <Form.Group style={{ height: "70px" }}>
           <Form.Label>Project Status</Form.Label>
-          {selectedProjectStatus != -1 && (
+          {selectedProjectStatus !== -1 && (
             <Form.Select
               aria-label="Default select example"
               required
@@ -109,15 +105,9 @@ const AdminView = (props) => {
                     {status.title}
                   </option>
                 ))}
-              {/* {categories && populateOptions(categories)} */}
             </Form.Select>
           )}
         </Form.Group>
-        {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Project Category</Form.Label>
-            <CategoriesDropdownComponent disableDefault={true}></CategoriesDropdownComponent>
-          </Form.Group>
-          <SkillsCheckboxComponent></SkillsCheckboxComponent> */}
       </Form>
       <br />
       <Button onClick={() => handleUpdateProject()} variant="success">

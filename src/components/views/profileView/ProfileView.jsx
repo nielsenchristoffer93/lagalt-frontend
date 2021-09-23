@@ -6,7 +6,7 @@ import PortfolioItem from "./portfolioItem/PortfolioItem";
 import "./ProfileView.css"
 import ProfileModal from "./profileModal/ProfileModal";
 import ProfileSkills from "./profileSkills/ProfileSkills";
-import KeycloakService from "../../../services/keycloakService";
+import KeycloakService from "../../../services/keycloak";
 import {Redirect} from "react-router-dom";
 import {
     fetchUserAbout,

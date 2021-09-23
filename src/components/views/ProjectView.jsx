@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
 import ProjectModal from "./ProjectModal";
-import KeycloakService from "../../services/keycloakService";
+import KeycloakService from "../../services/keycloak";
 import "./ProjectViewStyle.css";
 import UserProjectComponent from "../user-projects/UserProjectComponent";
 

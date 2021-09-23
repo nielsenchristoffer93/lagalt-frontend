@@ -1,5 +1,5 @@
 import { BASE_API_URL } from ".";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Create a new chatBoard in a project.

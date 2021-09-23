@@ -1,12 +1,10 @@
 import { showJoinProjectModal } from "../../../redux/joinProject/joinSlice";
-import { useState } from "react";
 import {
   Form,
   FormControl,
   Modal,
   ModalBody,
   ModalTitle,
-  FormLabel,
   ModalFooter,
   Button,
 } from "react-bootstrap";

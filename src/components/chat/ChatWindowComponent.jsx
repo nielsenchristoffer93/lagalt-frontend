@@ -9,7 +9,7 @@ import { postNewChatMessage } from "../../services/chat";
 import { connect } from "react-redux";
 import { BASE_URL, CHAT_ENDPOINT } from "../../services/index";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
-import KeycloakService from "../../services/keycloakService";
+import KeycloakService from "../../services/keycloak";
 import { useForceUpdate } from "../../hooks/useForceUpdate";
 
 // Socket variable to be used inside component.

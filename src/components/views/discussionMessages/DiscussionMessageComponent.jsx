@@ -1,13 +1,9 @@
 import React from "react";
 import "./DiscussionMessageComponent.css";
-import moment from "moment";
 import { Row } from "react-bootstrap";
 import { getTimeSinceCreation } from "../../../services/timeFormatter"
 
-
 const DiscussionMessageComponent = ({ name, message, timestamp }) => {
-
-
 
   return (
 
@@ -22,12 +18,6 @@ const DiscussionMessageComponent = ({ name, message, timestamp }) => {
               <p>{name} &bull; <span>{getTimeSinceCreation(timestamp)}</span></p>
             </Row>
           </Row>
-          {/*<div className="comment-info">
-            <a href="#" className="comment-author">{name}</a>
-            <p className="m-0"> comment posted
-            &bull;  {getTimeSinceCreation(timestamp)}
-            </p>
-  </div>*/}
         </summary>
 
         <div className="comment-body">
@@ -36,16 +26,10 @@ const DiscussionMessageComponent = ({ name, message, timestamp }) => {
           </p>
           <hr />
         </div>
-
       </details>
-
   </div>
   )
 };
-
-
-
-
 
 export default DiscussionMessageComponent
 

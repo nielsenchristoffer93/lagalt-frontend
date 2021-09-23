@@ -1,6 +1,6 @@
-import { Col, Row, Button, Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import AddProjectModal from "../views/AddProjectModal";

@@ -1,7 +1,7 @@
-import { getEmail } from "./keycloakService";
+import { getEmail } from "./keycloak";
 
 import { BASE_API_URL, BASE_URL } from "./index";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Fetches the user data based on email for the logged in user (which we got from keycloak).

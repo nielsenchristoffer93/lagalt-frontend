@@ -10,8 +10,8 @@ import { fetchAllProjects, fetchAllUserProjects } from "../../redux/Project/proj
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 import { getUserId } from "../../services/user"
 import { postNewProjectRole } from "../../services/projectRole" 
-import { postNewChatBoard } from "../../services/chatboardService";
-import { postNewDiscussionBoard } from "../../services/discussionboardService";
+import { postNewChatBoard } from "../../services/chatBoard";
+import { postNewDiscussionBoard } from "../../services/discussionBoard";
 
 const AddProjectModal = (props) => {
   const {
