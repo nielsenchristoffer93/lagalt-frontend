@@ -60,7 +60,7 @@ const UserProjectComponent = (props) => {
       {userProjects && userProjects.length > 0 &&
         userProjects.map((project, i) => (
           <li onClick={() => onOpenModal(project.id)}>
-              <p style={{fontWeight:"bold"}}>{project.title}</p>
+              <p className="user-project" style={{fontWeight:"bold"}}>{project.title}</p>
           </li>
         ))}
         {userProjects.length == 0 && <li>No project yet</li>}
