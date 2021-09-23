@@ -1,4 +1,4 @@
-# lagalt-frontend
+# Lagalt-frontend
 This is the front-end part of our case work at Experis accelerated Learning.
 
 This is an application that lets you find and connect with creative people and join their projects.
