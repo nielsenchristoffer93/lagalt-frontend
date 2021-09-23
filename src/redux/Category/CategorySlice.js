@@ -46,6 +46,8 @@ export const fetchAllCategories = () => async (dispatch) => {
     const response = await getAllCategories();
     const data = await response.json();
 
+    console.log(data)
+
     dispatch(getAllCategoriesSuccess(data));
   } catch (err) {
     console.log(err);
