@@ -29,7 +29,7 @@ const CategoriesDropdownComponent = (props) => {
 
   /**
    * Handles the event when the category dropdown changes and changes the catagory
-   * @param {event} e 
+   * @param {event} e
    */
   const handleChange = (e) => {
     setSelectedSkillsToEmptyArray();
@@ -43,12 +43,7 @@ const CategoriesDropdownComponent = (props) => {
   };
 
   return (
-    <Form.Select
-      aria-label="Default select example"
-      onChange={handleChange}
-      required
-      defaultValue={"-1"}
-    >
+    <Form.Select onChange={handleChange} required defaultValue={"-1"}>
       <option value="-1" disabled={disableDefault ? true : null}>
         Select Category
       </option>
@@ -59,8 +54,8 @@ const CategoriesDropdownComponent = (props) => {
 
 /**
  * populates the category select with options of different categories
- * @param {Array} categories 
- * @returns 
+ * @param {Array} categories
+ * @returns JSX option
  */
 const populateOptions = (categories) => {
   return categories.map((category) => (
@@ -83,8 +78,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllCategories: () => dispatch(fetchAllCategories()),
     setSelectedCategory: (category) => dispatch(setSelectedCategory(category)),
-    fetchSkillsBasedOnCategory: (categoryId) => dispatch(fetchSkillsBasedOnCategory(categoryId)),
-    setSelectedSkillsToEmptyArray: () => dispatch(setSelectedSkillsToEmptyArray()),
+    fetchSkillsBasedOnCategory: (categoryId) =>
+      dispatch(fetchSkillsBasedOnCategory(categoryId)),
+    setSelectedSkillsToEmptyArray: () =>
+      dispatch(setSelectedSkillsToEmptyArray()),
   };
 };
 

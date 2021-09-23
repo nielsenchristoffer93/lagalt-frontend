@@ -4,20 +4,20 @@
 
 .new-project-icon,
 .project-icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 .user-project {
-    display: inline-block;
+  display: inline-block;
 }
 
 .user-project:hover {
-    transition: transform .2s;
-    transform: scale(1.1);
-    cursor: pointer;
+  transition: transform 0.2s;
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .user-project-container ul {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .new-project-icon {
