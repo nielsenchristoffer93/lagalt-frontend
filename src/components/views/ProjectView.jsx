@@ -85,7 +85,7 @@ const ProjectView = (props) => {
           <h3>Projects</h3>
           {projects &&
             projects.map((project, i) => (
-              <div key={i} onClick={() => onOpenModal(project.id)}>
+              <div key={i} onClick={() => onOpenModal(project.id)} className="hover-shadow"> 
                 <ProjectComponent
                   title={project.title}
                   description={project.description}

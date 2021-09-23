@@ -16,12 +16,12 @@ const ProjectRecomended = (props) => {
   };
 // onClick={() => onOpenModal(project.id)}
   return (
-    <div className="project-recommended-container">
+    <div className="project-recommended-container" >
       <h3>Recommended Projects</h3>
       <Row>
         {recommendedProjects && recommendedProjects.map((project, i) => (
-          <Col key={i} onClick={() => onOpenModal(project.id)} >
-            <Card>
+          <Col key={i} onClick={() => onOpenModal(project.id)}  >
+            <Card className="hover-shadow">
               <Card.Body>
                 <Card.Title>{project.title}</Card.Title>
                 <Card.Text className="recommended-project-description">
