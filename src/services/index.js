@@ -7,7 +7,6 @@ export const CHAT_ENDPOINT = "https://lagalt-chat.herokuapp.com/";
 
 
 
-
 /**
   * Local
   */
