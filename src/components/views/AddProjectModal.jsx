@@ -43,6 +43,27 @@ const AddProjectModal = (props) => {
     });
 
     console.log(skills); */
+
+    if(projectTitle.length < 1){
+      alert("Title to short")
+      return;
+    }
+    if(projectDescription.length < 1){
+      alert("Description to short")
+      return;
+    }
+    if(selectedFile == null){
+      alert("Select an image")
+      return;
+    }
+    if(selectedCategory == -1){
+      alert("Select a category")
+      return;
+    }
+    if(selectedSkills.length < 1){
+      alert("Select at least one skill")
+      return;
+    }
     
     const formData = new FormData();
     formData.append("title", projectTitle);

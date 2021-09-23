@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { getUserId } from "../../../services/user";
 import { postNewProjectRole } from "../../../services/projectRole";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import { fetchAllUserProjects } from '../../../redux/Project/projectSlice'
+import { fetchAllUserProjects, fetchSelectedProjectData } from '../../../redux/Project/projectSlice'
 
 
 const JoinProject = (props) => {
@@ -23,7 +23,8 @@ const JoinProject = (props) => {
   const { displayJoinProjectModal,
       showJoinProjectModal,
       selectedProject,
-      fetchAllUserProjects 
+      fetchAllUserProjects,
+      fetchSelectedProjectData
   } = props;
     
   const handleClose = () => {
@@ -50,6 +51,9 @@ const JoinProject = (props) => {
 
     showJoinProjectModal();
     fetchAllUserProjects();
+
+    console.log("selectedProject.id: " + selectedProject.id);
+    await fetchSelectedProjectData(selectedProject.id);
   };
 
   return (
@@ -88,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     showJoinProjectModal: () => dispatch(showJoinProjectModal()),
     fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
+    fetchSelectedProjectData: (id) => dispatch(fetchSelectedProjectData(id)),
   };
 };
 

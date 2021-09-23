@@ -8,9 +8,16 @@ import ProfileModal from "./profileModal/ProfileModal";
 import ProfileSkills from "./profileSkills/ProfileSkills";
 import KeycloakService from "../../../services/keycloakService";
 import {Redirect} from "react-router-dom";
-import {fetchUserData, fetchUserPortfolio, fetchUserSkills} from "../../../redux/User/userSlice";
+import {
+    fetchUserAbout,
+    fetchUserData,
+    fetchUserPortfolio,
+    fetchUserSkills,
+    setAbout
+} from "../../../redux/User/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import {postUserAbout} from "../../../services/user";
 
 const ProfileView = (props) => {
     const {
@@ -18,29 +25,36 @@ const ProfileView = (props) => {
         user,
         fetchUserData,
         fetchUserPortfolio,
-        fetchUserSkills
+        fetchUserSkills,
+        fetchUserAbout
     } = props
 
-    const [shouldRedirect, setShouldRedirect] = useState(false)
-
     useEffect(() => {
+        fetchUserAbout();
         fetchUserData();
         fetchUserPortfolio();
         fetchUserSkills();
     }, []);
 
     useEffect(() => {
-
         if(!KeycloakService.isLoggedIn()) {
             setShouldRedirect(true);
         }
-
     }, [user.portfolio])
+
     useEffect(() => {
         portfolio(user.portfolio);
     },[user.portfolio])
 
+    const [shouldRedirect, setShouldRedirect] = useState(false)
+    const [userAbout, setUserAbout] = useState (user.about);
+
     const handleShowModal = () => showModal()
+
+    const handleSubmit = () => {
+        postUserAbout(userAbout)
+        .finally(fetchUserAbout());
+    }
 
     const portfolio = (portfolio) => {
         return (
@@ -79,9 +93,9 @@ const ProfileView = (props) => {
 
                 <FormLabel>About</FormLabel>
                 {/*Check how to set height to auto*/}
-                <FormControl disabled type="text" as="textarea" rows={"7"} className="height: 100%;"
-                             value={user.about}/>
-
+                <FormControl onChange={(e) => setUserAbout(e.target.value)} type="text" as="textarea" rows={"7"} className="height: 100%;"
+                             value={userAbout}/>
+                <Button onClick={() => handleSubmit()}>Save about</Button>
             </Form>
             <ProfileSkills/>
 
@@ -107,10 +121,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        setAbout: () => dispatch(setAbout()),
         showModal: () => dispatch(showModal()),
         fetchUserData: () => dispatch(fetchUserData()),
         fetchUserSkills: () => dispatch(fetchUserSkills()),
         fetchUserPortfolio: () => dispatch(fetchUserPortfolio()),
+        fetchUserAbout: () => dispatch(fetchUserAbout()),
     }
 };
 

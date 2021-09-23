@@ -1,6 +1,9 @@
 .card-header {
   line-height: 1.5rem;
-  vertical-align: middle;
+}
+
+.card-header p {
+  font-size: 120%;
 }
 
 .message-container {
@@ -18,10 +21,6 @@
   margin-bottom: 5px;
   overflow-wrap: break-word;
 }
-
-/* .row-70w {
-    max-width: 70%;
-} */
 
 .right {
   float: right;
@@ -66,10 +65,14 @@
   font-size: 90%;
 }
 
+.chat-form textarea {
+  margin-bottom: 0.5rem;
+}
+
 .online-bullet {
   color: greenyellow;
   float: right;
-  font-size: 160%;
+  font-size: 200%;
 }
 
 .admin-message {
