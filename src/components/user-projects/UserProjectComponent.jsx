@@ -7,16 +7,22 @@ import AddProjectModal from "../views/AddProjectModal";
 import { getUserProjects } from '../../services/projects'
 import "./UserProjectComponent.css";
 import { useEffect, useState } from "react";
-import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
+import { showProjectModal, fetchSelectedProjectData, fetchAllUserProjects } from '../../redux/Project/projectSlice'
+
 
 const UserProjectComponent = (props) => {
-  const [userProjects, setUserProjects] = useState([]);
+  //const [userProjects, setUserProjects] = useState([]);
 
-  const { displayAddProjectModal, showAddProjectModal, showProjectModal, fetchSelectedProjectData } = props;
+  const { displayAddProjectModal,
+     showAddProjectModal,
+      showProjectModal,
+       fetchSelectedProjectData,
+       userProjects,
+       fetchAllUserProjects
+       } = props;
   
   useEffect(async () => {
-    const data = await getUserProjects()
-    setUserProjects(data)
+    fetchAllUserProjects()
   }, []);
 
   const handleShow = () => {
@@ -33,15 +39,11 @@ const UserProjectComponent = (props) => {
       {displayAddProjectModal ? (
         <AddProjectModal show={displayAddProjectModal} />
       ) : null}
-      {/*<div className="user-project-container">*/}
-      <Row>
-        <Col>
+      <div className="user-project-header">
           <h3>My projects</h3>
-        </Col>
-        <Col md="auto">
           <Button
             variant="outline-success"
-            className="new-user-project-button"
+            className="user-project-button"
             onClick={handleShow}
           >
             <FontAwesomeIcon
@@ -50,8 +52,7 @@ const UserProjectComponent = (props) => {
             ></FontAwesomeIcon>
             New
           </Button>
-        </Col>
-      </Row>
+      </div>
       <hr></hr>
       <ul>
   
@@ -59,7 +60,7 @@ const UserProjectComponent = (props) => {
       {userProjects && userProjects.length > 0 &&
         userProjects.map((project, i) => (
           <li onClick={() => onOpenModal(project.id)}>
-              <p style={{fontWeight:"bold"}}>{project.title}</p>
+              <p className="user-project" style={{fontWeight:"bold"}}>{project.title}</p>
           </li>
         ))}
         {userProjects.length == 0 && <li>No project yet</li>}
@@ -71,6 +72,7 @@ const UserProjectComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
+    userProjects: state.projects.userProjects, 
   };
 };
 
@@ -79,6 +81,7 @@ const mapDispatchToProps = (dispatch) => {
     showAddProjectModal: () => dispatch(showAddProjectModal()),
     showProjectModal: () => dispatch(showProjectModal()),
     fetchSelectedProjectData: (projectId) => dispatch(fetchSelectedProjectData(projectId)),
+    fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
   };
 };
 

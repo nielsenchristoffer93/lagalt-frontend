@@ -9,6 +9,7 @@ import {
   faSignInAlt,
   faUser,
   faSignOutAlt,
+  faComments
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
@@ -29,7 +30,7 @@ const NavbarComponent = (props) => {
 
   return (
     <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top">
-      <Navbar.Brand as={Link} to="/">Lagalt</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/"><FontAwesomeIcon icon={faComments}></FontAwesomeIcon> Lagalt</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse>
         <Nav className="me-auto"></Nav>

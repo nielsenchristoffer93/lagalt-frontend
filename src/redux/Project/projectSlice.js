@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
 	getAllProjects, getAllProjectsWithCategory, filterProjects, 
-	getSelectedProjectData, getRecomendedProject, getAllProjectStatus
+	getSelectedProjectData, getRecomendedProject, getAllProjectStatus, getUserProjects
 } from '../../services/projects';
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
 	selectedProjectTab: 0,
 	projectStatus: [], 
 	projectsStatusHasLoaded: false,
+	userProjects: []
 }
 
 const projectSlice = createSlice({
@@ -71,6 +72,18 @@ const projectSlice = createSlice({
 			state.loading = false
 			state.error = action.payload
 		},
+		getAllUserProjectsStarted: (state) => {
+			state.loading = true
+		},
+		getAllUserProjectsSuccess: (state, action) => {
+			state.userProjects = action.payload
+			state.loading = false
+			state.error = ''
+		},
+		getAllUserProjectsFailed: (state, action) => {
+			state.loading = false
+			state.error = action.payload
+		},
 		showProjectModal: (state) => {
 			state.displayProjectModal = true;
 		  },
@@ -98,6 +111,9 @@ export const {
 	getAllProjectStatusStarted,
 	getAllProjectStatusSuccess,
 	getAllProjectStatusFailed,
+	getAllUserProjectsStarted,
+	getAllUserProjectsSuccess,
+	getAllUserProjectsFailed,
 	showProjectModal,
 	hideProjectModal,
 	setProjectsStatusHasLoaded,
@@ -189,5 +205,19 @@ export const fetchAllProjectstatus = () => async (dispatch) => {
 	  dispatch(getAllProjectStatusFailed(err.toString()))
 	}
   };
+
+export const fetchAllUserProjects = () => async (dispatch) => {
+dispatch(getAllUserProjectsStarted())
+try {
+	const data = await getUserProjects();
+	//const data = await response.json();
+	console.log(data)
+	dispatch(getAllUserProjectsSuccess(data))
+	dispatch(setProjectsStatusHasLoaded(true))
+} catch (err) {
+	console.log(err);
+	dispatch(getAllUserProjectsFailed(err.toString()))
+}
+};
 
 export default projectSlice.reducer;

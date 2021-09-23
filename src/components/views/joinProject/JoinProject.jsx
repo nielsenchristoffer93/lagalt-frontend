@@ -14,12 +14,18 @@ import { connect } from "react-redux";
 import { getUserId } from "../../../services/user";
 import { postNewProjectRole } from "../../../services/projectRole";
 import ModalHeader from "react-bootstrap/ModalHeader";
+import { fetchAllUserProjects, fetchSelectedProjectData } from '../../../redux/Project/projectSlice'
+
 
 const JoinProject = (props) => {
   // const [motivation, setMotivation] = useState("")
 
-  const { displayJoinProjectModal, showJoinProjectModal, selectedProject } =
-    props;
+  const { displayJoinProjectModal,
+      showJoinProjectModal,
+      selectedProject,
+      fetchAllUserProjects,
+      fetchSelectedProjectData
+  } = props;
     
   const handleClose = () => {
     showJoinProjectModal();
@@ -36,8 +42,7 @@ const JoinProject = (props) => {
     formDataProjectRole.append("userId", userId);
     // roleId 1 is administrator and roleId 2 is user.
     formDataProjectRole.append("roleId", 2);
-    console.log(selectedProject.id);
-    console.log(userId);
+
 
     const newProjectRole = await postNewProjectRole(formDataProjectRole).then(
       (response) => response.json()
@@ -45,6 +50,10 @@ const JoinProject = (props) => {
     //console.log(newProjectRole);
 
     showJoinProjectModal();
+    fetchAllUserProjects();
+
+    console.log("selectedProject.id: " + selectedProject.id);
+    await fetchSelectedProjectData(selectedProject.id);
   };
 
   return (
@@ -82,6 +91,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showJoinProjectModal: () => dispatch(showJoinProjectModal()),
+    fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
+    fetchSelectedProjectData: (id) => dispatch(fetchSelectedProjectData(id)),
   };
 };
 

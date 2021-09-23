@@ -46,7 +46,7 @@ const ProjectFilterComponent = (props) => {
                 onChange={() => filterProjects()}
               />
             </Col>
-            <Col sm="6">
+            <Col sm="7">
               <Form.Control
                 type="text"
                 placeholder="Search..."
@@ -64,12 +64,7 @@ const ProjectFilterComponent = (props) => {
               </Button>
             </Col>
             {/*<Col sm="2"></Col>*/}
-            <Col sm="1">
-              <FontAwesomeIcon
-                className="filter-icon"
-                icon={faSlidersH}
-              ></FontAwesomeIcon>
-            </Col>
+            
           </Row>
         </Form>
         {/*</div>*/}

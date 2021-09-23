@@ -6,7 +6,7 @@ import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
-import { fetchAllProjects } from "../../redux/Project/projectSlice";
+import { fetchAllProjects, fetchAllUserProjects } from "../../redux/Project/projectSlice";
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 import { getUserId } from "../../services/user"
 import { postNewProjectRole } from "../../services/projectRole" 
@@ -20,7 +20,8 @@ const AddProjectModal = (props) => {
     selectedCategory,
     selectedSkills,
     fetchAllProjects,
-    resetSkillsStates
+    resetSkillsStates,
+    fetchAllUserProjects
   } = props;
 
   const [projectTitle, setprojectTitle] = useState("");
@@ -42,6 +43,27 @@ const AddProjectModal = (props) => {
     });
 
     console.log(skills); */
+
+    if(projectTitle.length < 1){
+      alert("Title to short")
+      return;
+    }
+    if(projectDescription.length < 1){
+      alert("Description to short")
+      return;
+    }
+    if(selectedFile == null){
+      alert("Select an image")
+      return;
+    }
+    if(selectedCategory == -1){
+      alert("Select a category")
+      return;
+    }
+    if(selectedSkills.length < 1){
+      alert("Select at least one skill")
+      return;
+    }
     
     const formData = new FormData();
     formData.append("title", projectTitle);
@@ -84,6 +106,7 @@ const AddProjectModal = (props) => {
     hideAddProjectModal();
     fetchAllProjects();
     resetSkillsStates();
+    fetchAllUserProjects();
   };
 
   return (
@@ -101,7 +124,7 @@ const AddProjectModal = (props) => {
             <Form.Label>Project Title</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Project 1"
+              placeholder="Add a title..."
               onChange={(event) => setprojectTitle(event.target.value)}
             />
           </Form.Group>
@@ -118,7 +141,7 @@ const AddProjectModal = (props) => {
             <Form.Control
               as="textarea"
               rows={5}
-              placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              placeholder="Add description..."
               onChange={(event) => setProjectDescription(event.target.value)}
             />
           </Form.Group>
@@ -155,6 +178,7 @@ const mapDispatchToProps = (dispatch) => {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
     resetSkillsStates: () => dispatch(resetSkillsStates()),
+    fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
   };
 };
 

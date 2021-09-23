@@ -3,22 +3,18 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import KeycloakService from "../../../services/keycloakService";
 import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { getUserId } from "../../../services/user";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 import { postMessage } from "../../../services/discussionMessages";
-import { getTimeSinceCreation } from "../../../services/timeFormatter"
+import { getTimeSinceCreation } from "../../../services/timeFormatter";
 import { BASE_URL } from "../../../services/index";
-
-
-function useForceUpdate(){
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => value + 1); // update the state to force render
-}
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { useForceUpdate } from "../../../hooks/useForceUpdate"
 
 const DiscussionBoardComponent = (props) => {
   const {
-    // messages,
     selectedProject,
     fetchMessagesBasedOnBoard,
     fullName,
@@ -31,7 +27,9 @@ const DiscussionBoardComponent = (props) => {
   const [newMessage, setnewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [dateCreated, setDateCreated] = useState(getTimeSinceCreation(new Date()));
+  const [dateCreated, setDateCreated] = useState(
+    getTimeSinceCreation(new Date())
+  );
 
   useEffect(() => {
     if (newMessage) {
@@ -42,60 +40,46 @@ const DiscussionBoardComponent = (props) => {
   }, []);
 
   const fetchData = async () => {
-    //console.log("messageboardUrl: " + messageboardUrl);
-    var previousMessagesFetched = [];
+    let previousMessagesFetched = [];
 
     const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
       (response) => response.json()
     );
-    //console.log(messageboardUrl)
-    
-    var previousMessagesFetched = [];
 
     const bordMessagesArray = boardMessages.discussionMessages;
-    //console.log(bordMessagesArray)
 
     bordMessagesArray.forEach(async (messageboardUrl) => {
       const boardMessageData = await fetch(
         `${BASE_URL}${messageboardUrl}`
       ).then((response) => response.json());
-      // console.log(boardMessageData);
-
 
       const discussionMessageId = boardMessageData.id;
 
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
-      
+
       const timeFormatted = getTimeSinceCreation(timestamp);
 
       const userUrl = boardMessageData.user;
-      //console.log("userUrl: " + userUrl);
 
       const userData = await fetch(`${BASE_URL}${userUrl}`)
         .then((response) => response.json())
         .catch((error) => console.log(error));
 
-      //console.log(userData);
 
       const name = userData.firstname + " " + userData.lastname;
-      //console.log(name);
-
       const oldMessage = {
         id: discussionMessageId,
         text: message,
         user: name,
         timestamp: timestamp,
       };
-      //setMessages((messages) => [...messages, oldMessage]);
 
       previousMessagesFetched.push(oldMessage);
-      //setstate(state => [...state, previousMessage]);
       previousMessagesFetched = previousMessagesFetched.sort(
         (a, b) => a.id - b.id
       );
 
-      // CAN'T GET THIS ARRAY TO RENDER PROPERLY
       setMessages(previousMessagesFetched);
       forceUpdate();
     });
@@ -106,25 +90,23 @@ const DiscussionBoardComponent = (props) => {
   };
 
   const handlePost = async (e) => {
-
     e.preventDefault();
     let date = new Date();
+    const userId = await getUserId();
     setDateCreated(getTimeSinceCreation(date));
-    
+
     setnewMessage(true);
     setMessage("");
 
     const formData = new FormData();
     formData.append("message", message);
     formData.append("timestamp", date);
-    formData.append("user_id", 1);
+    formData.append("user_id", userId);
     formData.append("discussion_board_id", selectedProject.id);
 
     console.log("Message: " + message);
 
-
     await postMessage(formData);
-    //fetchMessagesBasedOnBoard(selectedProject.id);
     setMessages([]);
     fetchData(selectedProject.id);
   };
@@ -132,7 +114,8 @@ const DiscussionBoardComponent = (props) => {
   const renderLoginButtonsOrMessageForm = () => {
     if (!KeycloakService.isLoggedIn()) {
       return (
-        <Row>
+        <Card className="discussion-board-login">
+          <Col>
           <p className="login-paragraph">
             Log in or sign up to leave a comment
           </p>
@@ -151,17 +134,15 @@ const DiscussionBoardComponent = (props) => {
           >
             Sign Up
           </Button>
-        </Row>
+          </Col>
+        </Card>
       );
     } else {
       // If user is logged in render form for posting a new message.
       return (
-        <div className="message-form-container">
+        <div className="discussion-board-form">
           <Form>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -174,55 +155,33 @@ const DiscussionBoardComponent = (props) => {
                   }
                 }}
               />
-              <Button variant="primary" onClick={(event) => handlePost(event)}>
-                Post message
-              </Button>
             </Form.Group>
           </Form>
+          <div className="d-grid gap-2">
+            <Button variant="primary" onClick={(event) => handlePost(event)}>
+              Post message <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
+            </Button>
+          </div>
         </div>
       );
     }
   };
 
   return (
-    <Container>
-      <div id="scroll1">
-        {/* easy scroll */}
-        <div className="discussion-messages-container">
-          {messages &&
-            messages.length > 0 &&
-            messages.map((message) => (
-              <DiscussionMessageComponent
-                message={message.text}
-                name={message.user}
-                timestamp={message.timestamp}
-              ></DiscussionMessageComponent>
-            ))}
-        </div>
-        {renderLoginButtonsOrMessageForm()}
-        {/*<div class="custom-input" id="scroll2">
-          <input
-            type="text"
-            class="custom-input-input"
-            placeholder="Type your comment..."
-            value={message}
-            onChange={handleTextMessage}
-            onKeyPress={(event) => {
-              if (event.key === "Enter") {
-                handlePost(event);
-              }
-            }}
-          />
-          <button
-            type="submit"
-            class="custom-input-botton"
-            onClick={(event) => handlePost(event)}
-          >
-            Post
-          </button>
-          </div>*/}
+    <div className="discussion-board-container">
+      <div className="discussion-messages-container">
+        {messages &&
+          messages.length > 0 &&
+          messages.map((message) => (
+            <DiscussionMessageComponent
+              message={message.text}
+              name={message.user}
+              timestamp={message.timestamp}
+            ></DiscussionMessageComponent>
+          ))}
       </div>
-    </Container>
+      {renderLoginButtonsOrMessageForm()}
+    </div>
   );
 };
 
@@ -238,8 +197,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchMessagesBasedOnBoard: (id) => dispatch(fetchMessagesBasedOnBoard(id)),
-    // fetchUserById: (id) => dispatch(fetchUserById(id)),
-    //createMessages: (data) => dispatch(createMessages(data)),
   };
 };
 
