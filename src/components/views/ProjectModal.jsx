@@ -167,6 +167,7 @@ const ProjectModal = (props) => {
         {selectedProjectTab == 1 && <AdminView />}
       </Modal.Body>
       <Modal.Footer>
+      {(!KeycloakService.isLoggedIn()) ? <p>Log in or sign up to join this project</p> : null}
         <Button variant="secondary" onClick={handleCloseProjectModal}>
           Close
         </Button>
@@ -175,6 +176,7 @@ const ProjectModal = (props) => {
             Apply to project
           </Button>
         ) : null}
+        
       </Modal.Footer>
     </Modal>
   );
