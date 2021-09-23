@@ -13,6 +13,7 @@ import {
   fetchAllProjectsWithCategory,
   fetchFilteredProjects,
 } from "../../../redux/Project/projectSlice";
+
 const ProjectFilterComponent = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -20,6 +21,7 @@ const ProjectFilterComponent = (props) => {
     selectedCategory,
     fetchAllProjectsWithCategory,
     fetchFilteredProjects,
+    displayAddProjectModal,
   } = props;
 
   const filterProjects = () => {
@@ -27,7 +29,9 @@ const ProjectFilterComponent = (props) => {
   };
 
   useEffect(() => {
+    if(!displayAddProjectModal){
     fetchFilteredProjects(searchQuery, selectedCategory);
+    }
   }, [selectedCategory]);
 
   return (
@@ -75,6 +79,7 @@ const ProjectFilterComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     selectedCategory: state.categories.selectedCategory,
+    displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
   };
 };
 
