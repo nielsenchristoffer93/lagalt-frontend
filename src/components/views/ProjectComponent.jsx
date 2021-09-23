@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Col } from "react-bootstrap";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { getCategoryBasedOnCategoryId } from "../../services/categories";
-import { getProjectStatusBasedOnProjectStatusId } from "../../services/projectStatus";
+import { getProjectStatusBasedOnProjectStatusUrl } from "../../services/projectStatus";
 import { getProjectRoleByProjectRoleUrl } from "../../services/projectRole";
 import { getUserByUserUrl } from "../../services/user";
 import { connect } from "react-redux";
@@ -47,7 +47,7 @@ const ProjectComponent = (props) => {
     //console.log("categoryTitle: " + categoryTitle);
     //console.log("CATEGORY");
     //console.log(categoryData);
-    const projectStatusData = await getProjectStatusBasedOnProjectStatusId(
+    const projectStatusData = await getProjectStatusBasedOnProjectStatusUrl(
       projectStatusUrl
     );
     //console.log(projectStatusData)
