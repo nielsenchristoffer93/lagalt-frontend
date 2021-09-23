@@ -23,19 +23,21 @@ const CategoriesDropdownComponent = (props) => {
 
   useEffect(() => {
     if (!hasLoaded) {
-      //console.log("hasLoaded:" + hasLoaded);
       fetchAllCategories();
     }
   }, []);
 
+  /**
+   * Handles the event when the category dropdown changes and changes the catagory
+   * @param {event} e 
+   */
   const handleChange = (e) => {
-    //console.log(e.target);
     setSelectedSkillsToEmptyArray();
     if (e.target.value > 0) {
       setSelectedCategory(e.target.value);
       fetchSkillsBasedOnCategory(e.target.value);
     }
-    if(e.target.value == -1){
+    if (e.target.value == -1) {
       setSelectedCategory(e.target.value);
     }
   };
@@ -55,6 +57,11 @@ const CategoriesDropdownComponent = (props) => {
   );
 };
 
+/**
+ * populates the category select with options of different categories
+ * @param {Array} categories 
+ * @returns 
+ */
 const populateOptions = (categories) => {
   return categories.map((category) => (
     <option key={category.id} value={category.id}>
@@ -76,10 +83,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllCategories: () => dispatch(fetchAllCategories()),
     setSelectedCategory: (category) => dispatch(setSelectedCategory(category)),
-    fetchSkillsBasedOnCategory: (categoryId) =>
-      dispatch(fetchSkillsBasedOnCategory(categoryId)),
-    setSelectedSkillsToEmptyArray: () =>
-      dispatch(setSelectedSkillsToEmptyArray()),
+    fetchSkillsBasedOnCategory: (categoryId) => dispatch(fetchSkillsBasedOnCategory(categoryId)),
+    setSelectedSkillsToEmptyArray: () => dispatch(setSelectedSkillsToEmptyArray()),
   };
 };
 

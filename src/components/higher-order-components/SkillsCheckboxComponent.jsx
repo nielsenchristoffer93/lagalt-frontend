@@ -17,6 +17,9 @@ const SkillsCheckboxComponent = (props) => {
     setSelectedSkills
   } = props;
 
+  /**
+   * changes skills when SkillsUrl is changed
+   */
   useEffect(() => {
     setSkillsToEmptyArray();
     // DO THIS IN BACKEND INSTEAD AND JUST FETCH ALL SKILLS CONNECTED TO THE SPECIFIC CATEGORY
@@ -25,12 +28,19 @@ const SkillsCheckboxComponent = (props) => {
     }
   }, [skillUrls]);
 
+  /**
+   * Adds the skill if isn't present in skills, if it is present the skill is removed from skills
+   * @param {number} skillId 
+   */
   const handleCheckboxClicked = (skillId) => {
-    //console.log("checkbox clicked!");
-    //console.log("skillId: " + skillId);
     setSelectedSkills(skillId);
   };
 
+  /**
+   * makes a list of <Form.Check> of all skill based on the skills array
+   * @param {Array} skills 
+   * @returns list of <Form.Check>
+   */
   const populateCheckBoxes = (skills) => {
     return skills.map((skill, id) => (
       <Form.Check
@@ -68,10 +78,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchSkillBasedOnSkillUrl: (skillUrl) =>
-        dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
-        setSkillsToEmptyArray: () => dispatch(setSkillsToEmptyArray()),
-        setSelectedSkills: (skillId) => dispatch(setSelectedSkills(skillId)),
+    fetchSkillBasedOnSkillUrl: (skillUrl) => dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
+    setSkillsToEmptyArray: () => dispatch(setSkillsToEmptyArray()),
+    setSelectedSkills: (skillId) => dispatch(setSelectedSkills(skillId)),
   };
 };
 
