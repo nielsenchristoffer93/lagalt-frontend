@@ -92,7 +92,7 @@ const ProjectComponent = (props) => {
     //if(selectedProjectHasLoaded) {
     fetchProjectData();
     //}
-  }, []);
+  }, [categoryUrl]);
 
   const populateListWithSkills = () => {
     //console.log(skillTitles);
