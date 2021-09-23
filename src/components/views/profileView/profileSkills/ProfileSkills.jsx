@@ -36,6 +36,9 @@ const ProfileSkills = (props) => {
         }
     });
 
+    /**
+     * Updates the Skills to match the selected category.
+     */
     useEffect(() => {
         setSkillsToEmptyArray();
         for (let index = 0; index < skillUrls.length; index++) {
@@ -43,6 +46,11 @@ const ProfileSkills = (props) => {
         }
     }, [fetchSkillBasedOnSkillUrl, setSkillsToEmptyArray, skillUrls]);
 
+    /**
+     * Maps the users skills and returns them as cards to be displayed
+     * @param skills User skills from redux
+     * @returns {*} Cards corresponding to the users skills.
+     */
     const displayUserSkills = (skills) => {
         return (skills.map((skill) => (
                 <Card className="skill-card">{skill.title}</Card>
@@ -50,6 +58,11 @@ const ProfileSkills = (props) => {
         )
     }
 
+    /**
+     * If the checkbox is checked, the skill is saved to the users skills in the Db, if it's unchecked the skill is deleted.
+     * Then it fetches the users skills.
+     * @param e ClickEvent from the Checkbox.
+     */
     const handleCheckboxClicked = (e) => {
         const id = e.target.value
         if (e.target.checked === true) {
@@ -91,6 +104,7 @@ const ProfileSkills = (props) => {
             </option>
         ));
     };
+
     const handleCategoryChange = (e) => {
         setSelectedSkillsToEmptyArray();
         if (e.target.value > 0) {

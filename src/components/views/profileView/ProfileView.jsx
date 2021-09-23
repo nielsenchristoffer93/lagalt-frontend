@@ -29,6 +29,9 @@ const ProfileView = (props) => {
         fetchUserAbout
     } = props
 
+    /**
+     * Fetches all relevant user data on load. This is done because rerender of clears redux.
+     */
     useEffect(() => {
         fetchUserAbout();
         fetchUserData();
@@ -36,12 +39,18 @@ const ProfileView = (props) => {
         fetchUserSkills();
     }, []);
 
+    /**
+     * Ensures that the user is logged in. Redirects back to ProjectView if the user isn't logged in.
+     */
     useEffect(() => {
         if(!KeycloakService.isLoggedIn()) {
             setShouldRedirect(true);
         }
     }, [user.portfolio])
 
+    /**
+     * Rerenders the users portfolio if it's uppdated.
+     */
     useEffect(() => {
         portfolio(user.portfolio);
     },[user.portfolio])
@@ -92,9 +101,13 @@ const ProfileView = (props) => {
                 <FormControl disabled type="text" className="mb-3" value={user.email}/>
 
                 <FormLabel>About</FormLabel>
-                {/*Check how to set height to auto*/}
-                <FormControl onChange={(e) => setUserAbout(e.target.value)} type="text" as="textarea" rows={"7"} className="height: 100%;"
-                             value={userAbout}/>
+                <FormControl onChange={(e) =>
+                     setUserAbout(e.target.value)}
+                     type="text"
+                     as="textarea"
+                     rows={"7"}
+                     className="height: 100%;"
+                     value={userAbout}/>
                 <Button onClick={() => handleSubmit()}>Save about</Button>
             </Form>
             <ProfileSkills/>
@@ -102,7 +115,7 @@ const ProfileView = (props) => {
             <div className="profile-portfolio">
                 <div className="profile-portfolio-header">
                     <h3>Portfolio</h3>
-                    <Button onClick={handleShowModal}><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon> Add portfolio entry</Button>
+                    <Button onClick={handleShowModal}><FontAwesomeIcon icon={faEdit}/> Add portfolio entry</Button>
                     <ProfileModal/>
                 </div>
                 {portfolio(user.portfolio)}

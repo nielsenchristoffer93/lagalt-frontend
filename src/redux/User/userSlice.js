@@ -95,7 +95,6 @@ export const fetchUserAbout = () => async (dispatch) => {
         const data = await response.json();
 
         dispatch(setAbout(data.about));
-        console.log(data.about)
     } catch (err) {
         console.log(err);
     }
