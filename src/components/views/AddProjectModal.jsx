@@ -1,7 +1,7 @@
 import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
-import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { hideAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
