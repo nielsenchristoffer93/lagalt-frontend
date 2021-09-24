@@ -1,7 +1,7 @@
 .discussion-board-login {
   padding: 1rem;
   text-align: center;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .login-paragraph {
@@ -23,4 +23,3 @@
 .discussion-board-form textarea {
   margin: 1rem 0;
 }
-

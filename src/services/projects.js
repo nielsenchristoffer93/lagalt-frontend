@@ -1,10 +1,10 @@
 import { BASE_API_URL, BASE_URL } from ".";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 import { getUserId } from "./user";
 
 /**
  * Fetch all projects from the database.
- * 
+ *
  * @returns Promise
  */
 export const getAllProjects = async () => {
@@ -18,7 +18,7 @@ export const getAllProjects = async () => {
 
 /**
  * Creates a new project.
- * 
+ *
  * @param {*} data FormData to add to the database.
  * @returns Promise
  */
@@ -34,7 +34,7 @@ export const postNewProject = async (data) => {
 
 /**
  * Fetches the projects by either title or a category id.
- * 
+ *
  * @param {*} title title of project to filter by.
  * @param {*} categoryId categoryId to filter projects by.
  * @returns Promise
@@ -51,7 +51,7 @@ export const filterProjects = async (title, categoryId) => {
 
 /**
  * Fetch project data based on the id supplied.
- * 
+ *
  * @param {*} id The projectId to get data from.
  * @returns Promise
  */
@@ -66,7 +66,7 @@ export const getSelectedProjectData = async (id) => {
 
 /**
  * Fetches the recommended projects (which is basically 4 random projects.)
- * 
+ *
  * @returns Promise
  */
 export const getRecomendedProject = async () => {
@@ -80,7 +80,7 @@ export const getRecomendedProject = async () => {
 
 /**
  * Updates a project with new data.
- * 
+ *
  * @param {*} data FormData to update project with.
  * @param {*} id The id of the project to update.
  * @returns Promise
@@ -97,7 +97,7 @@ export const updateProject = async (data, id) => {
 
 /**
  * Fetches the projectstatus of every project.
- * 
+ *
  * @returns Promise
  */
 export const getAllProjectStatus = async () => {
@@ -108,7 +108,7 @@ export const getAllProjectStatus = async () => {
 
 /**
  * Fetches a projects project status based on the projectStatusUrl.
- * 
+ *
  * @param {*} projectStatusUrl the projectStatusUrl to fetch data
  * @returns Promise
  */
@@ -123,11 +123,10 @@ export const fetchProjectStatus = async (projectStatusUrl) => {
 
 /**
  * Fetches the projects associated with the logged in user.
- * 
+ *
  * @returns projects associated with the logged in user.
  */
 export const getUserProjects = async () => {
-
   const userResponse = await getUserRoles();
   const userData = await userResponse.json();
   const userRoles = userData.projectRoles;
@@ -151,7 +150,7 @@ export const getUserProjects = async () => {
 
 /**
  * Fetches the logged in users userRoles.
- * 
+ *
  * @returns Promise
  */
 export const getUserRoles = async () => {
@@ -165,7 +164,12 @@ export const getUserRoles = async () => {
   });
 };
 
-// WHAT DOES THIS DO?
+/**
+ * Fetches data from database based on supplied url.
+ * 
+ * @param {*} url the url to fetch data by (eg. /api/v1/users/i/1 or /api/v1/projectRole/1)
+ * @returns Promise
+ */
 export const getDataFromUrl = async (url) => {
   return await fetch(`${BASE_URL}${url}`, {
     headers: {

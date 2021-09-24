@@ -1,40 +1,39 @@
-import { showJoinProjectModal } from "../../../redux/joinProject/joinSlice";
-import { useState } from "react";
+import { showJoinProjectModal } from "../../../redux/joinProject/JoinSlice";
+import { getUserId } from "../../../services/user";
+import { postNewProjectRole } from "../../../services/projectRole";
+import {
+  fetchAllUserProjects,
+  fetchSelectedProjectData,
+} from "../../../redux/project/projectSlice";
 import {
   Form,
   FormControl,
   Modal,
   ModalBody,
   ModalTitle,
-  FormLabel,
   ModalFooter,
   Button,
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import { getUserId } from "../../../services/user";
-import { postNewProjectRole } from "../../../services/projectRole";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import { fetchAllUserProjects, fetchSelectedProjectData } from '../../../redux/project/projectSlice'
-
-
 const JoinProject = (props) => {
-  // const [motivation, setMotivation] = useState("")
-
-  const { displayJoinProjectModal,
-      showJoinProjectModal,
-      selectedProject,
-      fetchAllUserProjects,
-      fetchSelectedProjectData
+  const {
+    displayJoinProjectModal,
+    showJoinProjectModal,
+    selectedProject,
+    fetchAllUserProjects,
+    fetchSelectedProjectData,
   } = props;
-    
+
   const handleClose = () => {
     showJoinProjectModal();
   };
 
+  /**
+   * Adds the user to the user to a project and adds a ProjectRole to the db.
+   * @returns {Promise<void>}
+   */
   const handleJoin = async () => {
-    //Save form to db
-    //    var date = new Date();
-    //    const projectId = await getSelectedProjectData();
     const userId = await getUserId();
 
     const formDataProjectRole = new FormData();
@@ -43,16 +42,11 @@ const JoinProject = (props) => {
     // roleId 1 is administrator and roleId 2 is user.
     formDataProjectRole.append("roleId", 2);
 
-
-    const newProjectRole = await postNewProjectRole(formDataProjectRole).then(
-      (response) => response.json()
-    );
-    //console.log(newProjectRole);
+    await postNewProjectRole(formDataProjectRole)
 
     showJoinProjectModal();
     fetchAllUserProjects();
 
-    console.log("selectedProject.id: " + selectedProject.id);
     await fetchSelectedProjectData(selectedProject.id);
   };
 

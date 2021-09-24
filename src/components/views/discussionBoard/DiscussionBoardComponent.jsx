@@ -1,9 +1,9 @@
 import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import KeycloakService from "../../../services/keycloakService";
-import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import KeycloakService from "../../../services/keycloak";
+import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/MessageSlice";
+import { Col, Button, Form, Card } from "react-bootstrap";
 import { getUserId } from "../../../services/user";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
 import { postMessage } from "../../../services/discussionMessages";
@@ -11,20 +11,18 @@ import { getTimeSinceCreation } from "../../../services/timeFormatter";
 import { BASE_URL } from "../../../services/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
-import { useForceUpdate } from "../../../hooks/useForceUpdate"
+import { useForceUpdate } from "../../../hooks/useForceUpdate";
 
 const DiscussionBoardComponent = (props) => {
   const {
     selectedProject,
     fetchMessagesBasedOnBoard,
-    fullName,
-    messageboardUrl,
+    messageBoardUrl,
   } = props;
 
   const forceUpdate = useForceUpdate();
 
-  const [name, setName] = useState(fullName);
-  const [newMessage, setnewMessage] = useState(true);
+  const [newMessage, setNewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [dateCreated, setDateCreated] = useState(
@@ -33,7 +31,7 @@ const DiscussionBoardComponent = (props) => {
 
   useEffect(() => {
     if (newMessage) {
-      setnewMessage(false);
+      setNewMessage(false);
       fetchMessagesBasedOnBoard(selectedProject.id);
       fetchData(selectedProject.id);
     }
@@ -42,9 +40,11 @@ const DiscussionBoardComponent = (props) => {
   const fetchData = async () => {
     let previousMessagesFetched = [];
 
-    const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
+    const boardMessages = await fetch(`${BASE_URL}${messageBoardUrl}`).then(
       (response) => response.json()
     );
+
+    console.log(boardMessages)
 
     const bordMessagesArray = boardMessages.discussionMessages;
 
@@ -58,14 +58,11 @@ const DiscussionBoardComponent = (props) => {
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
 
-      const timeFormatted = getTimeSinceCreation(timestamp);
-
       const userUrl = boardMessageData.user;
 
       const userData = await fetch(`${BASE_URL}${userUrl}`)
         .then((response) => response.json())
         .catch((error) => console.log(error));
-
 
       const name = userData.firstname + " " + userData.lastname;
       const oldMessage = {
@@ -95,7 +92,7 @@ const DiscussionBoardComponent = (props) => {
     const userId = await getUserId();
     setDateCreated(getTimeSinceCreation(date));
 
-    setnewMessage(true);
+    setNewMessage(true);
     setMessage("");
 
     const formData = new FormData();
@@ -116,24 +113,24 @@ const DiscussionBoardComponent = (props) => {
       return (
         <Card className="discussion-board-login">
           <Col>
-          <p className="login-paragraph">
-            Log in or sign up to leave a comment
-          </p>
+            <p className="login-paragraph">
+              Log in or sign up to leave a comment
+            </p>
 
-          <Button
-            variant="outline-primary"
-            id="btn"
-            onClick={() => KeycloakService.doLogin()}
-          >
-            Log In
-          </Button>
-          <Button
-            variant="primary"
-            id="btn"
-            onClick={() => KeycloakService.doRegister()}
-          >
-            Sign Up
-          </Button>
+            <Button
+              variant="outline-primary"
+              id="btn"
+              onClick={() => KeycloakService.doLogin()}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="primary"
+              id="btn"
+              onClick={() => KeycloakService.doRegister()}
+            >
+              Sign Up
+            </Button>
           </Col>
         </Card>
       );
@@ -159,7 +156,7 @@ const DiscussionBoardComponent = (props) => {
           </Form>
           <div className="d-grid gap-2">
             <Button variant="primary" onClick={(event) => handlePost(event)}>
-              Post message <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
+              Post message <FontAwesomeIcon icon={faReply}/>
             </Button>
           </div>
         </div>
@@ -174,10 +171,10 @@ const DiscussionBoardComponent = (props) => {
           messages.length > 0 &&
           messages.map((message) => (
             <DiscussionMessageComponent
-              message={message.text}
-              name={message.user}
-              timestamp={message.timestamp}
-            ></DiscussionMessageComponent>
+                message={message.text}
+                name={message.user}
+                timestamp={message.timestamp}
+            />
           ))}
       </div>
       {renderLoginButtonsOrMessageForm()}
@@ -189,7 +186,6 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
-    fullName: `${state.user.firstname} ${state.user.lastname}`,
     messages: state.messages.messages,
   };
 };

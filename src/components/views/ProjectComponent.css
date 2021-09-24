@@ -1,24 +1,19 @@
 .project-status {
-    float: right;
+  float: right;
 }
 
 ul.horizontal-list {
-	/*min-width: 696px;*/
-	list-style: none;
-	margin-top: 20px;
-    padding: 0;
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
 }
 
 ul.horizontal-list li {
-    display: inline;
-    margin-right: 20px;
+  display: inline;
+  margin-right: 20px;
 }
 
 .skill-card {
-    margin-right: 1rem;
-    padding: 0.1rem 0.4rem;
+  margin-right: 1rem;
+  padding: 0.1rem 0.4rem;
 }
-
-/* .project-image {
-    max-width: 100%;
-} */

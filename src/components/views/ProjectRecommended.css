@@ -1,5 +1,5 @@
 .recommended-project-description {
-    height: 120px;
+  height: 120px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -7,5 +7,5 @@
 }
 
 .recommended-project-image {
-    height: 18vh;
+  height: 18vh;
 }

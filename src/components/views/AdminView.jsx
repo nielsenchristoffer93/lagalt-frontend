@@ -5,21 +5,26 @@ import { fetchProjectStatus } from "../../services/projects";
 import { updateProject, getProjectsStatuses } from "../../services/projects";
 import { fetchSelectedProjectData, fetchAllProjectstatus } from "../../redux/project/projectSlice";
 
+
 const AdminView = (props) => {
   const {
     selectedProject,
-    fetchAllProjectstatus,
+    fetchAllProjectStatus,
     projectStatus,
-    projectsStatusHasLoaded,
     fetchSelectedProjectData,
   } = props;
 
-  const [projectTitle, setprojectTitle] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [selectedProjectStatus, setSelectedProjectStatus] = useState(-1);
   const [selectedStatus, setSelectedStatus] = useState(1);
-  const [postSuccessful, setpostSuccessful] = useState(false);
+  const [postSuccessful, setPostSuccessful] = useState(false);
 
+  /**
+   * Fetches the status of the project based on the projectUrl.
+   * @param url
+   * @returns {Promise<void>}
+   */
   const fetchProjectStatusWithUrl = async (url) => {
     let statusObj = await fetchProjectStatus(url).then((response) =>
       response.json()
@@ -27,13 +32,17 @@ const AdminView = (props) => {
     setSelectedProjectStatus(statusObj.id);
   };
 
+  /**
+   * Used to update the different fields in a project.
+   * @returns {Promise<void>}
+   */
   const handleUpdateProject = async () => {
-    if(projectTitle.length < 1){
-      alert("Title to short")
+    if (projectTitle.length < 1) {
+      alert("Title to short");
       return;
     }
-    if(projectDescription.length < 1){
-      alert("Description to short")
+    if (projectDescription.length < 1) {
+      alert("Description to short");
       return;
     }
     const formData = new FormData();
@@ -42,33 +51,26 @@ const AdminView = (props) => {
     formData.append("createdDate", selectedProject.createdDate);
     formData.append("projectStatusId", selectedStatus);
 
-    const updatedProject = await updateProject(
-      formData,
-      selectedProject.id
-    ).then((response) => response.json());
+    // const updatedProject = await updateProject(
+    //   formData,
+    //   selectedProject.id
+    // ).then((response) => response.json());
 
     await fetchSelectedProjectData(selectedProject.id);
 
     //Alerts the user when making a update
-    setpostSuccessful(true);
+    setPostSuccessful(true);
     setTimeout(() => {
-      setpostSuccessful(false);
+      setPostSuccessful(false);
     }, 1800);
   };
 
   useEffect(() => {
-    setprojectTitle(selectedProject.title);
+    setProjectTitle(selectedProject.title);
     setProjectDescription(selectedProject.description);
     fetchProjectStatusWithUrl(selectedProject.projectStatus);
-    console.log(projectStatus)
-    console.log("projectsStatusHasLoaded")
-    
-    console.log(projectsStatusHasLoaded)
-    //if (!projectsStatusHasLoaded) {
-      fetchAllProjectstatus();
-      console.log(projectStatus)
-    //}
-  }, []);
+    fetchAllProjectStatus();
+  }, [selectedProject.description, selectedProject.projectStatus, selectedProject.title]);
 
   const handleProjectStatusChange = (e) => {
     setSelectedStatus(e.target.value);
@@ -82,7 +84,7 @@ const AdminView = (props) => {
           <Form.Control
             type="text"
             value={projectTitle}
-            onChange={(event) => setprojectTitle(event.target.value)}
+            onChange={(event) => setProjectTitle(event.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -94,9 +96,9 @@ const AdminView = (props) => {
             onChange={(event) => setProjectDescription(event.target.value)}
           />
         </Form.Group>
-        <Form.Group style={{height:"70px"}}>
+        <Form.Group style={{ height: "70px" }}>
           <Form.Label>Project Status</Form.Label>
-          {selectedProjectStatus != -1 && (
+          {selectedProjectStatus !== -1 && (
             <Form.Select
               aria-label="Default select example"
               required
@@ -109,15 +111,9 @@ const AdminView = (props) => {
                     {status.title}
                   </option>
                 ))}
-              {/* {categories && populateOptions(categories)} */}
             </Form.Select>
           )}
         </Form.Group>
-        {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Project Category</Form.Label>
-            <CategoriesDropdownComponent disableDefault={true}></CategoriesDropdownComponent>
-          </Form.Group>
-          <SkillsCheckboxComponent></SkillsCheckboxComponent> */}
       </Form>
       <br />
       <Button onClick={() => handleUpdateProject()} variant="success">
@@ -135,13 +131,12 @@ const mapStateToProps = (state) => {
   return {
     selectedProject: state.projects.selectedProject,
     projectStatus: state.projects.projectStatus,
-    projectsStatusHasLoaded: state.projects.projectsStatusHasLoaded,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllProjectstatus: () => dispatch(fetchAllProjectstatus()),
+    fetchAllProjectStatus: () => dispatch(fetchAllProjectStatus()),
     fetchSelectedProjectData: (id) => dispatch(fetchSelectedProjectData(id)),
   };
 };

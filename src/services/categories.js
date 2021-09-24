@@ -2,7 +2,7 @@ import { BASE_API_URL, BASE_URL } from ".";
 
 /**
  * Fetches all of the categories from the database.
- * 
+ *
  * @returns Promise
  */
 export const getAllCategories = async () => {
@@ -16,7 +16,7 @@ export const getAllCategories = async () => {
 
 /**
  * Fetches a category based on the supplied categoryUrl.
- * 
+ *
  * @param {*} categoryUrl the categoryUrl to fetch data by.
  * @returns category data in json format.
  */
@@ -32,7 +32,7 @@ export const getCategoryBasedOnCategoryId = async (categoryUrl) => {
 
 /**
  * Fetch skills from database based on the supplied category id.
- * 
+ *
  * @param {*} categoryId the categoryId to fetch data by.
  * @returns Promise
  */

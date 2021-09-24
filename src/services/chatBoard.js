@@ -1,9 +1,9 @@
 import { BASE_API_URL } from ".";
-import KeycloakService from "./keycloakService";
+import KeycloakService from "./keycloak";
 
 /**
  * Create a new chatBoard in a project.
- * 
+ *
  * @param {*} data the data to send to the backend for posting a new chatBoard to a project.
  * @returns Promise
  */
