@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import projectReducer from "./Project/projectSlice";
-import categoryReducer from "./Category/CategorySlice";
-import viewProjectModal from "./AddProject/AddProjectSlice";
+import categoryReducer from "./category/CategorySlice";
+import viewProjectModal from "./addProject/AddProjectSlice";
 import skillsReducer from "./Skill/SkillSlice";
 import profileReducer from "./profile/profileSlice";
 import messageReducer from "./discussionMessage/messageSlice";

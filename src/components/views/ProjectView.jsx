@@ -4,13 +4,13 @@ import ProjectModal from "./ProjectModal";
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect } from "react";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {
   fetchAllProjects,
   fetchSelectedProjectData,
   fetchRecommendedProjects,
   showProjectModal,
 } from "../../redux/Project/projectSlice";
+import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import {
   initialAddUser,
   fetchUserData,
@@ -68,7 +68,7 @@ const ProjectView = (props) => {
   };
 
   return (
-    <div class="project-view">
+    <div className="project-view">
       {displayProjectModal ? <ProjectModal/> : null}
       <Row>
         <Col sm="3">

@@ -164,7 +164,12 @@ export const getUserRoles = async () => {
   });
 };
 
-// WHAT DOES THIS DO?
+/**
+ * Fetches data from database based on supplied url.
+ * 
+ * @param {*} url the url to fetch data by (eg. /api/v1/users/i/1 or /api/v1/projectRole/1)
+ * @returns Promise
+ */
 export const getDataFromUrl = async (url) => {
   return await fetch(`${BASE_URL}${url}`, {
     headers: {

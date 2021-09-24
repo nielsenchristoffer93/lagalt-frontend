@@ -39,7 +39,11 @@ export const {
   setSelectedCategory,
 } = categorySlice.actions;
 
-//Thunk
+/**
+ * Fetch all of the categories from the database.
+ * 
+ * @returns list of all categories in json format.
+ */
 export const fetchAllCategories = () => async (dispatch) => {
   dispatch(getAllCategoriesStarted());
   try {

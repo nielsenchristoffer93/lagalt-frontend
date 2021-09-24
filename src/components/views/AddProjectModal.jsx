@@ -2,14 +2,13 @@ import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxCo
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
 import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { hideAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import { useState } from "react";
 import { postNewProject } from "../../services/projects";
 import {
   fetchAllProjects,
   fetchAllUserProjects,
 } from "../../redux/Project/projectSlice";
-import { resetSkillsStates } from "../../redux/Skill/SkillSlice";
 import { getUserId } from "../../services/user";
 import { postNewProjectRole } from "../../services/projectRole";
 import { postNewChatBoard } from "../../services/chatBoard";

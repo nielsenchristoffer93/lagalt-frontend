@@ -2,7 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import AddProjectModal from "../views/AddProjectModal";
 import "./UserProjectComponent.css";
 import { useEffect } from "react";
