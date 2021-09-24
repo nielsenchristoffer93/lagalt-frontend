@@ -25,7 +25,7 @@ const DiscussionBoardComponent = (props) => {
   const [newMessage, setNewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [ setDateCreated] = useState(
+  const [dateCreated, setDateCreated] = useState(
     getTimeSinceCreation(new Date())
   );
 

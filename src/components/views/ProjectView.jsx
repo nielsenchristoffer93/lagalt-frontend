@@ -9,7 +9,7 @@ import {
   fetchSelectedProjectData,
   fetchRecommendedProjects,
   showProjectModal,
-} from "../../redux/Project/projectSlice";
+} from "../../redux/project/projectSlice";
 import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import {
   initialAddUser,

@@ -1,7 +1,7 @@
 import "./ProjectFilterComponent.css";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetchFilteredProjects } from "../../../redux/Project/projectSlice";
+import { fetchFilteredProjects } from "../../../redux/project/projectSlice";
 import { Button, Form, Col, Row, Card } from "react-bootstrap";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";

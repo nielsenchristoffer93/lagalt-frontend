@@ -7,7 +7,7 @@ import { Modal, Card, Col, Row, Button } from "react-bootstrap";
 import KeycloakService from "../../services/keycloak";
 import { connect } from "react-redux";
 import { showJoinProjectModal } from "../../redux/joinProject/joinSlice";
-import { hideProjectModal, setSelectedProjectTab } from "../../redux/Project/projectSlice";
+import { hideProjectModal, setSelectedProjectTab } from "../../redux/project/projectSlice";
 import { useEffect, useState } from "react";
 import { getProjectRoleByProjectRoleUrl } from "../../services/projectRole";
 import { getUserByUserUrl } from "../../services/user";

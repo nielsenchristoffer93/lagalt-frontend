@@ -4,7 +4,7 @@ import { postNewProjectRole } from "../../../services/projectRole";
 import {
   fetchAllUserProjects,
   fetchSelectedProjectData,
-} from "../../../redux/Project/projectSlice";
+} from "../../../redux/project/projectSlice";
 import {
   Form,
   FormControl,
