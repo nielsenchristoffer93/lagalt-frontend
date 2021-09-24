@@ -9,7 +9,7 @@ import {
   fetchSelectedProjectData,
   fetchRecommendedProjects,
   showProjectModal,
-} from "../../redux/project/projectSlice";
+} from "../../redux/project/ProjectSlice";
 import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import {
   initialAddUser,
@@ -17,7 +17,7 @@ import {
   fetchUserSkills,
   fetchUserPortfolio,
   fetchUserAbout,
-} from "../../redux/User/userSlice.js";
+} from "../../redux/user/UserSlice.js";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import KeycloakService from "../../services/keycloak";

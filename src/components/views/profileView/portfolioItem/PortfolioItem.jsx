@@ -1,7 +1,7 @@
 import { Card, Button, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { deletePortfolioItem } from "../../../../services/user";
-import { fetchUserPortfolio } from "../../../../redux/User/userSlice";
+import { fetchUserPortfolio } from "../../../../redux/user/UserSlice";
 import { dateFormatter } from "../../../../services/timeFormatter";
 
 const PortfolioItem = (props) => {

@@ -8,7 +8,7 @@ import { postNewProject } from "../../services/projects";
 import {
   fetchAllProjects,
   fetchAllUserProjects,
-} from "../../redux/project/projectSlice";
+} from "../../redux/project/ProjectSlice";
 import { getUserId } from "../../services/user";
 import { postNewProjectRole } from "../../services/projectRole";
 import { postNewChatBoard } from "../../services/chatBoard";

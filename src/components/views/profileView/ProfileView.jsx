@@ -11,7 +11,7 @@ import {
 import KeycloakService from "../../../services/keycloak";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { showModal } from "../../../redux/profile/profileSlice";
+import { showModal } from "../../../redux/profile/ProfileSlice";
 import { postUserAbout } from "../../../services/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,7 +20,7 @@ import {
   fetchUserPortfolio,
   fetchUserSkills,
   setAbout,
-} from "../../../redux/User/userSlice";
+} from "../../../redux/user/UserSlice";
 import PortfolioItem from "./portfolioItem/PortfolioItem";
 import ProfileModal from "./profileModal/ProfileModal";
 import ProfileSkills from "./profileSkills/ProfileSkills";

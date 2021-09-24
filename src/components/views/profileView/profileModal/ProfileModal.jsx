@@ -1,6 +1,6 @@
-import { showModal } from "../../../../redux/profile/profileSlice";
+import { showModal } from "../../../../redux/profile/ProfileSlice";
 import { useState } from "react";
-import { fetchUserPortfolio } from "../../../../redux/User/userSlice";
+import { fetchUserPortfolio } from "../../../../redux/user/UserSlice";
 import { postNewPortfolioItem } from "../../../../services/user";
 import {
   Form,

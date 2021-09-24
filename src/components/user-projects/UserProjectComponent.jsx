@@ -10,7 +10,11 @@ import {
   showProjectModal,
   fetchSelectedProjectData,
   fetchAllUserProjects,
+<<<<<<< HEAD
 } from "../../redux/project/projectSlice";
+=======
+} from "../../redux/project/ProjectSlice";
+>>>>>>> a3af2d039c8f6a4b7eddd4ad2c2fd721f993de69
 
 const UserProjectComponent = (props) => {
   const {

@@ -2,7 +2,7 @@ import "./DiscussionBoardComponent.css";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import KeycloakService from "../../../services/keycloak";
-import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/messageSlice";
+import { fetchMessagesBasedOnBoard } from "../../../redux/discussionMessage/MessageSlice";
 import { Col, Button, Form, Card } from "react-bootstrap";
 import { getUserId } from "../../../services/user";
 import DiscussionMessageComponent from "../discussionMessages/DiscussionMessageComponent";
@@ -43,6 +43,8 @@ const DiscussionBoardComponent = (props) => {
     const boardMessages = await fetch(`${BASE_URL}${messageBoardUrl}`).then(
       (response) => response.json()
     );
+
+    console.log(boardMessages)
 
     const bordMessagesArray = boardMessages.discussionMessages;
 
