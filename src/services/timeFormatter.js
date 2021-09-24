@@ -1,30 +1,38 @@
+
+/**
+ * Get the time passed since a project, chatmessage or discussionboard message was posted.
+ *
+ * @param {*} timestamp The time to format
+ * @returns The converted time followed by either, "days ago", "h ago" or "m ago"
+ */
 export const getTimeSinceCreation = (timestamp) => {
     const currentTime = new Date();
-   /*  console.log("currentTime: " + currentTime); */
 
     let diffInMilliSeconds = Math.abs(currentTime - Date.parse(timestamp)) / 1000;
-    //const differenceInTime = currentTime - Date.parse(timestamp)
-    //console.log(diffInMilliSeconds) 
 
     const days = Math.floor(diffInMilliSeconds / 86400);
-    //console.log('calculated days', days);
 
     // calculate hours
     const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
-    //console.log('calculated hours', hours);
 
     // calculate minutes
     const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
-    //console.log('minutes', minutes); 
 
     if (days >= 1) {
         return `${days} days ago`
-    } else if (hours >= 1){
+    } else if (hours >= 1) {
         return `${hours} h ago`
     } else {
         return `${minutes} m ago`
     }
 }
+
+/**
+ * Converts a date to the format YYYY-MM-DD
+ *
+ * @param {*} date The date to convert
+ * @returns formatted date (YYYY-MM-DD)
+ */
 export const dateFormatter = (date) => {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),

@@ -1,5 +1,5 @@
 import Keycloak from "keycloak-js";
-import {BASE_API_URL} from "./index";
+import { BASE_API_URL } from "./index";
 const _kc = new Keycloak('/keycloak.json');
 
 /**
@@ -9,14 +9,14 @@ const _kc = new Keycloak('/keycloak.json');
  */
 const initKeycloak = (onAuthenticatedCallback) => {
     try {
-    _kc.init({
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
-    })
-        .then((authenticated) => {
-            onAuthenticatedCallback();
+        _kc.init({
+            onLoad: 'check-sso',
+            pkceMethod: 'S256',
         })
-    }catch (e) {
+            .then((authenticated) => {
+                onAuthenticatedCallback();
+            })
+    } catch (e) {
 
         console.log(e);
     }
@@ -43,9 +43,9 @@ export const getEmail = () => _kc.idTokenParsed?.email;
 
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
-const postNewUser = async() => {
+const postNewUser = async () => {
     const email = _kc.idTokenParsed?.email;
-    const firstname =  _kc.idTokenParsed?.given_name;
+    const firstname = _kc.idTokenParsed?.given_name;
     const lastname = _kc.idTokenParsed?.family_name;
 
     try {
@@ -53,16 +53,16 @@ const postNewUser = async() => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + KeycloakService.getToken(),
-                'Access-Control-Allow-Origin' : 'https://lagalt-frontend-gbg.herokuapp.com/*'
+                'Access-Control-Allow-Origin': 'https://lagalt-frontend-gbg.herokuapp.com/*'
             },
             method: "POST",
-            body:JSON.stringify({
+            body: JSON.stringify({
                 keycloakEmail: email,
                 firstname: firstname,
                 lastname: lastname
             })
         })
-    }catch (e) {
+    } catch (e) {
         console.log("Error: " + e);
     }
 }

@@ -27,17 +27,24 @@ const ChatWindowComponent = (props) => {
     getTimeSinceCreation(new Date())
   );
 
+  /**
+     * Fetches all the data associated with a chatboard on component render.
+     * Will run again if the chatboardUrl changes.
+     */
   useEffect(() => {
     if (chatboardUrl) {
       fetchData();
     }
   }, [chatboardUrl]);
 
+  /**
+     * Creates a socket on the chat_endpoint and tries to join this if user is logged in and if selectedproject has loaded all the data into redux.
+     */
   useEffect(() => {
     socket = io(CHAT_ENDPOINT);
 
     if (name !== undefined && chatRoom !== undefined) {
-      socket.emit("join", { name, room: chatRoom }, () => {});
+      socket.emit("join", { name, room: chatRoom }, () => { });
     }
 
     return () => {
@@ -46,12 +53,19 @@ const ChatWindowComponent = (props) => {
     };
   }, [CHAT_ENDPOINT]);
 
+  /**
+     * Listens for new chatmessages and appends them to the messages state array.
+     */
   useEffect(() => {
     socket.on("message", (message) => {
       setMessages((messages) => [...messages, message]);
     });
   }, []);
 
+  /**
+    * Fetches the chatmessages from the specific chatboardUrl.
+    * Updates the messages state with all fetched chatmessages.
+    */
   const fetchData = async () => {
     const chatMessages = await fetch(`${BASE_URL}${chatboardUrl}`, {
       headers: {
@@ -99,6 +113,12 @@ const ChatWindowComponent = (props) => {
     });
   };
 
+  /**
+     * Emits the message to the chatserver so that everyone in room can see the message.
+     * Will also post the message to the database so that we can fetch the previous messages later.
+     *
+     * @param {*} event Event is used to prevent the default react behaviour when submitting a from.
+     */
   const sendMessage = async (event) => {
     event.preventDefault();
 
@@ -120,6 +140,14 @@ const ChatWindowComponent = (props) => {
     await postNewChatMessage(formData);
   };
 
+  /**
+   * Renders a chatmessage with appropriate styling based on what type of user it is.
+   *
+   * @param {*} user The name of the user to render.
+   * @param {*} text The text/message to display in component.
+   * @param {*} dateCreated The date of the created message.
+   * @returns JSX with appropriate styling based on user.
+   */
   const renderChatmessage = (user, text, dateCreated) => {
     if (user === "Admin") {
       return (
@@ -150,6 +178,11 @@ const ChatWindowComponent = (props) => {
     }
   };
 
+  /**
+    * Renders all the chatmessages from messages state.
+    *
+    * @returns JSX either to the left or right based on user.
+    */
   const renderMessages = () => {
     return messages.map(({ user, text, dateCreated }, index) => (
       <div

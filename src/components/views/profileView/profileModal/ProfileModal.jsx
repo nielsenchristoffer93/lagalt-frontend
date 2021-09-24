@@ -1,9 +1,9 @@
-import {showModal} from "../../../../redux/profile/profileSlice";
-import {useState} from "react";
-import {fetchUserPortfolio} from "../../../../redux/User/userSlice";
-import { postNewPortfolioItem} from "../../../../services/user";
-import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
-import {connect} from "react-redux";
+import { showModal } from "../../../../redux/profile/profileSlice";
+import { useState } from "react";
+import { fetchUserPortfolio } from "../../../../redux/User/userSlice";
+import { postNewPortfolioItem } from "../../../../services/user";
+import { Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 import ModalHeader from "react-bootstrap/ModalHeader";
 
 
@@ -25,7 +25,10 @@ const ProfileModal = (props) => {
         showModal();
     }
 
-
+    /**
+       * Collects all the portfolio related states and sends them as a form to the backend to be saved.
+       * @returns {Promise<void>}
+       */
     const handleSave = async () => {
 
         const formData = new FormData();
@@ -49,15 +52,15 @@ const ProfileModal = (props) => {
             <ModalBody>
                 <Form onSubmit={handleSave}>
                     <FormLabel>Company</FormLabel>
-                    <FormControl type="text" onChange={event => setCompany(event.target.value)}/>
+                    <FormControl type="text" onChange={event => setCompany(event.target.value)} />
                     <FormLabel>Title</FormLabel>
-                    <FormControl type="text" onChange={event => setTitle(event.target.value)}/>
+                    <FormControl type="text" onChange={event => setTitle(event.target.value)} />
                     <FormLabel>Start date</FormLabel>
-                    <FormControl type="date" onChange={event => setStartDate(event.target.value)}/>
+                    <FormControl type="date" onChange={event => setStartDate(event.target.value)} />
                     <FormLabel>End date</FormLabel>
-                    <FormControl type="date" onChange={event => setEndDate(event.target.value)}/>
+                    <FormControl type="date" onChange={event => setEndDate(event.target.value)} />
                     <FormLabel>Description</FormLabel>
-                    <FormControl type="text" onChange={event => setDescription(event.target.value)}/>
+                    <FormControl type="text" onChange={event => setDescription(event.target.value)} />
                 </Form>
             </ModalBody>
             <ModalFooter>
@@ -80,7 +83,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        showModal:() => dispatch(showModal()),
+        showModal: () => dispatch(showModal()),
         fetchUserPortfolio: () => dispatch(fetchUserPortfolio())
     }
 };

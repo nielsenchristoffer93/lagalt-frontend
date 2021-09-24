@@ -76,7 +76,7 @@ const NavbarComponent = (props) => {
             {/* Profile dropdown item*/}
             {isLoggedIn ? <NavDropdown.Divider /> : null}
             {isLoggedIn ? (
-              <NavDropdown.Item as={Link}/*onClick={() => goToProfilePage()}*/ to="/profile"> 
+              <NavDropdown.Item as={Link}/*onClick={() => goToProfilePage()}*/ to="/profile">
                 {"My Profile"}
               </NavDropdown.Item>
             ) : null}

@@ -14,7 +14,7 @@ const ProjectRecomended = (props) => {
     await fetchSelectedProjectData(id)
     showProjectModal()
   };
-// onClick={() => onOpenModal(project.id)}
+  // onClick={() => onOpenModal(project.id)}
   return (
     <div className="project-recommended-container" >
       <h3>Recommended Projects</h3>
@@ -25,16 +25,16 @@ const ProjectRecomended = (props) => {
               <Card.Body>
                 <Card.Title>{project.title}</Card.Title>
                 <Card.Text className="recommended-project-description">
-                {project.description }
+                  {project.description}
                 </Card.Text>
               </Card.Body>
               {/* TO VIEW A BASE64 image (PNG/JPEG) */}
               <Card.Img
-              className="recommended-project-image"
+                className="recommended-project-image"
                 variant="bottom"
                 src={`data:image/png;base64,${project.image}`} alt="no_image_in_database_associated_with_project."
               >
-              </Card.Img>   
+              </Card.Img>
             </Card>
           </Col>
         ))}

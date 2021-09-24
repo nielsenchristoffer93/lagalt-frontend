@@ -116,24 +116,24 @@ const DiscussionBoardComponent = (props) => {
       return (
         <Card className="discussion-board-login">
           <Col>
-          <p className="login-paragraph">
-            Log in or sign up to leave a comment
-          </p>
+            <p className="login-paragraph">
+              Log in or sign up to leave a comment
+            </p>
 
-          <Button
-            variant="outline-primary"
-            id="btn"
-            onClick={() => KeycloakService.doLogin()}
-          >
-            Log In
-          </Button>
-          <Button
-            variant="primary"
-            id="btn"
-            onClick={() => KeycloakService.doRegister()}
-          >
-            Sign Up
-          </Button>
+            <Button
+              variant="outline-primary"
+              id="btn"
+              onClick={() => KeycloakService.doLogin()}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="primary"
+              id="btn"
+              onClick={() => KeycloakService.doRegister()}
+            >
+              Sign Up
+            </Button>
           </Col>
         </Card>
       );

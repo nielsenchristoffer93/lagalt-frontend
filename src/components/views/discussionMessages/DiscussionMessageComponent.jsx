@@ -39,7 +39,7 @@ const DiscussionMessageComponent = ({ name, message, timestamp }) => {
 
       </details>
 
-  </div>
+    </div>
   )
 };
 

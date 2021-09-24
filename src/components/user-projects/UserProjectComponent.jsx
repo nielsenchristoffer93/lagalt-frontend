@@ -14,21 +14,32 @@ const UserProjectComponent = (props) => {
   //const [userProjects, setUserProjects] = useState([]);
 
   const { displayAddProjectModal,
-     showAddProjectModal,
-      showProjectModal,
-       fetchSelectedProjectData,
-       userProjects,
-       fetchAllUserProjects
-       } = props;
-  
+    showAddProjectModal,
+    showProjectModal,
+    fetchSelectedProjectData,
+    userProjects,
+    fetchAllUserProjects
+  } = props;
+
+  /**
+   * Fetches all of the users projects on component creation.
+   */
   useEffect(async () => {
     fetchAllUserProjects()
   }, []);
 
+  /**
+    * Shows the AddProjectModal component on button-click.
+    */
   const handleShow = () => {
     showAddProjectModal();
   };
 
+  /**
+     * Opens a new project modal window based the supplied projectId.
+     *
+     * @param {*} id of the project to open in a new project modal.
+     */
   const onOpenModal = async (id) => {
     await fetchSelectedProjectData(id)
     showProjectModal()
@@ -40,31 +51,31 @@ const UserProjectComponent = (props) => {
         <AddProjectModal show={displayAddProjectModal} />
       ) : null}
       <div className="user-project-header">
-          <h3>My projects</h3>
-          <Button
-            variant="outline-success"
-            className="user-project-button"
-            onClick={handleShow}
-          >
-            <FontAwesomeIcon
-              className="new-project-icon"
-              icon={faEdit}
-            ></FontAwesomeIcon>
-            New
-          </Button>
+        <h3>My projects</h3>
+        <Button
+          variant="outline-success"
+          className="user-project-button"
+          onClick={handleShow}
+        >
+          <FontAwesomeIcon
+            className="new-project-icon"
+            icon={faEdit}
+          ></FontAwesomeIcon>
+          New
+        </Button>
       </div>
       <hr></hr>
       <ul>
-  
 
-      {userProjects && userProjects.length > 0 &&
-        userProjects.map((project, i) => (
-          <li onClick={() => onOpenModal(project.id)}>
-              <p className="user-project" style={{fontWeight:"bold"}}>{project.title}</p>
-          </li>
-        ))}
+
+        {userProjects && userProjects.length > 0 &&
+          userProjects.map((project, i) => (
+            <li onClick={() => onOpenModal(project.id)}>
+              <p className="user-project" style={{ fontWeight: "bold" }}>{project.title}</p>
+            </li>
+          ))}
         {userProjects.length == 0 && <li>No project yet</li>}
-        </ul>
+      </ul>
     </Card>
   );
 };
@@ -72,7 +83,7 @@ const UserProjectComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     displayAddProjectModal: state.displayAddProjectModal.displayAddProjectModal,
-    userProjects: state.projects.userProjects, 
+    userProjects: state.projects.userProjects,
   };
 };
 

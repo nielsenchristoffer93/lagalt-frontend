@@ -33,8 +33,11 @@ const ProjectModal = (props) => {
   const [projectRoles, setProjectRoles] = useState([]);
   const [isMemberOfProject, setIsMemberOfProject] = useState(false);
   const [isUserAdminOfProject, setIsUserAdminOfProject] = useState(false);
-  //const [projcetRoles, setProjectRoles] = useState([]);
 
+  /**
+   * Used to show the chat window in the modal.
+   * @returns {JSX.Element}
+   */
   function displayChatWindow() {
     return (
       <Col sm="4">
@@ -53,31 +56,23 @@ const ProjectModal = (props) => {
     }
   }, [loadingSelectedProject]);
 
+  /**
+     * Used to check if the user is a member or the admin of the project.
+     * @returns {Promise<void>}
+     */
   const fetchProjectRoles = async () => {
-    //console.log("selecteProject.projectRoles: " + selectedProject.projectRoles);
     const projectRoles = selectedProject.projectRoles;
 
     projectRoles.forEach(async (projectRole) => {
-      //console.log("projectRole: " + projectRole);
-
       const projectRoleData = await getProjectRoleByProjectRoleUrl(projectRole);
-      //console.log(projectRoleData);
-
       const userUrl = projectRoleData.user;
       const roleUrl = projectRoleData.role;
 
-      //console.log("userUrl: " + userUrl);
-      //console.log("roleUrl: " + roleUrl);
-
       const userData = await getUserByUserUrl(userUrl);
-      //console.log(userData);
-      const email = userData.keycloakEmail;
-      //console.log("emaiL: " + email);
 
+      const email = userData.keycloakEmail;
       const roleData = await getRoleByRoleUrl(roleUrl);
       const role = roleData.title;
-      //console.log("role: " + role);
-
       const userProjectRole = { email: email, role: role };
 
       setProjectRoles((projectRoles) => [...projectRoles, userProjectRole]);
@@ -100,12 +95,14 @@ const ProjectModal = (props) => {
     setSelectedProjectTab(0);
     hideProjectModal();
   };
-
+  /**
+     * Used to switch between the standard project tab and the admin tab.
+     * @param tabId
+     */
   const handleSetSelectedProjectTab = (tabId) => {
     if (selectedProjectTab !== tabId) {
       setSelectedProjectTab(tabId);
     }
-    //console.log(selectedProjectTab);
   };
 
   return (
@@ -167,7 +164,7 @@ const ProjectModal = (props) => {
         {selectedProjectTab == 1 && <AdminView />}
       </Modal.Body>
       <Modal.Footer>
-      {(!KeycloakService.isLoggedIn()) ? <p>Log in or sign up to join this project</p> : null}
+        {(!KeycloakService.isLoggedIn()) ? <p>Log in or sign up to join this project</p> : null}
         <Button variant="secondary" onClick={handleCloseProjectModal}>
           Close
         </Button>
@@ -176,7 +173,7 @@ const ProjectModal = (props) => {
             Apply to project
           </Button>
         ) : null}
-        
+
       </Modal.Footer>
     </Modal>
   );

@@ -9,7 +9,7 @@ import { postNewProject } from "../../services/projects";
 import { fetchAllProjects, fetchAllUserProjects } from "../../redux/Project/projectSlice";
 import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
 import { getUserId } from "../../services/user"
-import { postNewProjectRole } from "../../services/projectRole" 
+import { postNewProjectRole } from "../../services/projectRole"
 import { postNewChatBoard } from "../../services/chatboardService";
 import { postNewDiscussionBoard } from "../../services/discussionboardService";
 
@@ -32,6 +32,10 @@ const AddProjectModal = (props) => {
     hideAddProjectModal();
   };
 
+  /**
+     * Adds a project to the db.
+     * @returns {Promise<void>}
+     */
   const handleSubmit = async () => {
     var date = new Date();
 
@@ -44,27 +48,27 @@ const AddProjectModal = (props) => {
 
     console.log(skills); */
 
-    if(projectTitle.length < 1){
+    if (projectTitle.length < 1) {
       alert("Title to short")
       return;
     }
-    if(projectDescription.length < 1){
+    if (projectDescription.length < 1) {
       alert("Description to short")
       return;
     }
-    if(selectedFile == null){
+    if (selectedFile == null) {
       alert("Select an image")
       return;
     }
-    if(selectedCategory == -1){
+    if (selectedCategory == -1) {
       alert("Select a category")
       return;
     }
-    if(selectedSkills.length < 1){
+    if (selectedSkills.length < 1) {
       alert("Select at least one skill")
       return;
     }
-    
+
     const formData = new FormData();
     formData.append("title", projectTitle);
     formData.append("description", projectDescription);
@@ -80,12 +84,12 @@ const AddProjectModal = (props) => {
     /* for (var pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     } */
-    
+
     const newProject = await postNewProject(formData).then(response => response.json());
     const projectId = newProject.id;
     //console.log("projectId: " + projectId);
 
-    
+
     //console.log("userId: " + userId);
 
     const formDataProjectRole = new FormData();

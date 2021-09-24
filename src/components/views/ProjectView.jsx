@@ -47,7 +47,10 @@ const ProjectView = (props) => {
     fetchAllProjects();
     tryPushUser();
   }, [fetchAllProjects]);
-
+  /**
+     * Tries to add the user to the database on login. Should handle the "duplicate value"-error
+     * when trying to push a user that already exists in our db.
+     */
   const tryPushUser = () => {
     if (!userPosted) {
       KeycloakService.postNewUser();
@@ -85,7 +88,7 @@ const ProjectView = (props) => {
           <h3>Projects</h3>
           {projects &&
             projects.map((project, i) => (
-              <div key={i} onClick={() => onOpenModal(project.id)} className="hover-shadow"> 
+              <div key={i} onClick={() => onOpenModal(project.id)} className="hover-shadow">
                 <ProjectComponent
                   title={project.title}
                   description={project.description}

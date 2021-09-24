@@ -37,65 +37,49 @@ const ProjectComponent = (props) => {
   const [user, setUser] = useState("");
   const [skillTitles, setSkillTitles] = useState([]);
 
+  /**
+     * Fetches all the data associated to the project..
+     * @returns {Promise<void>}
+     */
   const fetchProjectData = async () => {
     const fetchedSkills = [];
-    //console.log("CATEGORY URL");
-    //console.log(categoryUrl);
     const categoryData = await getCategoryBasedOnCategoryId(categoryUrl);
     const categoryTitle = categoryData.title;
     setCategory(categoryTitle);
-    //console.log("categoryTitle: " + categoryTitle);
-    //console.log("CATEGORY");
-    //console.log(categoryData);
+
     const projectStatusData = await getProjectStatusBasedOnProjectStatusId(
       projectStatusUrl
     );
-    //console.log(projectStatusData)
+
     const projectStatusTitle = projectStatusData.title;
-    //console.log("projectStatusTitle: " + projectStatusTitle);
     setProjectStatus(projectStatusTitle);
 
     const projectRoleData = await getProjectRoleByProjectRoleUrl(
       projectRoleUrl
     );
-    //console.log("PROJECT ROLE DATA")
-    //console.log(projectRoleData);
-    const userUrl = projectRoleData.user;
-    //console.log("userUrl: " + userUrl);
 
+    const userUrl = projectRoleData.user;
     const userData = await getUserByUserUrl(userUrl);
-    //console.log("USERDATA IN PROJECT COMPONENT")
-    //console.log(userData);
-    //const name = userData.keycloakEmail;
     const name = `${userData.firstname} ${userData.lastname.charAt(0)}`;
     setUser(name);
 
-    //console.log("SKILLS");
-    //console.log(skills);
     skills.forEach(async (skillUrl) => {
       const skillData = await getSkillBySkillUrl(skillUrl).then((response) =>
         response.json()
       );
-      //console.log("SkillData")
-      //console.log(skillData);
+
       const skillTitle = skillData.title;
-      //console.log("SkillTitle: " + skillTitle);
       fetchedSkills.push(skillTitle);
-      //setSkillTitles(skillTitles => [...skillTitles, skillTitle]);
-      //console.log("SkillTitles");
       setSkillTitles(fetchedSkills);
       forceUpdate();
     });
   };
 
   useEffect(() => {
-    //if(selectedProjectHasLoaded) {
     fetchProjectData();
-    //}
   }, [categoryUrl]);
 
   const populateListWithSkills = () => {
-    //console.log(skillTitles);
     return skillTitles.map((skill, index) => <Card className="skill-card">{skill}</Card>);
   };
 
@@ -111,7 +95,7 @@ const ProjectComponent = (props) => {
         </Card.Text>
         <Card.Title>{title}</Card.Title>
         <p>{description}</p>
-          <Col style={{height:"30px"}} className="d-flex mr-3">{populateListWithSkills()}</Col>
+        <Col style={{ height: "30px" }} className="d-flex mr-3">{populateListWithSkills()}</Col>
       </Card.Body>
       {/* TO VIEW A BASE64 image (PNG/JPEG) */}
       <Card.Img

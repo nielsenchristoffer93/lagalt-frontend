@@ -1,15 +1,15 @@
-import {fetchAllCategories, setSelectedCategory,} from "../../../../redux/Category/CategorySlice";
-import {useEffect} from "react";
-import {connect} from "react-redux";
-import {Card, Col, Form, FormCheck} from "react-bootstrap";
+import { fetchAllCategories, setSelectedCategory, } from "../../../../redux/Category/CategorySlice";
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { Card, Col, Form, FormCheck } from "react-bootstrap";
 import {
     fetchSkillsBasedOnCategory,
     fetchSkillBasedOnSkillUrl,
     setSelectedSkillsToEmptyArray,
     setSelectedSkills, setSkillsToEmptyArray,
 } from "../../../../redux/Skill/SkillSlice";
-import {addUserSkill, deleteUserSkill} from "../../../../services/skills";
-import {fetchUserSkills} from "../../../../redux/User/userSlice";
+import { addUserSkill, deleteUserSkill } from "../../../../services/skills";
+import { fetchUserSkills } from "../../../../redux/User/userSlice";
 import "./ProfileSkills.css"
 
 const ProfileSkills = (props) => {
@@ -35,21 +35,31 @@ const ProfileSkills = (props) => {
             fetchAllCategories();
         }
     });
-
+    /**
+       * Updates the Skills to match the selected category.
+       */
     useEffect(() => {
         setSkillsToEmptyArray();
         for (let index = 0; index < skillUrls.length; index++) {
             fetchSkillBasedOnSkillUrl(skillUrls[index]);
         }
     }, [fetchSkillBasedOnSkillUrl, setSkillsToEmptyArray, skillUrls]);
-
+    /**
+       * Maps the users skills and returns them as cards to be displayed
+       * @param skills User skills from redux
+       * @returns {*} Cards corresponding to the users skills.
+       */
     const displayUserSkills = (skills) => {
         return (skills.map((skill) => (
-                <Card className="skill-card">{skill.title}</Card>
-            ))
+            <Card className="skill-card">{skill.title}</Card>
+        ))
         )
     }
-
+    /**
+    * If the checkbox is checked, the skill is saved to the users skills in the Db, if it's unchecked the skill is deleted.
+    * Then it fetches the users skills.
+    * @param e ClickEvent from the Checkbox.
+    */
     const handleCheckboxClicked = (e) => {
         const id = e.target.value
         if (e.target.checked === true) {
@@ -83,7 +93,11 @@ const ProfileSkills = (props) => {
             />
         ));
     }
-
+    /**
+     * Populates the category options.
+     * @param categories
+     * @returns {*}
+     */
     const populateOptions = (categories) => {
         return categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -91,6 +105,11 @@ const ProfileSkills = (props) => {
             </option>
         ));
     };
+
+    /**
+   * Used to Switch between categories.
+   * @param e
+   */
     const handleCategoryChange = (e) => {
         setSelectedSkillsToEmptyArray();
         if (e.target.value > 0) {

@@ -10,15 +10,15 @@ import joinReducer from './joinProject/joinSlice'
 
 // const store = createStore(countReducer);
 const store = configureStore({
-    reducer: {
-      projects: projectReducer,
-      categories: categoryReducer,
-      displayAddProjectModal: viewProjectModal,
-      skills: skillsReducer,
-      profile: profileReducer,
-      messages: messageReducer,
-      user: userReducer,
-      join: joinReducer
-    }
-  })
- export default store;
+  reducer: {
+    projects: projectReducer,
+    categories: categoryReducer,
+    displayAddProjectModal: viewProjectModal,
+    skills: skillsReducer,
+    profile: profileReducer,
+    messages: messageReducer,
+    user: userReducer,
+    join: joinReducer
+  }
+})
+export default store;

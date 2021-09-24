@@ -20,6 +20,11 @@ const AdminView = (props) => {
   const [selectedStatus, setSelectedStatus] = useState(1);
   const [postSuccessful, setpostSuccessful] = useState(false);
 
+  /**
+   * Fetches the status of the project based on the projectUrl.
+   * @param url
+   * @returns {Promise<void>}
+   */
   const fetchProjectStatusWithUrl = async (url) => {
     let statusObj = await fetchProjectStatus(url).then((response) =>
       response.json()
@@ -27,12 +32,16 @@ const AdminView = (props) => {
     setSelectedProjectStatus(statusObj.id);
   };
 
+  /**
+     * Used to update the different fields in a project.
+     * @returns {Promise<void>}
+     */
   const handleUpdateProject = async () => {
-    if(projectTitle.length < 1){
+    if (projectTitle.length < 1) {
       alert("Title to short")
       return;
     }
-    if(projectDescription.length < 1){
+    if (projectDescription.length < 1) {
       alert("Description to short")
       return;
     }
@@ -62,11 +71,11 @@ const AdminView = (props) => {
     fetchProjectStatusWithUrl(selectedProject.projectStatus);
     console.log(projectStatus)
     console.log("projectsStatusHasLoaded")
-    
+
     console.log(projectsStatusHasLoaded)
     //if (!projectsStatusHasLoaded) {
-      fetchAllProjectstatus();
-      console.log(projectStatus)
+    fetchAllProjectstatus();
+    console.log(projectStatus)
     //}
   }, []);
 
@@ -94,7 +103,7 @@ const AdminView = (props) => {
             onChange={(event) => setProjectDescription(event.target.value)}
           />
         </Form.Group>
-        <Form.Group style={{height:"70px"}}>
+        <Form.Group style={{ height: "70px" }}>
           <Form.Label>Project Status</Form.Label>
           {selectedProjectStatus != -1 && (
             <Form.Select

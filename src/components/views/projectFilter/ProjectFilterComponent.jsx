@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CategoriesDropdownComponent from "../../higher-order-components/CategoriesDropdownComponent";
 import { connect } from "react-redux";
 import {
-  fetchAllProjectsWithCategory,
   fetchFilteredProjects,
 } from "../../../redux/Project/projectSlice";
 
@@ -19,18 +18,19 @@ const ProjectFilterComponent = (props) => {
 
   const {
     selectedCategory,
-    fetchAllProjectsWithCategory,
     fetchFilteredProjects,
     displayAddProjectModal,
   } = props;
-
+  /**
+     * Fetches projects based on the searchQuery state and/or the selectedCategory state in redux.
+     */
   const filterProjects = () => {
     fetchFilteredProjects(searchQuery, selectedCategory);
   };
 
   useEffect(() => {
-    if(!displayAddProjectModal){
-    fetchFilteredProjects(searchQuery, selectedCategory);
+    if (!displayAddProjectModal) {
+      fetchFilteredProjects(searchQuery, selectedCategory);
     }
   }, [selectedCategory]);
 
@@ -68,7 +68,7 @@ const ProjectFilterComponent = (props) => {
               </Button>
             </Col>
             {/*<Col sm="2"></Col>*/}
-            
+
           </Row>
         </Form>
         {/*</div>*/}
@@ -85,8 +85,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllProjectsWithCategory: (id) =>
-      dispatch(fetchAllProjectsWithCategory(id)),
     fetchFilteredProjects: (title, categorId) =>
       dispatch(fetchFilteredProjects(title, categorId)),
   };
