@@ -57,7 +57,11 @@ export const {
   resetAddUser,
 } = userSlice.actions;
 
-//Thunk
+/**
+ * Fetches data based on the logged in user.
+ * 
+ * @returns User data in json format.
+ */
 export const fetchUserData = () => async (dispatch) => {
   try {
     const response = await getUserData();
@@ -70,6 +74,12 @@ export const fetchUserData = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+/**
+ * Fetches the skills associated to the logged in user.
+ * 
+ * @returns A users skills in json format.
+ */
 export const fetchUserSkills = () => async (dispatch) => {
   let data;
   try {
@@ -81,6 +91,12 @@ export const fetchUserSkills = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+/**
+ * Fetches the logged in users userportfolio.
+ * 
+ * @returns userportfolio items in json format.
+ */
 export const fetchUserPortfolio = () => async (dispatch) => {
   let data;
   try {
@@ -92,6 +108,12 @@ export const fetchUserPortfolio = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+/**
+ * Fetch about data from Userprofile of the logged in user.
+ * 
+ * @returns "about" data from userprofile in json format.
+ */
 export const fetchUserAbout = () => async (dispatch) => {
   try {
     const response = await getUserAbout();
@@ -103,6 +125,12 @@ export const fetchUserAbout = () => async (dispatch) => {
   }
 };
 
+/**
+ * Fetch user by userId.
+ * 
+ * @param {*} userId The id to fetch user by.
+ * @returns user data in json format.
+ */
 export const fetchUserById = (userId) => async (dispatch) => {
   try {
     const response = await getUserById(userId);

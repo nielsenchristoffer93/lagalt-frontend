@@ -50,7 +50,12 @@ export const {
   postMessagesFailed,
 } = messageSlice.actions;
 
-//Thunk
+/**
+ * Fetches all discussion messages based on the supplied discussionBoardId.
+ * 
+ * @param {*} discussionBoardId The discussionboardId to fetch discussion messages from.
+ * @returns discussion messages in json format.
+ */
 export const fetchMessagesBasedOnBoard =
   (discussionBoardId) => async (dispatch) => {
     dispatch(getMessagesBasedOnDiscussionBoardStarted());
@@ -62,14 +67,17 @@ export const fetchMessagesBasedOnBoard =
 
       dispatch(getMessagesBasedOnDiscussionBoardSuccess(data));
     } catch (err) {
-      console.log(err);
       dispatch(getMessagesBasedOnDiscussionBoardFailed(err.toString()));
     }
   };
-  
-//Add Post
+
+/**
+ * Creates / posts a discussion message to the database.
+ * 
+ * @param {*} message the discussion message to post to the database.
+ * @returns discussionMessage date in a json format.
+ */
 export const createMessages = (message) => async (dispatch) => {
-  console.log("text");
   dispatch(postMessagesStarted());
   try {
     const response = await postMessage(message);
@@ -77,7 +85,6 @@ export const createMessages = (message) => async (dispatch) => {
 
     dispatch(postMessagesSuccess(data));
   } catch (err) {
-    console.log(err);
     dispatch(postMessagesFailed(err.toString()));
   }
 };

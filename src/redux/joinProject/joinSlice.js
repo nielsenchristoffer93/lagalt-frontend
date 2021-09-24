@@ -7,6 +7,7 @@ const joinSlice = createSlice({
   name: "join",
   initialState: initialState,
   reducers: {
+    // reducer for changing the state. if we should display joinProjectModal or not.
     showJoinProjectModal: (state) => {
       state.displayJoinProjectModal = !state.displayJoinProjectModal;
     },

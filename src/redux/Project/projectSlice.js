@@ -122,22 +122,30 @@ export const {
   setProjectsStatusHasLoaded,
 } = projectSlice.actions;
 
-//Thunk
+/**
+ * Fetches all of the projects from the database.
+ * 
+ * @returns projects in json format.
+ */
 export const fetchAllProjects = () => async (dispatch) => {
   dispatch(getAllProjectsStarted());
   try {
     const response = await getAllProjects();
     const data = await response.json();
 
-    //console.log(data)
-
     dispatch(getAllProjectsSuccess(data));
   } catch (err) {
-    console.log(err);
     dispatch(getAllProjectsFailed(err.toString()));
   }
 };
 
+/**
+ * Fetch projects based on title or a specific categoryId.
+ * 
+ * @param {*} title The title to find a project by.
+ * @param {*} categoryId The categoryId to find a project by.
+ * @returns projects based supplied title or categoryId.
+ */
 export const fetchFilteredProjects =
   (title, categoryId) => async (dispatch) => {
     dispatch(getAllProjectsStarted());
@@ -147,11 +155,16 @@ export const fetchFilteredProjects =
 
       dispatch(getAllProjectsSuccess(data));
     } catch (err) {
-      console.log(err);
       dispatch(getAllProjectsFailed(err.toString()));
     }
   };
 
+  /**
+   * Fetches the selected projects project data.
+   * 
+   * @param {*} id the id of the project to fetch.
+   * @returns project in json format.
+   */
 export const fetchSelectedProjectData = (id) => async (dispatch) => {
   dispatch(getSelectedProjectStarted());
   try {
@@ -160,11 +173,15 @@ export const fetchSelectedProjectData = (id) => async (dispatch) => {
 
     dispatch(getSelectedProjectSuccess(data));
   } catch (err) {
-    console.log(err);
     dispatch(getSelectedProjectFailed(err.toString()));
   }
 };
 
+/**
+ * Fetches 4 random projects as recommended projects ( if there are less than 4, fetch the ones available.)
+ * 
+ * @returns recommended projects in json format.
+ */
 export const fetchRecommendedProjects = () => async (dispatch) => {
   dispatch(getRecommendedProjectsStarted());
   try {
@@ -173,11 +190,15 @@ export const fetchRecommendedProjects = () => async (dispatch) => {
 
     dispatch(getRecommendedProjectsSuccess(data));
   } catch (err) {
-    console.log(err);
     dispatch(getRecommendedProjectsFailed(err.toString()));
   }
 };
 
+/**
+ * Fetches all projects statuses from database.
+ * 
+ * @returns all project statuses in json format.
+ */
 export const fetchAllProjectstatus = () => async (dispatch) => {
   dispatch(getAllProjectStatusStarted());
   try {
@@ -187,20 +208,22 @@ export const fetchAllProjectstatus = () => async (dispatch) => {
     dispatch(getAllProjectStatusSuccess(data));
     dispatch(setProjectsStatusHasLoaded(true));
   } catch (err) {
-    console.log(err);
     dispatch(getAllProjectStatusFailed(err.toString()));
   }
 };
 
+/**
+ * Fetch all of a users projects.
+ * 
+ * @returns all of the users projects (the projects that the user is a member of)
+ */
 export const fetchAllUserProjects = () => async (dispatch) => {
   dispatch(getAllUserProjectsStarted());
   try {
     const data = await getUserProjects();
-    console.log(data);
     dispatch(getAllUserProjectsSuccess(data));
     dispatch(setProjectsStatusHasLoaded(true));
   } catch (err) {
-    console.log(err);
     dispatch(getAllUserProjectsFailed(err.toString()));
   }
 };
