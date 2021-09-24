@@ -1,10 +1,10 @@
-import { showJoinProjectModal } from "../../../redux/joinProject/joinSlice";
+import { showJoinProjectModal } from "../../../redux/joinProject/JoinSlice";
 import { getUserId } from "../../../services/user";
 import { postNewProjectRole } from "../../../services/projectRole";
 import {
   fetchAllUserProjects,
   fetchSelectedProjectData,
-} from "../../../redux/Project/projectSlice";
+} from "../../../redux/project/ProjectSlice";
 import {
   Form,
   FormControl,

@@ -6,7 +6,7 @@ import { updateProject } from "../../services/projects";
 import {
   fetchSelectedProjectData,
   fetchAllProjectStatus,
-} from "../../redux/Project/projectSlice";
+} from "../../redux/project/ProjectSlice";
 
 const AdminView = (props) => {
   const {

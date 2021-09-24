@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import projectReducer from "./Project/projectSlice";
+import projectReducer from "./project/ProjectSlice";
 import categoryReducer from "./category/CategorySlice";
 import viewProjectModal from "./addProject/AddProjectSlice";
-import skillsReducer from "./Skill/SkillSlice";
-import profileReducer from "./profile/profileSlice";
-import messageReducer from "./discussionMessage/messageSlice";
-import userReducer from "./User/userSlice";
-import joinReducer from "./joinProject/joinSlice";
+import skillsReducer from "./skill/SkillSlice";
+import profileReducer from "./profile/ProfileSlice";
+import messageReducer from "./discussionMessage/MessageSlice";
+import userReducer from "./user/UserSlice";
+import joinReducer from "./joinProject/JoinSlice";
 
 const store = configureStore({
   reducer: {
