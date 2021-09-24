@@ -1,6 +1,6 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
-import { showProjectModal, fetchSelectedProjectData } from '../../redux/Project/projectSlice'
+import { showProjectModal, fetchSelectedProjectData } from '../../redux/project/projectSlice'
 import "./ProjectRecommended.css";
 
 const ProjectRecomended = (props) => {

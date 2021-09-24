@@ -1,4 +1,4 @@
-import {fetchAllCategories, setSelectedCategory,} from "../../../../redux/Category/CategorySlice";
+import {fetchAllCategories, setSelectedCategory,} from "../../../../redux/category/CategorySlice";
 import {useEffect} from "react";
 import {connect} from "react-redux";
 import {Card, Col, Form, FormCheck} from "react-bootstrap";
@@ -7,9 +7,9 @@ import {
     fetchSkillBasedOnSkillUrl,
     setSelectedSkillsToEmptyArray,
     setSelectedSkills, setSkillsToEmptyArray,
-} from "../../../../redux/Skill/SkillSlice";
+} from "../../../../redux/skill/SkillSlice";
 import {addUserSkill, deleteUserSkill} from "../../../../services/skills";
-import {fetchUserSkills} from "../../../../redux/User/userSlice";
+import {fetchUserSkills} from "../../../../redux/user/userSlice";
 import "./ProfileSkills.css"
 
 const ProfileSkills = (props) => {

@@ -7,7 +7,7 @@ import JoinProject from "./joinProject/JoinProject";
 import {
   hideProjectModal,
   setSelectedProjectTab,
-} from "../../redux/Project/projectSlice";
+} from "../../redux/project/projectSlice";
 import ProjectComponent from "./ProjectComponent";
 import { connect } from "react-redux";
 import "./ProjectModal.css";

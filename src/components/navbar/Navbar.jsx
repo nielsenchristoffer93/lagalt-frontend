@@ -3,7 +3,7 @@ import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { useState } from "react";
 import KeycloakService from "../../services/keycloakService";
 import { connect } from "react-redux";
-import { resetAddUser } from "../../redux/User/userSlice.js";
+import { resetAddUser } from "../../redux/user/userSlice.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,

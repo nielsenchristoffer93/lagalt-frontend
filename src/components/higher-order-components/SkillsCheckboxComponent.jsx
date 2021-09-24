@@ -5,7 +5,7 @@ import {
   fetchSkillBasedOnSkillUrl,
   setSkillsToEmptyArray,
   setSelectedSkills,
-} from "../../redux/Skill/SkillSlice";
+} from "../../redux/skill/SkillSlice";
 import "./SkillsCheckboxComponent.css";
 
 const SkillsCheckboxComponent = (props) => {

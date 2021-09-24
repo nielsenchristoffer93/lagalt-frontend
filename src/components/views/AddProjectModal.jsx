@@ -2,12 +2,12 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import "./AddProjectModal.css";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
-import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { hideAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import { useState } from "react";
 import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
-import { fetchAllProjects, fetchAllUserProjects } from "../../redux/Project/projectSlice";
-import { resetSkillsStates } from "../../redux/Skill/SkillSlice"
+import { fetchAllProjects, fetchAllUserProjects } from "../../redux/project/projectSlice";
+import { resetSkillsStates } from "../../redux/skill/SkillSlice"
 import { getUserId } from "../../services/user"
 import { postNewProjectRole } from "../../services/projectRole" 
 import { postNewChatBoard } from "../../services/chatboardService";

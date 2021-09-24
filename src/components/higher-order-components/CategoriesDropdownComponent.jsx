@@ -1,14 +1,14 @@
 import {
   fetchAllCategories,
   setSelectedCategory,
-} from "../../redux/Category/CategorySlice";
+} from "../../redux/category/CategorySlice";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Form } from "react-bootstrap";
 import {
   fetchSkillsBasedOnCategory,
   setSelectedSkillsToEmptyArray,
-} from "../../redux/Skill/SkillSlice";
+} from "../../redux/skill/SkillSlice";
 
 const CategoriesDropdownComponent = (props) => {
   const {

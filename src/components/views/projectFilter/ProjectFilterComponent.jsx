@@ -2,24 +2,20 @@ import { useEffect, useState } from "react";
 import { Button, Form, Col, Row, Card } from "react-bootstrap";
 import {
   faSearch,
-  faSlidersH,
-  faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import "./ProjectFilterComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CategoriesDropdownComponent from "../../higher-order-components/CategoriesDropdownComponent";
 import { connect } from "react-redux";
 import {
-  fetchAllProjectsWithCategory,
   fetchFilteredProjects,
-} from "../../../redux/Project/projectSlice";
+} from "../../../redux/project/projectSlice";
 
 const ProjectFilterComponent = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
     selectedCategory,
-    fetchAllProjectsWithCategory,
     fetchFilteredProjects,
     displayAddProjectModal,
   } = props;
@@ -85,8 +81,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllProjectsWithCategory: (id) =>
-      dispatch(fetchAllProjectsWithCategory(id)),
     fetchFilteredProjects: (title, categorId) =>
       dispatch(fetchFilteredProjects(title, categorId)),
   };

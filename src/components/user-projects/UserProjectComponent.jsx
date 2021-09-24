@@ -2,7 +2,7 @@ import { Col, Row, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import AddProjectModal from "../views/AddProjectModal";
 import "./UserProjectComponent.css";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ import {
   showProjectModal,
   fetchSelectedProjectData,
   fetchAllUserProjects,
-} from "../../redux/Project/projectSlice";
+} from "../../redux/project/projectSlice";
 
 const UserProjectComponent = (props) => {
   const {

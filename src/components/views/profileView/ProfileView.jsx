@@ -14,7 +14,7 @@ import {
     fetchUserPortfolio,
     fetchUserSkills,
     setAbout
-} from "../../../redux/User/userSlice";
+} from "../../../redux/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import {postUserAbout} from "../../../services/user";

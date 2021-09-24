@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { getUserId } from "../../../services/user";
 import { postNewProjectRole } from "../../../services/projectRole";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import { fetchAllUserProjects, fetchSelectedProjectData } from '../../../redux/Project/projectSlice'
+import { fetchAllUserProjects, fetchSelectedProjectData } from '../../../redux/project/projectSlice'
 
 
 const JoinProject = (props) => {

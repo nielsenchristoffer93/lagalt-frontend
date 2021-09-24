@@ -3,7 +3,7 @@ import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { fetchProjectStatus } from "../../services/projects";
 import { updateProject, getProjectsStatuses } from "../../services/projects";
-import { fetchSelectedProjectData, fetchAllProjectstatus } from "../../redux/Project/projectSlice";
+import { fetchSelectedProjectData, fetchAllProjectstatus } from "../../redux/project/projectSlice";
 
 const AdminView = (props) => {
   const {

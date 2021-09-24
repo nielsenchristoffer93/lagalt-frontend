@@ -1,6 +1,6 @@
 import {showModal} from "../../../../redux/profile/profileSlice";
 import {useState} from "react";
-import {fetchUserPortfolio} from "../../../../redux/User/userSlice";
+import {fetchUserPortfolio} from "../../../../redux/user/userSlice";
 import {postNewPortfolioItem} from "../../../../services/user";
 import {Form, FormControl, Modal, ModalBody, ModalTitle, FormLabel, ModalFooter, Button} from "react-bootstrap";
 import {connect} from "react-redux";

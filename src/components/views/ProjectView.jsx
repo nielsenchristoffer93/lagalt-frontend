@@ -6,15 +6,15 @@ import {
   fetchSelectedProjectData,
   fetchRecommendedProjects,
   showProjectModal,
-} from "../../redux/Project/projectSlice";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
+} from "../../redux/project/projectSlice";
+import { showAddProjectModal } from "../../redux/addProject/AddProjectSlice";
 import {
   initialAddUser,
   fetchUserData,
   fetchUserSkills,
   fetchUserPortfolio,
   fetchUserAbout,
-} from "../../redux/User/userSlice.js";
+} from "../../redux/user/userSlice.js";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
