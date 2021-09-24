@@ -2,10 +2,17 @@ const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
 
-const { addUser, removeUser, getUserByNameAndRoom, getUsersInRoom } = require("./users");
+const {
+  addUser,
+  removeUser,
+  getUserByNameAndRoom,
+  getUsersInRoom,
+} = require("./users");
 
+// Uses Heroku port or port 5000 for local development.
 const PORT = process.env.PORT || 5000;
 
+// Creates the express application with socketio.
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
@@ -15,20 +22,24 @@ const io = socketio(server, {
   },
 });
 
+/**
+ * Socket.io creates a connection on socket.
+ */
 io.on("connection", (socket) => {
+  /**
+   * When a "join-event" is emitted in the front-end, the user will either be added to the array of users or if the
+   * user already exists in the room, will return the existingUser. And will emit a message from admin to the front-end.
+   */
   socket.on("join", ({ name, room }, callback) => {
-    //console.log("name " + name);
-    //console.log("room " + room);
-    //const user = getUser(socket.id);
-
-    const { error, user, existingUser } = addUser({ id: socket.id, name, room });
+    const { error, user, existingUser } = addUser({
+      id: socket.id,
+      name,
+      room,
+    });
 
     if (error) {
       return callback(error);
     }
-
-    //console.log("USER")
-    //console.log(user);
 
     socket.join(user.room);
 
@@ -58,15 +69,11 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  /**
+   * On emit "sendMessage-event" in the front-end. Sends the message to the correct chatroom.
+   */
   socket.on("sendMessage", (message, dateCreated, name, room, callback) => {
-    //const user = getUser(socket.id);
     const user = getUserByNameAndRoom(name, room);
-
-    //console.log("USER")
-    //console.log(user);
-
-    //console.log(message);
-    //console.log("Send at time " + dateCreated);
 
     io.to(user.room).emit("message", {
       user: user.name,
@@ -77,11 +84,11 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  /**
+   * On "disconnect-event" from front-end. Display a admin message to chatroom saying what user has left.
+   */
   socket.on("disconnect", () => {
-  //socket.on("disconnect", (name, room) => {
     const user = removeUser(socket.id);
-    //const user = removeUserByNameAndRoom(name, room);
-    //console.log(user)
 
     if (user) {
       io.to(user.room).emit("message", {
@@ -96,6 +103,9 @@ io.on("connection", (socket) => {
   });
 });
 
+/**
+ * Starts the server.
+ */
 server.listen(PORT, () => {
   console.log(`Server has started on port ${PORT}`);
 });

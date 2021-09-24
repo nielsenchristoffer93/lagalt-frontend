@@ -1,6 +1,5 @@
 import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import "./AddProjectModal.css";
 import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
 import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";

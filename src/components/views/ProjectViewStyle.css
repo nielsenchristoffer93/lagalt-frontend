@@ -1,31 +1,31 @@
 .project-view {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .project-view h3 {
-    font-size: 130%;
-    margin: 1rem 0;
+  font-size: 130%;
+  margin: 1rem 0;
 }
 
 .project-recommended-container h3 {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .container {
-    min-width: 100% !important;
+  min-width: 100% !important;
 }
 
 .project-component {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .searchContainer{
-    border: solid black 1px;
-    padding: 20px;
-    margin: 15px 0px;
-    border-radius: 10px;
+  border: solid black 1px;
+  padding: 20px;
+  margin: 15px 0px;
+  border-radius: 10px;
 }
 
 .hover-shadow:hover {
-    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }
