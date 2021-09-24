@@ -1,3 +1,4 @@
+import "./ProfileView.css";
 import { connect } from "react-redux";
 import {
   Form,
@@ -7,14 +8,12 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import KeycloakService from "../../../services/keycloak";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { showModal } from "../../../redux/profile/profileSlice";
-import PortfolioItem from "./portfolioItem/PortfolioItem";
-import "./ProfileView.css";
-import ProfileModal from "./profileModal/ProfileModal";
-import ProfileSkills from "./profileSkills/ProfileSkills";
-import KeycloakService from "../../../services/keycloak";
-import { Redirect } from "react-router-dom";
+import { postUserAbout } from "../../../services/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchUserAbout,
   fetchUserData,
@@ -22,9 +21,10 @@ import {
   fetchUserSkills,
   setAbout,
 } from "../../../redux/User/userSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { postUserAbout } from "../../../services/user";
+import PortfolioItem from "./portfolioItem/PortfolioItem";
+import ProfileModal from "./profileModal/ProfileModal";
+import ProfileSkills from "./profileSkills/ProfileSkills";
+import { Redirect } from "react-router-dom";
 
 const ProfileView = (props) => {
   const {
@@ -91,7 +91,7 @@ const ProfileView = (props) => {
   return (
     <div className="profile-container">
       {/* If statement for checking if we should redirect or not */}
-      {shouldRedirect ? <Redirect to="/"></Redirect> : null}
+      {shouldRedirect ? <Redirect to="/"/> : null}
       <Form className="mb-3">
         <Row className="mb-3">
           <Col>

@@ -45,7 +45,7 @@ const PortfolioItem = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {};
 };
 const mapDispatchToProps = (dispatch) => {

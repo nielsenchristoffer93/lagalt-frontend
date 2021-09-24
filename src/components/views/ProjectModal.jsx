@@ -1,21 +1,18 @@
-import { Modal, Card, Col, Row, Button } from "react-bootstrap";
+import AdminView from "./AdminView";
 import DiscussionBoardComponent from "./discussionBoard/DiscussionBoardComponent";
 import ChatWindowComponent from "../chat/ChatWindowComponent";
-import KeycloakService from "../../services/keycloak";
-import { showJoinProjectModal } from "../../redux/joinProject/joinSlice";
 import JoinProject from "./joinProject/JoinProject";
-import {
-  hideProjectModal,
-  setSelectedProjectTab,
-} from "../../redux/Project/projectSlice";
 import ProjectComponent from "./ProjectComponent";
+import { Modal, Card, Col, Row, Button } from "react-bootstrap";
+import KeycloakService from "../../services/keycloak";
 import { connect } from "react-redux";
-import "./ProjectModal.css";
+import { showJoinProjectModal } from "../../redux/joinProject/joinSlice";
+import { hideProjectModal, setSelectedProjectTab } from "../../redux/Project/projectSlice";
 import { useEffect, useState } from "react";
 import { getProjectRoleByProjectRoleUrl } from "../../services/projectRole";
 import { getUserByUserUrl } from "../../services/user";
 import { getRoleByRoleUrl } from "../../services/role";
-import AdminView from "./AdminView";
+import "./ProjectModal.css";
 
 const ProjectModal = (props) => {
   const {
@@ -32,13 +29,17 @@ const ProjectModal = (props) => {
   const [isMemberOfProject, setIsMemberOfProject] = useState(false);
   const [isUserAdminOfProject, setIsUserAdminOfProject] = useState(false);
 
+  /**
+   * Used to show the chat window in the modal.
+   * @returns {JSX.Element}
+   */
   function displayChatWindow() {
     return (
       <Col sm="4">
         {!loadingSelectedProject && (
           <ChatWindowComponent
             chatboardUrl={selectedProject.chatBoard}
-          ></ChatWindowComponent>
+          />
         )}
       </Col>
     );
@@ -50,6 +51,10 @@ const ProjectModal = (props) => {
     }
   }, [loadingSelectedProject]);
 
+  /**
+   * Used to check if the user is a member or the admin of the project.
+   * @returns {Promise<void>}
+   */
   const fetchProjectRoles = async () => {
     const projectRoles = selectedProject.projectRoles;
 
@@ -89,6 +94,10 @@ const ProjectModal = (props) => {
     hideProjectModal();
   };
 
+  /**
+   * Used to switch between the standard project tab and the admin tab.
+   * @param tabId
+   */
   const handleSetSelectedProjectTab = (tabId) => {
     if (selectedProjectTab !== tabId) {
       setSelectedProjectTab(tabId);
@@ -138,14 +147,13 @@ const ProjectModal = (props) => {
                 skills={selectedProject.skills}
                 createdDate={selectedProject.createdDate}
                 projectStatusUrl={selectedProject.projectStatus}
-                // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
                 projectRoleUrl={selectedProject.projectRoles[0]}
-              ></ProjectComponent>
+              />
               <Card>
                 {!loadingSelectedProject && (
                   <DiscussionBoardComponent
                     messageboardUrl={selectedProject.discussionBoard}
-                  ></DiscussionBoardComponent>
+                  />
                 )}
               </Card>
             </Col>
@@ -153,7 +161,7 @@ const ProjectModal = (props) => {
             {isMemberOfProject && KeycloakService.isLoggedIn()
               ? displayChatWindow()
               : null}
-            {KeycloakService.isLoggedIn() ? <JoinProject></JoinProject> : null}
+            {KeycloakService.isLoggedIn() ? <JoinProject/> : null}
           </Row>
         )}
         {selectedProjectTab === 1 && <AdminView />}

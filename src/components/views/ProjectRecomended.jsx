@@ -1,14 +1,14 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
-import {
-  showProjectModal,
-  fetchSelectedProjectData,
-} from "../../redux/Project/projectSlice";
+import { showProjectModal, fetchSelectedProjectData } from "../../redux/Project/projectSlice";
 import "./ProjectRecommended.css";
 
 const ProjectRecomended = (props) => {
-  const { recommendedProjects, showProjectModal, fetchSelectedProjectData } =
-    props;
+  const {
+    recommendedProjects,
+    showProjectModal,
+    fetchSelectedProjectData
+  } = props;
 
   const onOpenModal = async (id) => {
     await fetchSelectedProjectData(id);
@@ -34,7 +34,7 @@ const ProjectRecomended = (props) => {
                   variant="bottom"
                   src={`data:image/png;base64,${project.image}`}
                   alt="no_image_in_database_associated_with_project."
-                ></Card.Img>
+                />
               </Card>
             </Col>
           ))}

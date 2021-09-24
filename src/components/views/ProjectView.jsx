@@ -1,13 +1,16 @@
+import UserProjectComponent from "../user-projects/UserProjectComponent";
+import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
+import ProjectModal from "./ProjectModal";
 import ProjectComponent from "./ProjectComponent";
 import ProjectRecomended from "./ProjectRecomended";
 import { useEffect } from "react";
+import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {
   fetchAllProjects,
   fetchSelectedProjectData,
   fetchRecommendedProjects,
   showProjectModal,
 } from "../../redux/Project/projectSlice";
-import { showAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import {
   initialAddUser,
   fetchUserData,
@@ -17,11 +20,8 @@ import {
 } from "../../redux/User/userSlice.js";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import ProjectFilterComponent from "./projectFilter/ProjectFilterComponent";
-import ProjectModal from "./ProjectModal";
 import KeycloakService from "../../services/keycloak";
 import "./ProjectViewStyle.css";
-import UserProjectComponent from "../user-projects/UserProjectComponent";
 
 const ProjectView = (props) => {
   const {
@@ -47,6 +47,10 @@ const ProjectView = (props) => {
     tryPushUser();
   }, [fetchAllProjects]);
 
+  /**
+   * Tries to add the user to the database on login. Should handle the "duplicate value"-error
+   * when trying to push a user that already exists in our db.
+   */
   const tryPushUser = () => {
     if (!userPosted) {
       KeycloakService.postNewUser();
@@ -65,17 +69,17 @@ const ProjectView = (props) => {
 
   return (
     <div class="project-view">
-      {displayProjectModal ? <ProjectModal></ProjectModal> : null}
+      {displayProjectModal ? <ProjectModal/> : null}
       <Row>
         <Col sm="3">
           {KeycloakService.isLoggedIn() ? (
-            <UserProjectComponent></UserProjectComponent>
+            <UserProjectComponent/>
           ) : null}
         </Col>
         <Col sm="6">
           <ProjectRecomended />
           <h3>Filter projects</h3>
-          <ProjectFilterComponent></ProjectFilterComponent>
+          <ProjectFilterComponent/>
 
           <h3>Projects</h3>
           {projects &&
@@ -94,14 +98,13 @@ const ProjectView = (props) => {
                   skills={project.skills}
                   createdDate={project.createdDate}
                   projectStatusUrl={project.projectStatus}
-                  // IM ASSUMING THAT ARRAY 0 ALWAYS CONTAINS THE ADMIN OF THE PROJECT
                   projectRoleUrl={project.projectRoles[0]}
                   key={i}
                 />
               </div>
             ))}
         </Col>
-        <Col sm="3"></Col>
+        <Col sm="3"/>
       </Row>
     </div>
   );

@@ -1,9 +1,9 @@
+import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
+import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
 import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import CategoriesDropdownComponent from "../higher-order-components/CategoriesDropdownComponent";
 import { hideAddProjectModal } from "../../redux/AddProject/AddProjectSlice";
 import { useState } from "react";
-import SkillsCheckboxComponent from "../higher-order-components/SkillsCheckboxComponent";
 import { postNewProject } from "../../services/projects";
 import {
   fetchAllProjects,
@@ -26,7 +26,7 @@ const AddProjectModal = (props) => {
     fetchAllUserProjects,
   } = props;
 
-  const [projectTitle, setprojectTitle] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -34,8 +34,12 @@ const AddProjectModal = (props) => {
     hideAddProjectModal();
   };
 
+  /**
+   * Adds a project to the db.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async () => {
-    var date = new Date();
+    let date = new Date();
 
     const userId = await getUserId();
 
@@ -51,7 +55,7 @@ const AddProjectModal = (props) => {
       alert("Select an image");
       return;
     }
-    if (selectedCategory == -1) {
+    if (selectedCategory === -1) {
       alert("Select a category");
       return;
     }
@@ -112,7 +116,7 @@ const AddProjectModal = (props) => {
             <Form.Control
               type="text"
               placeholder="Add a title..."
-              onChange={(event) => setprojectTitle(event.target.value)}
+              onChange={(event) => setProjectTitle(event.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="formFile" className="mb-3">
@@ -133,11 +137,9 @@ const AddProjectModal = (props) => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Project Category</Form.Label>
-            <CategoriesDropdownComponent
-              disableDefault={true}
-            ></CategoriesDropdownComponent>
+            <CategoriesDropdownComponent disableDefault={true}/>
           </Form.Group>
-          <SkillsCheckboxComponent></SkillsCheckboxComponent>
+          <SkillsCheckboxComponent/>
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -165,7 +167,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     hideAddProjectModal: () => dispatch(hideAddProjectModal()),
     fetchAllProjects: () => dispatch(fetchAllProjects()),
-    resetSkillsStates: () => dispatch(resetSkillsStates()),
     fetchAllUserProjects: () => dispatch(fetchAllUserProjects()),
   };
 };

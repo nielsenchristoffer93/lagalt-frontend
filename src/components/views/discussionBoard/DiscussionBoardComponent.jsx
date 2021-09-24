@@ -17,23 +17,21 @@ const DiscussionBoardComponent = (props) => {
   const {
     selectedProject,
     fetchMessagesBasedOnBoard,
-    fullName,
-    messageboardUrl,
+    messageBoardUrl,
   } = props;
 
   const forceUpdate = useForceUpdate();
 
-  const [name, setName] = useState(fullName);
-  const [newMessage, setnewMessage] = useState(true);
+  const [newMessage, setNewMessage] = useState(true);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [dateCreated, setDateCreated] = useState(
+  const [ setDateCreated] = useState(
     getTimeSinceCreation(new Date())
   );
 
   useEffect(() => {
     if (newMessage) {
-      setnewMessage(false);
+      setNewMessage(false);
       fetchMessagesBasedOnBoard(selectedProject.id);
       fetchData(selectedProject.id);
     }
@@ -42,7 +40,7 @@ const DiscussionBoardComponent = (props) => {
   const fetchData = async () => {
     let previousMessagesFetched = [];
 
-    const boardMessages = await fetch(`${BASE_URL}${messageboardUrl}`).then(
+    const boardMessages = await fetch(`${BASE_URL}${messageBoardUrl}`).then(
       (response) => response.json()
     );
 
@@ -57,8 +55,6 @@ const DiscussionBoardComponent = (props) => {
 
       const message = boardMessageData.message;
       const timestamp = boardMessageData.timestamp;
-
-      const timeFormatted = getTimeSinceCreation(timestamp);
 
       const userUrl = boardMessageData.user;
 
@@ -94,7 +90,7 @@ const DiscussionBoardComponent = (props) => {
     const userId = await getUserId();
     setDateCreated(getTimeSinceCreation(date));
 
-    setnewMessage(true);
+    setNewMessage(true);
     setMessage("");
 
     const formData = new FormData();
@@ -158,7 +154,7 @@ const DiscussionBoardComponent = (props) => {
           </Form>
           <div className="d-grid gap-2">
             <Button variant="primary" onClick={(event) => handlePost(event)}>
-              Post message <FontAwesomeIcon icon={faReply}></FontAwesomeIcon>
+              Post message <FontAwesomeIcon icon={faReply}/>
             </Button>
           </div>
         </div>
@@ -173,10 +169,10 @@ const DiscussionBoardComponent = (props) => {
           messages.length > 0 &&
           messages.map((message) => (
             <DiscussionMessageComponent
-              message={message.text}
-              name={message.user}
-              timestamp={message.timestamp}
-            ></DiscussionMessageComponent>
+                message={message.text}
+                name={message.user}
+                timestamp={message.timestamp}
+            />
           ))}
       </div>
       {renderLoginButtonsOrMessageForm()}
@@ -188,7 +184,6 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projects,
     selectedProject: state.projects.selectedProject,
-    fullName: `${state.user.firstname} ${state.user.lastname}`,
     messages: state.messages.messages,
   };
 };

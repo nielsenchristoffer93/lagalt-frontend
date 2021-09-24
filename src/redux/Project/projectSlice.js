@@ -178,7 +178,7 @@ export const fetchRecommendedProjects = () => async (dispatch) => {
   }
 };
 
-export const fetchAllProjectstatus = () => async (dispatch) => {
+export const fetchAllProjectStatus = () => async (dispatch) => {
   dispatch(getAllProjectStatusStarted());
   try {
     const response = await getAllProjectStatus();

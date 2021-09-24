@@ -1,5 +1,5 @@
-import React from "react";
 import "./DiscussionMessageComponent.css";
+import React from "react";
 import { Row } from "react-bootstrap";
 import { getTimeSinceCreation } from "../../../services/timeFormatter";
 
@@ -8,7 +8,7 @@ const DiscussionMessageComponent = ({ name, message, timestamp }) => {
     <div className="comment-thread">
       <details open className="comment">
         <div className="comment-border-link">
-          <span className="sr-only"></span>
+          <span className="sr-only"/>
         </div>
         <summary>
           <Row>

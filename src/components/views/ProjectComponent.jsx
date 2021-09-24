@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import { Card, Col } from "react-bootstrap";
+import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 import { getTimeSinceCreation } from "../../services/timeFormatter";
 import { getCategoryBasedOnCategoryId } from "../../services/categories";
 import { getProjectStatusBasedOnProjectStatusUrl } from "../../services/projectStatus";
 import { getProjectRoleByProjectRoleUrl } from "../../services/projectRole";
 import { getUserByUserUrl } from "../../services/user";
-import { connect } from "react-redux";
-import "./ProjectComponent.css";
 import { getSkillBySkillUrl } from "../../services/skills";
 import { useForceUpdate } from "../../hooks/useForceUpdate"
+import "./ProjectComponent.css";
 
 const ProjectComponent = (props) => {
   const {
@@ -29,6 +29,10 @@ const ProjectComponent = (props) => {
   const [user, setUser] = useState("");
   const [skillTitles, setSkillTitles] = useState([]);
 
+  /**
+   * Fetches all the data associated to the project..
+   * @returns {Promise<void>}
+   */
   const fetchProjectData = async () => {
     const fetchedSkills = [];
 
@@ -102,7 +106,7 @@ const ProjectComponent = (props) => {
         variant="bottom"
         src={`data:image/png;base64,${image}`}
         alt="no_image_in_database_associated_with_project."
-      ></Card.Img>
+      />
     </Card>
   );
 };
@@ -113,7 +117,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = () => {
   return {};
 };
 

@@ -5,23 +5,28 @@ import { fetchProjectStatus } from "../../services/projects";
 import { updateProject } from "../../services/projects";
 import {
   fetchSelectedProjectData,
-  fetchAllProjectstatus,
+  fetchAllProjectStatus,
 } from "../../redux/Project/projectSlice";
 
 const AdminView = (props) => {
   const {
     selectedProject,
-    fetchAllProjectstatus,
+    fetchAllProjectStatus,
     projectStatus,
     fetchSelectedProjectData,
   } = props;
 
-  const [projectTitle, setprojectTitle] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [selectedProjectStatus, setSelectedProjectStatus] = useState(-1);
   const [selectedStatus, setSelectedStatus] = useState(1);
-  const [postSuccessful, setpostSuccessful] = useState(false);
+  const [postSuccessful, setPostSuccessful] = useState(false);
 
+  /**
+   * Fetches the status of the project based on the projectUrl.
+   * @param url
+   * @returns {Promise<void>}
+   */
   const fetchProjectStatusWithUrl = async (url) => {
     let statusObj = await fetchProjectStatus(url).then((response) =>
       response.json()
@@ -29,6 +34,10 @@ const AdminView = (props) => {
     setSelectedProjectStatus(statusObj.id);
   };
 
+  /**
+   * Used to update the different fields in a project.
+   * @returns {Promise<void>}
+   */
   const handleUpdateProject = async () => {
     if (projectTitle.length < 1) {
       alert("Title to short");
@@ -44,26 +53,26 @@ const AdminView = (props) => {
     formData.append("createdDate", selectedProject.createdDate);
     formData.append("projectStatusId", selectedStatus);
 
-    const updatedProject = await updateProject(
-      formData,
-      selectedProject.id
-    ).then((response) => response.json());
+    // const updatedProject = await updateProject(
+    //   formData,
+    //   selectedProject.id
+    // ).then((response) => response.json());
 
     await fetchSelectedProjectData(selectedProject.id);
 
     //Alerts the user when making a update
-    setpostSuccessful(true);
+    setPostSuccessful(true);
     setTimeout(() => {
-      setpostSuccessful(false);
+      setPostSuccessful(false);
     }, 1800);
   };
 
   useEffect(() => {
-    setprojectTitle(selectedProject.title);
+    setProjectTitle(selectedProject.title);
     setProjectDescription(selectedProject.description);
     fetchProjectStatusWithUrl(selectedProject.projectStatus);
-    fetchAllProjectstatus();
-  }, []);
+    fetchAllProjectStatus();
+  }, [selectedProject.description, selectedProject.projectStatus, selectedProject.title]);
 
   const handleProjectStatusChange = (e) => {
     setSelectedStatus(e.target.value);
@@ -77,7 +86,7 @@ const AdminView = (props) => {
           <Form.Control
             type="text"
             value={projectTitle}
-            onChange={(event) => setprojectTitle(event.target.value)}
+            onChange={(event) => setProjectTitle(event.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -129,7 +138,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllProjectstatus: () => dispatch(fetchAllProjectstatus()),
+    fetchAllProjectStatus: () => dispatch(fetchAllProjectStatus()),
     fetchSelectedProjectData: (id) => dispatch(fetchSelectedProjectData(id)),
   };
 };

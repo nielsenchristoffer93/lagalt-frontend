@@ -98,6 +98,11 @@ const ProfileSkills = (props) => {
     ));
   };
 
+  /**
+   * Populates the category options.
+   * @param categories
+   * @returns {*}
+   */
   const populateOptions = (categories) => {
     return categories.map((category) => (
       <option key={category.id} value={category.id}>
@@ -106,6 +111,10 @@ const ProfileSkills = (props) => {
     ));
   };
 
+  /**
+   * Used to Switch between categories.
+   * @param e
+   */
   const handleCategoryChange = (e) => {
     setSelectedSkillsToEmptyArray();
     if (e.target.value > 0) {
