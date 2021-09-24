@@ -5,7 +5,7 @@ import {
   fetchSkillBasedOnSkillUrl,
   setSkillsToEmptyArray,
   setSelectedSkills,
-} from "../../redux/Skill/SkillSlice";
+} from "../../redux/skill/SkillSlice";
 import "./SkillsCheckboxComponent.css";
 
 const SkillsCheckboxComponent = (props) => {
@@ -14,7 +14,7 @@ const SkillsCheckboxComponent = (props) => {
     skills,
     fetchSkillBasedOnSkillUrl,
     setSkillsToEmptyArray,
-    setSelectedSkills
+    setSelectedSkills,
   } = props;
 
   /**
@@ -22,7 +22,7 @@ const SkillsCheckboxComponent = (props) => {
    */
   useEffect(() => {
     setSkillsToEmptyArray();
-    // DO THIS IN BACKEND INSTEAD AND JUST FETCH ALL SKILLS CONNECTED TO THE SPECIFIC CATEGORY
+
     for (let index = 0; index < skillUrls.length; index++) {
       fetchSkillBasedOnSkillUrl(skillUrls[index]);
     }
@@ -30,7 +30,7 @@ const SkillsCheckboxComponent = (props) => {
 
   /**
    * Adds the skill if isn't present in skills, if it is present the skill is removed from skills
-   * @param {number} skillId 
+   * @param {number} skillId
    */
   const handleCheckboxClicked = (skillId) => {
     setSelectedSkills(skillId);
@@ -38,7 +38,7 @@ const SkillsCheckboxComponent = (props) => {
 
   /**
    * makes a list of <Form.Check> of all skill based on the skills array
-   * @param {Array} skills 
+   * @param {Array} skills
    * @returns list of <Form.Check>
    */
   const populateCheckBoxes = (skills) => {
@@ -56,7 +56,7 @@ const SkillsCheckboxComponent = (props) => {
   };
 
   return (
-    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+    <Form.Group className="mb-3">
       <Form.Label>Project Skills</Form.Label>
       <br></br>
       <div className="skills-container">
@@ -78,7 +78,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchSkillBasedOnSkillUrl: (skillUrl) => dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
+    fetchSkillBasedOnSkillUrl: (skillUrl) =>
+      dispatch(fetchSkillBasedOnSkillUrl(skillUrl)),
     setSkillsToEmptyArray: () => dispatch(setSkillsToEmptyArray()),
     setSelectedSkills: (skillId) => dispatch(setSelectedSkills(skillId)),
   };

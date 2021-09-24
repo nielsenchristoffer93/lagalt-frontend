@@ -1,7 +1,7 @@
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
-import store from './redux/store';
-import KeycloakService from "./services/keycloakService";
+import store from './redux/Store';
+import KeycloakService from "./services/keycloak";
 import { Provider } from 'react-redux';
 import App from './App';
 import ReactDOM from 'react-dom';
@@ -10,11 +10,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const renderApp = () => {ReactDOM.render(
-    /*<React.StrictMode>*/
     <Provider store={store}>
         <App />
     </Provider>,
-    /*React.StrictMode>,*/
     document.getElementById('root')
     );
 }

@@ -2,13 +2,13 @@ import { BASE_API_URL } from ".";
 import KeycloakService from "./keycloak";
 
 /**
- * Post a new chatMessage to the database.
+ * Create a new chatBoard in a project.
  *
- * @param {*} data formdata for posting a new chatMessage to the database.
+ * @param {*} data the data to send to the backend for posting a new chatBoard to a project.
  * @returns Promise
  */
-export const postNewChatMessage = async (data) => {
-  return await fetch(`${BASE_API_URL}chatmessages`, {
+export const postNewChatBoard = async (data) => {
+  return await fetch(`${BASE_API_URL}chatBoard`, {
     headers: {
       Authorization: "Bearer " + KeycloakService.getToken(),
     },

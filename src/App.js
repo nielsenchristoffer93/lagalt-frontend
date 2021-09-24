@@ -1,4 +1,4 @@
-import Footer from './components/Footer/Footer'
+import Footer from './components/footer/Footer'
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import NavbarComponent from './components/navbar/Navbar';

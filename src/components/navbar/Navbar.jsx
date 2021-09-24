@@ -1,21 +1,20 @@
 import React from "react";
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { useState } from "react";
-import KeycloakService from "../../services/keycloakService";
+import KeycloakService from "../../services/keycloak";
 import { connect } from "react-redux";
-import { resetAddUser } from "../../redux/User/userSlice.js";
+import { resetAddUser } from "../../redux/user/userSlice.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,
   faUser,
   faSignOutAlt,
-  faComments
+  faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const NavbarComponent = (props) => {
-
   const { fullName } = props;
   const [isLoggedIn, setIsLoggedIn] = useState(KeycloakService.isLoggedIn());
 
@@ -30,7 +29,9 @@ const NavbarComponent = (props) => {
 
   return (
     <Navbar bg="navbar navbar-dark bg-dark" expand="lg" fixed="top">
-      <Navbar.Brand as={Link} to="/"><FontAwesomeIcon icon={faComments}></FontAwesomeIcon> Lagalt</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/">
+        <FontAwesomeIcon icon={faComments}></FontAwesomeIcon> Lagalt
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse>
         <Nav className="me-auto"></Nav>
@@ -76,7 +77,10 @@ const NavbarComponent = (props) => {
             {/* Profile dropdown item*/}
             {isLoggedIn ? <NavDropdown.Divider /> : null}
             {isLoggedIn ? (
-              <NavDropdown.Item as={Link}/*onClick={() => goToProfilePage()}*/ to="/profile"> 
+              <NavDropdown.Item
+                as={Link}
+                /*onClick={() => goToProfilePage()}*/ to="/profile"
+              >
                 {"My Profile"}
               </NavDropdown.Item>
             ) : null}
@@ -112,8 +116,8 @@ const NavbarComponent = (props) => {
 
 /**
  * Mapping redux states to props in component.
- * 
- * @param {*} state 
+ *
+ * @param {*} state
  * @returns Javascript object contaning redux state data.
  */
 const mapStateToProps = (state) => {
@@ -124,8 +128,8 @@ const mapStateToProps = (state) => {
 
 /**
  * Mapping redux actions/dispatches to be called in component.
- * 
- * @param {*} dispatch 
+ *
+ * @param {*} dispatch
  * @returns Different redux actions that can be called in component.
  */
 const mapDispatchToProps = (dispatch) => {

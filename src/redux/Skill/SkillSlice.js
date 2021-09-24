@@ -48,7 +48,7 @@ const skillsSlice = createSlice({
       } else {
         const index = state.selectedSkills.indexOf(action.payload);
         state.selectedSkills.splice(index, 1);
-      }   
+      }
     },
     setSelectedSkillsToEmptyArray: (state) => {
       state.selectedSkills = [];
@@ -58,8 +58,8 @@ const skillsSlice = createSlice({
       state.skills = [];
       state.selectedSkills = [];
       state.loading = false;
-      state.error =  "";
-    }
+      state.error = "";
+    },
   },
 });
 
@@ -73,10 +73,15 @@ export const {
   setSkillsToEmptyArray,
   setSelectedSkills,
   setSelectedSkillsToEmptyArray,
-  resetSkillsStates
+  resetSkillsStates,
 } = skillsSlice.actions;
 
-//Thunk
+/**
+ * Fetch all skills associated with the categoryId.
+ * 
+ * @param {*} categoryId the categoryid to fetch skills by.
+ * @returns all skills in a category.
+ */
 export const fetchSkillsBasedOnCategory = (categoryId) => async (dispatch) => {
   dispatch(getSkillsBasedOnCategoryStarted());
   try {
@@ -90,6 +95,12 @@ export const fetchSkillsBasedOnCategory = (categoryId) => async (dispatch) => {
   }
 };
 
+/**
+ * Fetch skill data based on skill url.
+ * 
+ * @param {*} skillUrl The skill url to fetch data from.
+ * @returns skill data in json format.
+ */
 export const fetchSkillBasedOnSkillUrl = (skillUrl) => async (dispatch) => {
   dispatch(getSkillBasedOnSkillUrlStarted());
   try {

@@ -1,29 +1,26 @@
-import { useEffect, useState } from "react";
-import { Button, Form, Col, Row, Card } from "react-bootstrap";
-import {
-  faSearch,
-  faSlidersH,
-  faFilter,
-} from "@fortawesome/free-solid-svg-icons";
 import "./ProjectFilterComponent.css";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CategoriesDropdownComponent from "../../higher-order-components/CategoriesDropdownComponent";
-import { connect } from "react-redux";
 import {
-  fetchAllProjectsWithCategory,
   fetchFilteredProjects,
-} from "../../../redux/Project/projectSlice";
+} from "../../../redux/project/projectSlice";
+import { Button, Form, Col, Row, Card } from "react-bootstrap";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux";
+import CategoriesDropdownComponent from "../../higher-order-components/CategoriesDropdownComponent";
 
 const ProjectFilterComponent = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
     selectedCategory,
-    fetchAllProjectsWithCategory,
     fetchFilteredProjects,
     displayAddProjectModal,
   } = props;
 
+  /**
+   * Fetches projects based on the searchQuery state and/or the selectedCategory state in redux.
+   */
   const filterProjects = () => {
     fetchFilteredProjects(searchQuery, selectedCategory);
   };
@@ -32,11 +29,10 @@ const ProjectFilterComponent = (props) => {
     if(!displayAddProjectModal){
     fetchFilteredProjects(searchQuery, selectedCategory);
     }
-  }, [selectedCategory]);
+  }, [displayAddProjectModal, fetchFilteredProjects, searchQuery, selectedCategory]);
 
   return (
     <Card>
-      {/*<div className="searchContainer">*/}
       <Card.Body>
         <Form
           onSubmit={(e) => {
@@ -64,14 +60,11 @@ const ProjectFilterComponent = (props) => {
             </Col>
             <Col sm="1">
               <Button onClick={() => filterProjects()}>
-                <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={faSearch}/>
               </Button>
             </Col>
-            {/*<Col sm="2"></Col>*/}
-            
           </Row>
         </Form>
-        {/*</div>*/}
       </Card.Body>
     </Card>
   );
@@ -85,8 +78,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllProjectsWithCategory: (id) =>
-      dispatch(fetchAllProjectsWithCategory(id)),
     fetchFilteredProjects: (title, categorId) =>
       dispatch(fetchFilteredProjects(title, categorId)),
   };
